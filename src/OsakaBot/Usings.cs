@@ -1,4 +1,10 @@
 global using Osaka.Bot;
-global using Osaka.Bot.Services;
+global using Osaka.Bot.ChatFlow;
 global using Osaka.Bot.Configuration;
-//global using Osaka.Bot.Abstract;
+global using Osaka.Bot.Content;
+global using Osaka.Bot.DatabaseSpecific;
+global using Osaka.Bot.Dialogue;
+global using Osaka.Bot.Reporting;
+global using Osaka.Bot.Effects;
+global using Osaka.Bot.Validation;
+global using Osaka.Bot.Services;

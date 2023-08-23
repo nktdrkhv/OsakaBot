@@ -20,10 +20,14 @@ IHost host = Host.CreateDefaultBuilder(args)
                 });
         services.AddTelegramUpdater<Worker>(
             new UpdaterOptions(
+                maxDegreeOfParallelism: 16,
                 flushUpdatesQueue: true,
                 allowedUpdates: Array.Empty<UpdateType>()),
             (builder) => builder
-                .AutoCollectScopedHandlers()
+                .AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Common")
+                //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.User")
+                //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Support")
+                //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Admin")
                 .AddDefaultExceptionHandler());
         services.AddMemoryCache();
     })
