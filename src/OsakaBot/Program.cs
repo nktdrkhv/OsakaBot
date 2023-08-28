@@ -29,7 +29,12 @@ IHost host = Host.CreateDefaultBuilder(args)
                 //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Support")
                 //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Admin")
                 .AddDefaultExceptionHandler());
+
         services.AddMemoryCache();
+        services.AddHttpClient();
+
+        services.AddHostedService<Worker>();
+        services.AddHostedService<WeatherService>();
     })
     .Build();
 

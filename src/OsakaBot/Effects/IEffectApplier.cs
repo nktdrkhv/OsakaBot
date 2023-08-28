@@ -1,6 +1,10 @@
 namespace Osaka.Bot.Effects;
 
-public interface IEffectApplier<T> where T : EffectBase
+public interface IEffectApplier
 {
-    Task Apply(T effect);
+    Task Apply(EffectBase effect);
 }
+
+public interface IEffectApplier<T> : IEffectApplier
+    where T : EffectBase
+{ }

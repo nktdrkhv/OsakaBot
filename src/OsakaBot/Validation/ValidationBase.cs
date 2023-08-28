@@ -5,6 +5,6 @@ namespace Osaka.Bot.Validation;
 public abstract class ValidationBase
 {
     public int ValidationBaseId { get; set; }
-    // group
+    public int PriorityGroup { get; set; }
     //public abstract bool Validate();
 }

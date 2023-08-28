@@ -1,4 +1,4 @@
-namespace Osaka.Bot.ChatFlow;
+namespace Osaka.Bot.Content;
 
 public abstract class ButtonBase
 {

@@ -1,4 +1,4 @@
-namespace Osaka.Bot.Dialogue;
+namespace Osaka.Bot.Reporting;
 
 public class IncludedDialog
 {

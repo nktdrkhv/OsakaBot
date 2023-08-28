@@ -16,5 +16,9 @@ public class AddMessageEffectApplier : IEffectApplier<AddMessageEffect>
         _botClient = botClient;
     }
 
-    public async Task Apply(AddMessageEffect effect) { }
+    public async Task Apply(EffectBase effect)
+    {
+        var concrete = (AddMessageEffect)effect;
+        await Task.CompletedTask;
+    }
 }

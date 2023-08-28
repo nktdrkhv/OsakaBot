@@ -1,6 +1,6 @@
 using Osaka.Bot.Content;
 
-namespace Osaka.Bot.Media;
+namespace Osaka.Bot.Content;
 
 public class Media
 {
