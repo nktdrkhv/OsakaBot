@@ -9,10 +9,13 @@ public enum InnerMessageType
     VideoNote,
     Voice,
     Audio,
+    Animation,
+    Sticker,
     Document,
     Contact,
     Geolocation,
     PhotoVideoAlbum,
     AudioAlbum,
-    DocumentAlbum
+    DocumentAlbum,
+    Unsupported
 }

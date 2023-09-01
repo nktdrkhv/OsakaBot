@@ -1,53 +1,70 @@
+using Sqids;
+
 namespace Osaka.Bot.ChatFlow;
 
 public class TriggerService : ITriggerService
 {
-    private readonly IChatScopeService _chatScopeService;
+    private readonly IChatScopeStorage _chatScopeStorage;
+    private readonly ITriggerStorage _triggerStorage;
     private readonly IEffectDispatcher _effectDispatcher;
+    private readonly SqidsEncoder _sqids;
 
-    public TriggerService(IChatScopeService chatScopeService, IEffectDispatcher effectDispatcher)
+    public TriggerService(IChatScopeStorage chatScopeStorage, ITriggerStorage triggerStorage, IEffectDispatcher effectDispatcher, SqidsEncoder sqids)
     {
-        _chatScopeService = chatScopeService;
+        _chatScopeStorage = chatScopeStorage;
+        _triggerStorage = triggerStorage;
         _effectDispatcher = effectDispatcher;
+        _sqids = sqids;
     }
 
     public async ValueTask ExecuteAsync(InnerUser user, Trigger trigger)
     {
-        if (trigger.AllowOutOfScope || await _chatScopeService.IsTriggerInTheScopeAsync(user, trigger))
-            foreach (var effect in trigger.Effects)
-            {
-                effect.User = user;
-                await _effectDispatcher.ResolveAsync(effect);
-            }
-        else
+        foreach (var effect in trigger.Effects)
         {
-            var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = await AttachedMessageId(trigger) };
-            await _effectDispatcher.ResolveAsync(removeInlineKeyboard);
+            effect.User = user;
+            await _effectDispatcher.ResolveAsync(effect);
         }
     }
 
-    public ValueTask<Trigger?> FromCorrectCustomInput(InnerUser user)
+    public async ValueTask ExecuteAsync(InnerUser user, EffectBase effect)
     {
-        throw new NotImplementedException();
+        // todo: attach scope
+        effect.User = user;
+        await _effectDispatcher.ResolveAsync(effect);
+        // todo: save scope
     }
 
-    public ValueTask<Trigger?> FromEncodedAsync(InnerUser user, string encodedId)
+    public async ValueTask<Trigger?> FromValidCustomInput(InnerUser user)
     {
-        throw new NotImplementedException();
+        var scope = await _chatScopeStorage.RetrieveChatScope(user);
+        return scope.OnValidInput;
     }
 
-    public ValueTask<Trigger?> FromIncorrectCustomInput(InnerUser user)
+    public async ValueTask<Trigger?> FromInvalidCustomInput(InnerUser user)
     {
-        throw new NotImplementedException();
+        var scope = await _chatScopeStorage.RetrieveChatScope(user);
+        return scope.OnInvalidInput;
     }
 
-    public ValueTask<Trigger?> FromPreparedAsync(InnerUser user, string prepared)
+    public async ValueTask<Trigger?> FromPlainPreparedAsync(InnerUser user, string prepared)
     {
-        throw new NotImplementedException();
+        var scope = await _chatScopeStorage.RetrieveChatScope(user);
+        return scope.TriggerByPreparedPlain?.SingleOrDefault(at => at.CustomLabel == prepared)?.TriggerItself;
     }
 
-    private async ValueTask<int> AttachedMessageId(Trigger trigger)
+    public async ValueTask<Trigger?> FromEncodedPreparedAsync(InnerUser user, string encodedId)
     {
-        return default;
+        var scope = await _chatScopeStorage.RetrieveChatScope(user);
+        return scope.TriggerByPreparedEncoded?.SingleOrDefault(at => at.CustomLabel == encodedId)?.TriggerItself;
     }
+
+    public async ValueTask<Trigger?> FromEncodedStoredAsync(InnerUser user, string encodedId)
+    {
+        var ids = _sqids.Decode(encodedId);
+        return ids[0] == user.InnerUserId ?
+            await _triggerStorage.RetrieveTrigger(ids[1]) :
+            null;
+    }
+
+    public string IntoEncodedId(InnerUser user, Trigger trigger) => _sqids.Encode(user.InnerUserId, trigger.TriggerId);
 }

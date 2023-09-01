@@ -1,26 +1,34 @@
+using Microsoft.EntityFrameworkCore;
 using Telegram.Bot.Types;
 
 namespace Osaka.Bot.UserSpecific;
 
-public class InnerUserStorage : IInnerUserStorge
+public class SqlInnerUserStorage : IInnerUserStorge
 {
-    public ValueTask CommitInnerUser(InnerUser user)
+    private readonly BotDbContext _dbContext;
+
+    public SqlInnerUserStorage(BotDbContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
     }
 
-    public ValueTask<InnerUser> CreateInnerUser(User user)
+    public async ValueTask<bool> IsInnerUserExist(User user) =>
+        await _dbContext.InnerUsers.AnyAsync(iu => iu.TelegramUserId == user.Id);
+
+    public async ValueTask<InnerUser> CreateInnerUser(User user)
     {
-        throw new NotImplementedException();
+        var innerUser = new InnerUser(user);
+        await _dbContext.InnerUsers.AddAsync(innerUser);
+        await _dbContext.SaveChangesAsync();
+        return innerUser;
     }
 
-    public ValueTask<bool> IsInnerUserExist(User user)
-    {
-        throw new NotImplementedException();
-    }
+    public async ValueTask<InnerUser> RetrieveInnerUser(User user) =>
+        await _dbContext.InnerUsers.AsNoTracking().SingleAsync(iu => iu.TelegramUserId == user.Id);
 
-    public ValueTask<InnerUser> RetrieveInnerUser(User user)
+    public async ValueTask CommitInnerUser(InnerUser user)
     {
-        throw new NotImplementedException();
+        _dbContext.InnerUsers.Attach(user);
+        await _dbContext.SaveChangesAsync();
     }
 }

@@ -1,9 +1,10 @@
-using Telegram.Bot.Types.Enums;
-
 namespace Osaka.Bot.Validation;
 
-public class MessageTypeValidation : ValidationBase
+public class MessageTypeValidator : ValidatorBase
 {
-    private MessageType _messageType;
-    public MessageTypeValidation(MessageType type) => _messageType = type;
+    public InnerMessageType Type { get; set; }
+
+    public MessageTypeValidator(InnerMessageType type) => Type = type;
+
+    public override bool Validate(InnerMessage message) => Invert ? Type != message.Type : Type == message.Type;
 }

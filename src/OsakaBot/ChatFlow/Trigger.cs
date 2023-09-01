@@ -1,4 +1,4 @@
-namespace Osaka.Bot.Effects;
+namespace Osaka.Bot.ChatFlow;
 
 public class Trigger
 {

@@ -2,6 +2,9 @@ namespace Osaka.Bot.ChatFlow.ChatScope;
 
 public interface IChatScopeService
 {
-    ValueTask<bool> IsTriggerInTheScopeAsync(InnerUser user, Trigger trigger);
-    // clear scope
+    ValueTask<Post?> GetActiveInputReasonAsync(InnerUser user);
+    ValueTask<bool> HasCorrectionLoop(InnerUser user);
+    ValueTask SetInputToReasonAsync(InnerUser user, Trigger trigger, InnerMessage message);
+    ValueTask SetInputToActiveAsync(InnerUser user, InnerMessage message);
+    ValueTask CleanScopeAsync(InnerUser user);
 }

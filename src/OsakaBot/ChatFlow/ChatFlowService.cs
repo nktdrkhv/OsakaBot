@@ -1,62 +1,93 @@
+using System.Linq.Expressions;
 using SQLitePCL;
 using Telegram.Bot.Types;
+using TelegramUpdater.FilterAttributes.Attributes;
 
 namespace Osaka.Bot.ChatFlow;
 
 public class ChatFlowService : IChatFlowService
 {
     private readonly IInnerUserStorge _innerUserStorge;
+    private readonly IChatScopeService _chatScopeService;
     private readonly ITriggerService _triggerService;
     private readonly IValidationService _validationService;
-    private readonly IDialogeService _dialogeService;
+    private readonly IInputService _inputService;
 
-    public ChatFlowService(IInnerUserStorge innerUserStorge, ITriggerService triggerService, IValidationService validationService, IDialogeService dialogeService)
+    public ChatFlowService(IInnerUserStorge innerUserStorge, IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService)
     {
         _innerUserStorge = innerUserStorge;
+        _chatScopeService = chatScopeService;
         _triggerService = triggerService;
         _validationService = validationService;
-        _dialogeService = dialogeService;
+        _inputService = inputService;
     }
 
     public async ValueTask<InnerUserState> SubmitCallbackQueryAsync(CallbackQuery callbackQuery)
     {
         var user = await _innerUserStorge.RetrieveInnerUser(callbackQuery.From);
-        if (callbackQuery?.Data is string queryData &&
-            await _triggerService.FromEncodedAsync(user, queryData) is Trigger trigger)
+        if (callbackQuery?.Data is string queryData)
         {
-            await _dialogeService.AssignFromTriggerAsync(user, trigger);
-            await _triggerService.ExecuteAsync(user, trigger);
+            if (await _triggerService.FromEncodedPreparedAsync(user, queryData) is Trigger preparedTrigger)
+            {
+                await _inputService.AssignFromTriggerAsync(user, preparedTrigger);
+                await _triggerService.ExecuteAsync(user, preparedTrigger);
+            }
+            else if (await _triggerService.FromEncodedStoredAsync(user, queryData) is Trigger storedTrigger && storedTrigger.AllowOutOfScope)
+            {
+                await _triggerService.ExecuteAsync(user, storedTrigger);
+            }
+            else
+            {
+                var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = callbackQuery.Message!.MessageId };
+                await _triggerService.ExecuteAsync(user, removeInlineKeyboard);
+            }
         }
         return user.State;
     }
 
-    public async ValueTask<InnerUserState> SubmitMessageAsync(Message message)
+    public async ValueTask<InnerUserState> SubmitMediaGroupAsync(IEnumerable<Message> mediaGroup) =>
+        await SubmitInnerMessage(mediaGroup.First().From!, new(mediaGroup));
+
+    public async ValueTask<InnerUserState> SubmitMessageAsync(Message message) =>
+        await SubmitInnerMessage(message.From!, new(message));
+
+    private async ValueTask<InnerUserState> SubmitInnerMessage(User user, InnerMessage innerMessage)
     {
-        var user = await _innerUserStorge.RetrieveInnerUser(message.From!);
-        if (message?.Text is string messageText && await _triggerService.FromPreparedAsync(user, messageText) is Trigger replyTrigger)
+        var innerUser = await _innerUserStorge.RetrieveInnerUser(user);
+        if (innerMessage.Text?.OriginalText is string messageText && await _triggerService.FromPlainPreparedAsync(innerUser, messageText) is Trigger replyTrigger)
         {
-            if (await _dialogeService.IsThereAnyActiveDialogue(user))
-                await _dialogeService.AssignFromTriggerAsync(
-                    user,
-                    replyTrigger,
-                    new(message.MessageId, new(messageText),
-                    buttonOrigin: true));
-            await _triggerService.ExecuteAsync(user, replyTrigger);
+            innerMessage!.Type = InnerMessageType.TextFromButton;
+            if (await _inputService.IsThereAnyActiveDialogue(innerUser))
+                await _inputService.AssignFromTriggerAsync(innerUser, replyTrigger, innerMessage);
+            await _chatScopeService.SetInputToReasonAsync(innerUser, replyTrigger, innerMessage);
+            await _triggerService.ExecuteAsync(innerUser, replyTrigger);
         }
         else
         {
-            Trigger? customInputTrigger = await _validationService.ValidateAsync(user, new(message!))
-                ? await _triggerService.FromCorrectCustomInput(user)
-                : await _triggerService.FromIncorrectCustomInput(user);
-            if (await _dialogeService.IsThereAnyActiveDialogue(user))
-                await _dialogeService.AssignFromTriggerAsync(
-                    user,
-                    customInputTrigger!,
-                    new(message!)
-                );
-            if (customInputTrigger is not null)
-                await _triggerService.ExecuteAsync(user, customInputTrigger);
+            if (await _validationService.ValidateAsync(innerUser, innerMessage!) &&
+                await _triggerService.FromValidCustomInput(innerUser) is Trigger triggerForValid)
+            {
+                await _chatScopeService.SetInputToActiveAsync(innerUser, innerMessage!);
+                if (await _inputService.IsThereAnyActiveDialogue(innerUser))
+                    await _inputService.AssignFromTriggerAsync(innerUser, triggerForValid, innerMessage!);
+                await _triggerService.ExecuteAsync(innerUser, triggerForValid);
+            }
+            else if (await _triggerService.FromInvalidCustomInput(innerUser) is Trigger triggerForInvalid)
+            {
+                if (await _chatScopeService.HasCorrectionLoop(innerUser))
+                {
+                    await _triggerService.ExecuteAsync(innerUser, triggerForInvalid);
+                    await _chatScopeService.SetInputToActiveAsync(innerUser, innerMessage!);
+                }
+                else
+                {
+                    await _chatScopeService.SetInputToActiveAsync(innerUser, innerMessage!);
+                    if (await _inputService.IsThereAnyActiveDialogue(innerUser))
+                        await _inputService.AssignFromTriggerAsync(innerUser, triggerForInvalid, innerMessage!);
+                    await _triggerService.ExecuteAsync(innerUser, triggerForInvalid);
+                }
+            }
         };
-        return user.State;
+        return innerUser.State;
     }
 }

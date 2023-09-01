@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+using Sqids;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using TelegramUpdater;
@@ -32,6 +33,11 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddMemoryCache();
         services.AddHttpClient();
+        services.AddSingleton(new SqidsEncoder(new()
+        {
+            Alphabet = "ABCEDFGHIJ0123456789",
+            MinLength = 6,
+        }));
 
         services.AddHostedService<Worker>();
         services.AddHostedService<WeatherService>();

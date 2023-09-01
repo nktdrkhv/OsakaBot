@@ -1,6 +1,6 @@
-namespace Osaka.Bot.Dialogue;
+namespace Osaka.Bot.InputSystem;
 
-public interface IDialogeService
+public interface IInputService
 {
     ValueTask<bool> IsThereAnyActiveDialogue(InnerUser user);
     ValueTask AssignFromTriggerAsync(InnerUser user, Trigger trigger);

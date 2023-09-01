@@ -11,5 +11,5 @@ public class Text
     public string? PreparedText { get; set; }
     public ICollection<TextSetterBase>? Surrogates { get; set; }
 
-    public Text(string text) => OriginalText = text;
+    public Text(string text) => OriginalText = text.Trim();
 }

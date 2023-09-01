@@ -1,14 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-Osaka.Bot-9E1486C7-273B-4AE6-ACFD-68B9D8EBD5EC</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Hashids.net" Version="1.7.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,9 +15,9 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="MixERP.Net.VCards" Version="1.0.7" />
+    <PackageReference Include="Sqids" Version="1.1.0" />
     <PackageReference Include="Telegram.Bot" Version="19.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\TelegramUpdater\Src\TelegramUpdater\TelegramUpdater.csproj" />
     <ProjectReference Include="..\..\..\TelegramUpdater\Src\TelegramUpdater.Hosting\TelegramUpdater.Hosting.csproj" />
