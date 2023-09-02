@@ -8,4 +8,5 @@ public abstract class ButtonBase
 {
     [Key] public int ButtonId { get; set; }
     public Text Text { get; set; } = null!;
+    public Trigger? Trigger { get; set; }
 }

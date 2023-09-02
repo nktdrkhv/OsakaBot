@@ -12,9 +12,9 @@ public class InnerMessage
     public string? MediaGroupId { get; set; }
     public string? Label { get; set; }
     public Text? Text { get; set; }
+    public ICollection<Media>? Media { get; set; }
     public InnerContact? Contact { get; set; }
     public Geolocation? Geolocation { get; set; }
-    public ICollection<Media>? Media { get; set; }
 
     public InnerMessage() { }
 
