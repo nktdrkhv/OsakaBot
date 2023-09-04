@@ -27,19 +27,30 @@ public class ChatFlowService : IChatFlowService
         var user = await _innerUserStorge.RetrieveInnerUser(callbackQuery.From);
         if (callbackQuery?.Data is string queryData)
         {
-            if (await _triggerService.FromEncodedPreparedAsync(user, queryData) is Trigger preparedTrigger)
+            var args = queryData.Split(':', StringSplitOptions.TrimEntries);
+            if (args.Length < 2)
+                return user.State;
+            switch (args[0])
             {
-                await _inputService.AssignFromTriggerAsync(user, preparedTrigger);
-                await _triggerService.ExecuteAsync(user, preparedTrigger);
-            }
-            else if (await _triggerService.FromEncodedStoredAsync(user, queryData) is Trigger storedTrigger && storedTrigger.AllowOutOfScope)
-            {
-                await _triggerService.ExecuteAsync(user, storedTrigger);
-            }
-            else if (callbackQuery.Message?.MessageId is int msgId)
-            {
-                var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = msgId };
-                await _triggerService.ExecuteAsync(user, removeInlineKeyboard);
+                case "s":
+                    if (await _triggerService.FromEncodedPreparedAsync(user, queryData) is Trigger preparedTrigger)
+                    {
+                        await _inputService.AssignFromTriggerAsync(user, preparedTrigger);
+                        await _triggerService.ExecuteAsync(user, preparedTrigger);
+                    }
+                    else if (await _triggerService.FromEncodedStoredAsync(user, queryData) is Trigger storedTrigger && storedTrigger.AllowOutOfScope)
+                    {
+                        await _triggerService.ExecuteAsync(user, storedTrigger);
+                    }
+                    else if (callbackQuery.Message?.MessageId is int msgId)
+                    {
+                        var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = msgId };
+                        await _triggerService.ExecuteAsync(user, removeInlineKeyboard);
+                    }
+                    break;
+                case "i":
+                    //if (await _triggerService.FromUn)
+                    break;
             }
         }
         return user.State;

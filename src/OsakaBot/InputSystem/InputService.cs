@@ -31,4 +31,9 @@ public class InputService : IInputService
     {
         throw new NotImplementedException();
     }
+
+    public ValueTask AssignFromConcreteMessage(InnerUser user, int messageId, string data)
+    {
+        throw new NotImplementedException();
+    }
 }

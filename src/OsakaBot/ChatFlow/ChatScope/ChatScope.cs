@@ -10,6 +10,7 @@ public class ChatScope
     public ICollection<ShowedMessage> ShowedMessages { get; set; } = null!;
     public ICollection<ActiveKeyboardTrigger>? TriggerByPreparedPlain { get; set; }
     public ICollection<ActiveKeyboardTrigger>? TriggerByPreparedEncoded { get; set; }
+    public ICollection<ActiveKeyboardTrigger>? TriggerByUnprepared { get; set; }
     public ICollection<ValidatorBase>? Validators { get; set; }
     public ShowedMessage? ActiveInput { get; set; }
     public Trigger? OnValidInput { get; set; }
