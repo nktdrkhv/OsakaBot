@@ -15,6 +15,5 @@ public class ChatScope
     public Trigger? OnValidInput { get; set; }
     public Trigger? OnInvalidInput { get; set; }
     public Trigger? OnClearScope { get; set; }
-    //public bool IsAnyActiveDialogue { get; set; } = false;
     public bool HasToRedirectInvalidInput { get; set; } = false;
 }

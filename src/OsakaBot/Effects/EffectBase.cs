@@ -3,11 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Osaka.Bot.Effects;
 
-public abstract class EffectBase
+public abstract class EffectBase : ITitled
 {
-    [Key]
-    public int EffectId { get; set; }
-    public int Order { get; set; }
+    [Key] public int EffectId { get; set; }
+    public byte Order { get; set; }
     public string? Title { get; set; }
     [NotMapped] public InnerUser User { get; set; } = null!;
 }

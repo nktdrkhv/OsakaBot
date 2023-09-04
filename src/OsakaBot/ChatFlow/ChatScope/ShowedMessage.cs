@@ -1,6 +1,6 @@
 namespace Osaka.Bot.ChatFlow.ChatScope;
 
-public class ShowedMessage
+public class ShowedMessage : ILabeled
 {
     public int ShowedMessageId { get; set; }
     public int? CauseMessageId { get; set; }

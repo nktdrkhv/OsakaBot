@@ -36,9 +36,9 @@ public class ChatFlowService : IChatFlowService
             {
                 await _triggerService.ExecuteAsync(user, storedTrigger);
             }
-            else
+            else if (callbackQuery.Message?.MessageId is int msgId)
             {
-                var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = callbackQuery.Message!.MessageId };
+                var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = msgId };
                 await _triggerService.ExecuteAsync(user, removeInlineKeyboard);
             }
         }

@@ -3,7 +3,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace Osaka.Bot.Content;
 
-public class InnerMessage
+public class InnerMessage : ILabeled
 {
     public int InnerMessageId { get; set; }
     public InnerMessageType Type { get; set; }
@@ -50,7 +50,7 @@ public class InnerMessage
                 Type = InnerMessageType.Video;
                 var videoFileId = message.Video!.FileId;
                 var videoUniqueId = message.Video!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Video, videoUniqueId, videoUniqueId) };
+                Media = new Media[] { new(MediaType.Video, videoFileId, videoUniqueId) };
                 break;
             case MessageType.Voice:
                 Type = InnerMessageType.Voice;
