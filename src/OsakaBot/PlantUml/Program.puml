@@ -1,0 +1,14 @@
+@startuml
+class "Configure`1"<T> {
+}
+class "AddTypedClient`1"<T> {
+}
+class "GetService`1"<T> {
+}
+class "AddTelegramUpdater`1"<T> {
+}
+class "Empty`1"<T> {
+}
+class "AddHostedService`1"<T> {
+}
+@enduml

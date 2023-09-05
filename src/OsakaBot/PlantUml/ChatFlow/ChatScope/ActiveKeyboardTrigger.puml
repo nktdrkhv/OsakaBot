@@ -1,0 +1,7 @@
+@startuml
+class ActiveKeyboardTrigger {
+    + CustomLabel : string <<get>> <<set>>
+}
+ActiveKeyboardTrigger o-> "Reason" ShowedMessage
+ActiveKeyboardTrigger o-> "TriggerItself" Trigger
+@enduml

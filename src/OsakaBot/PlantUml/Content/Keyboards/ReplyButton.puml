@@ -1,0 +1,7 @@
+@startuml
+class ReplyButton {
+    + RequestContact : bool <<get>> <<set>>
+    + RequestLocation : bool <<get>> <<set>>
+}
+ButtonBase <|-- ReplyButton
+@enduml

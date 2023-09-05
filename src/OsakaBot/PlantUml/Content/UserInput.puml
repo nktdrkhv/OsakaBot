@@ -1,0 +1,9 @@
+@startuml
+class UserInput {
+    + UserInputId : int <<get>> <<set>>
+    + Validators : ICollection<ValidatorBase>? <<get>> <<set>>
+    + OnInvalidInput : Trigger? <<get>> <<set>>
+    + HandleInvalidInput : bool <<get>> <<set>> = false
+}
+UserInput o-> "OnValidInput" Trigger
+@enduml

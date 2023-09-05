@@ -1,0 +1,5 @@
+@startuml
+interface ITitled {
+    + Title : string? <<get>> <<set>>
+}
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+class InitCallbackQuery <<sealed>> {
+    # <<override>> HandleAsync(cntr:IContainer<CallbackQuery>) : Task
+}
+CallbackQueryHandler <|-- InitCallbackQuery
+@enduml

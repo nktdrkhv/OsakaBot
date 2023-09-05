@@ -1,0 +1,6 @@
+@startuml
+class InitMassage <<sealed>> {
+    # <<override>> HandleAsync(cntr:IContainer<Message>) : Task
+}
+MessageHandler <|-- InitMassage
+@enduml

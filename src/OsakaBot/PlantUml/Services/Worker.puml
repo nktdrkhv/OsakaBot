@@ -1,0 +1,7 @@
+@startuml
+class Worker {
+    + Worker(updater:IUpdater)
+    + <<override>> <<async>> ExecuteAsync(stoppingToken:CancellationToken) : Task
+}
+UpdateWriterServiceAbs <|-- Worker
+@enduml

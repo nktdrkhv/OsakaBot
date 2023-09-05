@@ -1,0 +1,11 @@
+@startuml
+enum MediaType {
+    Photo,
+    Video,
+    VideoNote,
+    Audio,
+    Voice,
+    Document,
+    Sticker,
+}
+@enduml

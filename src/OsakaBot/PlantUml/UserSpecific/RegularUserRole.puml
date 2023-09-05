@@ -1,0 +1,7 @@
+@startuml
+class RegularUserRole {
+    + RegularUserRoleId : int <<get>> <<set>>
+    + Label : string <<get>> <<set>>
+    + Description : string? <<get>> <<set>>
+}
+@enduml

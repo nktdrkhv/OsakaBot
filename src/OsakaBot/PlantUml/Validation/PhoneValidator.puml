@@ -1,0 +1,7 @@
+@startuml
+abstract class PhoneValidator {
+    + <<override>> Validate(message:InnerMessage) : bool
+}
+RegexValidatorBase <|-- PhoneValidator
+PhoneValidator o-> "PhoneRegex" Regex
+@enduml

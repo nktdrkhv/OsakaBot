@@ -1,0 +1,8 @@
+@startuml
+interface IInnerUserStorge {
+    IsInnerUserExist(user:User) : ValueTask<bool>
+    CreateInnerUser(user:User) : ValueTask<InnerUser>
+    RetrieveInnerUser(user:User) : ValueTask<InnerUser>
+    CommitInnerUser(user:InnerUser) : ValueTask
+}
+@enduml

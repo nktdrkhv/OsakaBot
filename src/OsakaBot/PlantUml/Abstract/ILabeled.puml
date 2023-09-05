@@ -1,0 +1,5 @@
+@startuml
+interface ILabeled {
+    + Label : string? <<get>> <<set>>
+}
+@enduml

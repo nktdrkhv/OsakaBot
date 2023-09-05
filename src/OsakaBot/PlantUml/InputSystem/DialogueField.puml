@@ -1,0 +1,8 @@
+@startuml
+class DialogueField {
+    + DialogueFieldId : int <<get>> <<set>>
+}
+DialogueField o-> "AttachedTo" Dialogue
+DialogueField o-> "AssignTo" Variable
+DialogueField o-> "Post" IncludedPost
+@enduml

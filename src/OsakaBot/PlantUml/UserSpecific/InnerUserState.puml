@@ -1,0 +1,7 @@
+@startuml
+class InnerUserState {
+    + SpecialFlowType : SpecialFlowType? <<get>> <<set>>
+}
+InnerUserState --> "CurrentType" InnerUserType
+InnerUserState --> "ChatFlowType" ChatFlowType
+@enduml

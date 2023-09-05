@@ -1,0 +1,19 @@
+@startuml
+class InnerMessage {
+    + InnerMessageId : int <<get>> <<set>>
+    + CauseMessageId : int? <<get>> <<set>>
+    + CauseMessagesIds : int[]? <<get>> <<set>>
+    + MediaGroupId : string? <<get>> <<set>>
+    + Label : string? <<get>> <<set>>
+    + Text : Text? <<get>> <<set>>
+    + Media : ICollection<Media>? <<get>> <<set>>
+    + Contact : InnerContact? <<get>> <<set>>
+    + Geolocation : Geolocation? <<get>> <<set>>
+    + InnerMessage()
+    + InnerMessage(causeMessageId:int, textItself:Text, buttonOrigin:bool)
+    + InnerMessage(message:Message)
+    + InnerMessage(messages:IEnumerable<Message>)
+}
+ILabeled <|-- InnerMessage
+InnerMessage --> "Type" InnerMessageType
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class DataSeed {
+    + Initialize(context:BotDbContext) : void
+}
+@enduml

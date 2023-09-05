@@ -1,0 +1,10 @@
+@startuml
+class Geolocation {
+    + Longitude : double <<get>> <<set>>
+    + Latitude : double <<get>> <<set>>
+    + Title : string? <<get>> <<set>>
+    + Address : string? <<get>> <<set>>
+    + Geolocation(longitude:double, latitude:double)
+    + Geolocation(longitude:double, latitude:double, title:string, address:string)
+}
+@enduml

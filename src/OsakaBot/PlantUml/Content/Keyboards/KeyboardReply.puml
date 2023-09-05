@@ -1,0 +1,9 @@
+@startuml
+class KeyboardReply {
+    + Placeholder : string? <<get>> <<set>>
+    + Resize : bool <<get>> <<set>>
+    + Persistent : bool <<get>> <<set>>
+    + OneTime : bool <<get>> <<set>>
+}
+KeyboardBase <|-- KeyboardReply
+@enduml

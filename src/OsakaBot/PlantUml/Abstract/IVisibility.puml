@@ -1,0 +1,6 @@
+@startuml
+interface IVisible {
+    + RoleVisibility : ICollection<RegularUserRole>? <<get>> <<set>>
+    + PhraseVisibility : string? <<get>> <<set>>
+}
+@enduml

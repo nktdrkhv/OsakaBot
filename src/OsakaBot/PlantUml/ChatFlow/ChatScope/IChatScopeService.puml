@@ -1,0 +1,9 @@
+@startuml
+interface IChatScopeService {
+    GetActiveInputReasonAsync(user:InnerUser) : ValueTask<Post?>
+    HasCorrectionLoop(user:InnerUser) : ValueTask<bool>
+    SetInputToReasonAsync(user:InnerUser, trigger:Trigger, message:InnerMessage) : ValueTask
+    SetInputToActiveAsync(user:InnerUser, message:InnerMessage) : ValueTask
+    CleanScopeAsync(user:InnerUser) : ValueTask
+}
+@enduml

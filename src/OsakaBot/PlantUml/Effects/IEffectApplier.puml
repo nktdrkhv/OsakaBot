@@ -1,0 +1,8 @@
+@startuml
+interface IEffectApplier {
+    Apply(effect:EffectBase) : Task
+}
+interface "IEffectApplier`1"<T> {
+}
+IEffectApplier <|-- "IEffectApplier`1"
+@enduml

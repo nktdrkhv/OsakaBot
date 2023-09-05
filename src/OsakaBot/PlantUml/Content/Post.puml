@@ -1,0 +1,17 @@
+@startuml
+class Post {
+    + PostId : int <<get>> <<set>>
+    + Label : string? <<get>> <<set>>
+    + Title : string? <<get>> <<set>>
+    + InputMeta : string? <<get>> <<set>>
+    + RoleVisibility : ICollection<RegularUserRole>? <<get>> <<set>>
+    + PhraseVisibility : string? <<get>> <<set>>
+    + Keyboard : KeyboardBase? <<get>> <<set>>
+    + UserInput : UserInput? <<get>> <<set>>
+    + OnUserScopeClear : Trigger? <<get>> <<set>>
+}
+IVisible <|-- Post
+ILabeled <|-- Post
+ITitled <|-- Post
+Post o-> "Content" InnerMessage
+@enduml

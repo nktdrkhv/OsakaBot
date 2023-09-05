@@ -1,0 +1,9 @@
+@startuml
+class BotCommand {
+    + BotCommandId : int <<get>> <<set>>
+    + Label : string <<get>> <<set>>
+    + Description : string <<get>> <<set>>
+}
+BotCommand o-> "Trigger" Trigger
+BotCommand o-> "Visibility" InnerUserType
+@enduml

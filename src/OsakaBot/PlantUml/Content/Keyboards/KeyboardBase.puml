@@ -1,0 +1,12 @@
+@startuml
+abstract class KeyboardBase {
+    + KeyboardId : int <<get>> <<set>>
+    + Label : string? <<get>> <<set>>
+    + Title : string? <<get>> <<set>>
+}
+class "ICollection`1"<T> {
+}
+ILabeled <|-- KeyboardBase
+ITitled <|-- KeyboardBase
+KeyboardBase o-> "Buttons<ButtonBase>" "ICollection`1"
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+class Variable {
+    + VariableId : int <<get>> <<set>>
+    - Name : string <<get>> <<set>>
+}
+@enduml

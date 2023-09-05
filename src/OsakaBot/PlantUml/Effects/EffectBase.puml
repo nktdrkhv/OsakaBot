@@ -1,0 +1,9 @@
+@startuml
+abstract class EffectBase {
+    + EffectId : int <<get>> <<set>>
+    + Order : byte <<get>> <<set>>
+    + Title : string? <<get>> <<set>>
+}
+ITitled <|-- EffectBase
+EffectBase o-> "User" InnerUser
+@enduml

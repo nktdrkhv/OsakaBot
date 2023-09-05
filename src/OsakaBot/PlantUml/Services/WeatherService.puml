@@ -1,0 +1,10 @@
+@startuml
+class WeatherService {
+    - <<readonly>> _apiToken : string
+    + WeatherService(factory:IHttpClientFactory)
+    # <<override>> <<async>> ExecuteAsync(stoppingToken:CancellationToken) : Task
+    + <<async>> GetInstantWeatherAsync(latitude:double, longitude:double, apiToken:string?) : Task<string>
+}
+BackgroundService <|-- WeatherService
+WeatherService --> "_factory" IHttpClientFactory
+@enduml

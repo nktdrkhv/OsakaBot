@@ -1,0 +1,5 @@
+@startuml
+class KeyboardRemove {
+}
+KeyboardBase <|-- KeyboardRemove
+@enduml

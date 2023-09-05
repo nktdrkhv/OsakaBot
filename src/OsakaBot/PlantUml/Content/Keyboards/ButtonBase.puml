@@ -1,0 +1,12 @@
+@startuml
+abstract class ButtonBase {
+    + ButtonId : int <<get>> <<set>>
+    + Trigger : Trigger? <<get>> <<set>>
+    + RowPriority : byte <<get>> <<set>>
+    + ColumnPriority : byte <<get>> <<set>>
+    + RoleVisibility : ICollection<RegularUserRole>? <<get>> <<set>>
+    + PhraseVisibility : string? <<get>> <<set>>
+}
+IVisible <|-- ButtonBase
+ButtonBase o-> "Text" Text
+@enduml

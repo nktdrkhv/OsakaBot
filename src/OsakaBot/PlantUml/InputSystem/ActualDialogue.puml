@@ -1,0 +1,8 @@
+@startuml
+class ActualDialogue {
+    + CompletedDialogueId : int <<get>> <<set>>
+    + Finished : DateTime? <<get>> <<set>>
+}
+ActualDialogue o-> "Source" Dialogue
+ActualDialogue o-> "Started" DateTime
+@enduml

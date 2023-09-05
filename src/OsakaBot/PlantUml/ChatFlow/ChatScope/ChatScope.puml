@@ -1,0 +1,19 @@
+@startuml
+class ChatScope {
+    + ChatScopeId : int <<get>> <<set>>
+    + Named : string? <<get>> <<set>>
+    + TriggerByPreparedPlain : ICollection<ActiveKeyboardTrigger>? <<get>> <<set>>
+    + TriggerByPreparedEncoded : ICollection<ActiveKeyboardTrigger>? <<get>> <<set>>
+    + TriggerByUnprepared : ICollection<ActiveKeyboardTrigger>? <<get>> <<set>>
+    + Validators : ICollection<ValidatorBase>? <<get>> <<set>>
+    + ActiveInput : ShowedMessage? <<get>> <<set>>
+    + OnValidInput : Trigger? <<get>> <<set>>
+    + OnInvalidInput : Trigger? <<get>> <<set>>
+    + OnClearScope : Trigger? <<get>> <<set>>
+    + HasToRedirectInvalidInput : bool <<get>> <<set>> = false
+}
+class "ICollection`1"<T> {
+}
+ChatScope o-> "InnerUser" InnerUser
+ChatScope o-> "ShowedMessages<ShowedMessage>" "ICollection`1"
+@enduml

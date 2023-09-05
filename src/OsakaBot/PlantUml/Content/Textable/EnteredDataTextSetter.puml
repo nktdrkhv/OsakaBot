@@ -1,0 +1,11 @@
+@startuml
+class EnteredDataTextSetter {
+}
+class EnteredDataTextSetterApplier {
+    + Apply(effect:EnteredDataTextSetter) : Task<string>
+}
+class "ITextSetterApplier`1"<T> {
+}
+TextSetterBase <|-- EnteredDataTextSetter
+"ITextSetterApplier`1" "<EnteredDataTextSetter>" <|-- EnteredDataTextSetterApplier
+@enduml

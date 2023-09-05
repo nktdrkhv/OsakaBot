@@ -1,0 +1,6 @@
+@startuml
+interface IChatFlowService {
+    SubmitMediaGroupAsync(mediaGroup:IEnumerable<Message>) : ValueTask<InnerUserState>
+}
+ITelegramSubmitter <|-- IChatFlowService
+@enduml

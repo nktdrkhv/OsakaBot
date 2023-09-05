@@ -1,0 +1,13 @@
+@startuml
+class InnerUser {
+    + InnerUserId : int <<get>> <<set>>
+    + TelegramUserId : long <<get>> <<set>>
+    + OriginalFullName : string <<get>> <<set>>
+    + Username : string? <<get>> <<set>>
+    + Role : RegularUserRole? <<get>> <<set>>
+    + Contact : InnerContact? <<get>> <<set>>
+    + InnerUser(user:User)
+}
+InnerUser o-> "State" InnerUserState
+InnerUser --> "Type" InnerUserType
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class EnteredData {
+    + EnteredDataId : int <<get>> <<set>>
+    + Message : InnerMessage? <<get>> <<set>>
+    + JustText : Text? <<get>> <<set>>
+    + AttachedTo : ActualDialogue? <<get>> <<set>>
+}
+EnteredData o-> "Variable" Variable
+@enduml
