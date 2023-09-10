@@ -1,4 +1,6 @@
+using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramUpdater;
 using TelegramUpdater.FilterAttributes.Attributes;
 using TelegramUpdater.UpdateContainer;

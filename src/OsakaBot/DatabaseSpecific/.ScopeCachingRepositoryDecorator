@@ -1,0 +1,20 @@
+using System.Data;
+using System.Data.Common;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
+using TanvirArjel.EFCore.GenericRepository;
+
+namespace Osaka.Bot.DatabaseSpecific;
+
+public interface IRepository<T> : IRepository { }
+
+public class ScopeCachingRepositoryDecorator : CommonCachingRepositoryDecorator, IRepository<ChatScope>
+{
+    public ScopeCachingRepositoryDecorator(IRepository original) : base(original) { }
+
+    public override IQueryable<TEntity> GetQueryable<TEntity>() where TEntity : class
+    {
+        return _original.GetQueryable<TEntity>();
+    }
+}

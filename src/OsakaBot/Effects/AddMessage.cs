@@ -4,7 +4,9 @@ namespace Osaka.Bot.Effects;
 
 public class AddMessageEffect : EffectBase
 {
-
+    public int PostId { get; set; }
+    public Post Post { get; set; } = null!;
+    public override void SetArguments(string[] args) { }
 }
 
 public class AddMessageEffectApplier : IEffectApplier<AddMessageEffect>

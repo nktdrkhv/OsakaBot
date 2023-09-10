@@ -4,7 +4,10 @@ namespace Osaka.Bot.Effects;
 
 public class RemoveMessageEffect : EffectBase
 {
-
+    public override void SetArguments(string[] args)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class RemoveMessageEffectApplier : IEffectApplier<RemoveMessageEffect>

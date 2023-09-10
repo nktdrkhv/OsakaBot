@@ -1,0 +1,350 @@
+using System.Data;
+using System.Data.Common;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Storage;
+using TanvirArjel.EFCore.GenericRepository;
+
+namespace Osaka.Bot.DatabaseSpecific;
+
+public class CommonCachingRepositoryDecorator : IRepository
+{
+    protected readonly IRepository _original;
+
+    public CommonCachingRepositoryDecorator(IRepository original)
+    {
+        _original = original;
+    }
+
+    public virtual IQueryable<TEntity> GetQueryable<TEntity>() where TEntity : class
+    {
+        return _original.GetQueryable<TEntity>();
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync<TEntity>(cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(bool asNoTracking, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync<TEntity>(asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(includes, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(includes, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Expression<Func<TEntity, bool>> condition, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(condition, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Expression<Func<TEntity, bool>> condition, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(condition, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes, bool asNoTracking = false,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(condition, includes, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(specification, cancellationToken);
+    }
+
+    public virtual Task<List<TEntity>> GetListAsync<TEntity>(Specification<TEntity> specification, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(specification, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<List<TProjectedType>> GetListAsync<TEntity, TProjectedType>(Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(selectExpression, cancellationToken);
+    }
+
+    public virtual Task<List<TProjectedType>> GetListAsync<TEntity, TProjectedType>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(condition, selectExpression, cancellationToken);
+    }
+
+    public virtual Task<List<TProjectedType>> GetListAsync<TEntity, TProjectedType>(Specification<TEntity> specification, Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(specification, selectExpression, cancellationToken);
+    }
+
+    public virtual Task<PaginatedList<TEntity>> GetListAsync<TEntity>(PaginationSpecification<TEntity> specification,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetListAsync(specification, cancellationToken);
+    }
+
+    public virtual Task<PaginatedList<TProjectedType>> GetListAsync<TEntity, TProjectedType>(PaginationSpecification<TEntity> specification, Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class where TProjectedType : class
+    {
+        return _original.GetListAsync(specification, selectExpression, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetByIdAsync<TEntity>(object id, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetByIdAsync<TEntity>(id, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetByIdAsync<TEntity>(object id, bool asNoTracking, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetByIdAsync<TEntity>(id, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetByIdAsync<TEntity>(object id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetByIdAsync(id, includes, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetByIdAsync<TEntity>(object id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetByIdAsync(id, includes, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<TProjectedType> GetByIdAsync<TEntity, TProjectedType>(object id, Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetByIdAsync(id, selectExpression, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetAsync<TEntity>(Expression<Func<TEntity, bool>> condition, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(condition, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetAsync<TEntity>(Expression<Func<TEntity, bool>> condition, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(condition, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetAsync<TEntity>(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(condition, includes, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetAsync<TEntity>(Expression<Func<TEntity, bool>> condition, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(condition, includes, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetAsync<TEntity>(Specification<TEntity> specification, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(specification, cancellationToken);
+    }
+
+    public virtual Task<TEntity> GetAsync<TEntity>(Specification<TEntity> specification, bool asNoTracking,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(specification, asNoTracking, cancellationToken);
+    }
+
+    public virtual Task<TProjectedType> GetAsync<TEntity, TProjectedType>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(condition, selectExpression, cancellationToken);
+    }
+
+    public virtual Task<TProjectedType> GetAsync<TEntity, TProjectedType>(Specification<TEntity> specification, Expression<Func<TEntity, TProjectedType>> selectExpression,
+        CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetAsync(specification, selectExpression, cancellationToken);
+    }
+
+    public virtual Task<bool> ExistsAsync<TEntity>(CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.ExistsAsync<TEntity>(cancellationToken);
+    }
+
+    public virtual Task<bool> ExistsAsync<TEntity>(Expression<Func<TEntity, bool>> condition, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.ExistsAsync(condition, cancellationToken);
+    }
+
+    public virtual Task<bool> ExistsByIdAsync<TEntity>(object id, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.ExistsByIdAsync<TEntity>(id, cancellationToken);
+    }
+
+    public virtual Task<int> GetCountAsync<TEntity>(CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetCountAsync<TEntity>(cancellationToken);
+    }
+
+    public virtual Task<int> GetCountAsync<TEntity>(Expression<Func<TEntity, bool>> condition, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetCountAsync(condition, cancellationToken);
+    }
+
+    public virtual Task<int> GetCountAsync<TEntity>(IEnumerable<Expression<Func<TEntity, bool>>> conditions, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetCountAsync(conditions, cancellationToken);
+    }
+
+    public virtual Task<long> GetLongCountAsync<TEntity>(CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetLongCountAsync<TEntity>(cancellationToken);
+    }
+
+    public virtual Task<long> GetLongCountAsync<TEntity>(Expression<Func<TEntity, bool>> condition, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetLongCountAsync(condition, cancellationToken);
+    }
+
+    public virtual Task<long> GetLongCountAsync<TEntity>(IEnumerable<Expression<Func<TEntity, bool>>> conditions, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.GetLongCountAsync(conditions, cancellationToken);
+    }
+
+    public virtual Task<List<T>> GetFromRawSqlAsync<T>(string sql, CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.GetFromRawSqlAsync<T>(sql, cancellationToken);
+    }
+
+    public virtual Task<List<T>> GetFromRawSqlAsync<T>(string sql, object parameter, CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.GetFromRawSqlAsync<T>(sql, parameter, cancellationToken);
+    }
+
+    public virtual Task<List<T>> GetFromRawSqlAsync<T>(string sql, IEnumerable<DbParameter> parameters,
+        CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.GetFromRawSqlAsync<T>(sql, parameters, cancellationToken);
+    }
+
+    public virtual Task<List<T>> GetFromRawSqlAsync<T>(string sql, IEnumerable<object> parameters,
+        CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.GetFromRawSqlAsync<T>(sql, parameters, cancellationToken);
+    }
+
+    public virtual Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel = IsolationLevel.Unspecified,
+        CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.BeginTransactionAsync(isolationLevel, cancellationToken);
+    }
+
+    [Obsolete]
+    public virtual Task<object[]> InsertAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.InsertAsync(entity, cancellationToken);
+    }
+
+    [Obsolete]
+    public virtual Task InsertAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.InsertAsync(entities, cancellationToken);
+    }
+
+    [Obsolete]
+    public virtual Task<int> UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.UpdateAsync(entity, cancellationToken);
+    }
+
+    [Obsolete]
+    public virtual Task<int> UpdateAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.UpdateAsync(entities, cancellationToken);
+    }
+
+    [Obsolete]
+    public virtual Task<int> DeleteAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.DeleteAsync(entity, cancellationToken);
+    }
+
+    [Obsolete]
+    public virtual Task<int> DeleteAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.DeleteAsync(entities, cancellationToken);
+    }
+
+    public virtual Task<int> ExecuteSqlCommandAsync(string sql, CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.ExecuteSqlCommandAsync(sql, cancellationToken);
+    }
+
+    public virtual Task<int> ExecuteSqlCommandAsync(string sql, params object[] parameters)
+    {
+        return _original.ExecuteSqlCommandAsync(sql, parameters);
+    }
+
+    public virtual Task<int> ExecuteSqlCommandAsync(string sql, IEnumerable<object> parameters,
+        CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.ExecuteSqlCommandAsync(sql, parameters, cancellationToken);
+    }
+
+    public virtual void ClearChangeTracker()
+    {
+        _original.ClearChangeTracker();
+    }
+
+    public virtual void Add<TEntity>(TEntity entity) where TEntity : class
+    {
+        _original.Add(entity);
+    }
+
+    public virtual Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.AddAsync(entity, cancellationToken);
+    }
+
+    public virtual void Add<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+    {
+        _original.Add(entities);
+    }
+
+    public virtual Task AddAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = new CancellationToken()) where TEntity : class
+    {
+        return _original.AddAsync(entities, cancellationToken);
+    }
+
+    public virtual void Update<TEntity>(TEntity entity) where TEntity : class
+    {
+        _original.Update(entity);
+    }
+
+    public virtual void Update<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+    {
+        _original.Update(entities);
+    }
+
+    public virtual void Remove<TEntity>(TEntity entity) where TEntity : class
+    {
+        _original.Remove(entity);
+    }
+
+    public virtual void Remove<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
+    {
+        _original.Remove(entities);
+    }
+
+    public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        return _original.SaveChangesAsync(cancellationToken);
+    }
+}

@@ -1,9 +1,6 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Osaka.Bot.UserSpecific;
+namespace Osaka.Bot.ChatFlow.Skeleton;
 
-namespace Osaka.Bot.Content;
-
-public class Post : IVisible, ILabeled, ITitled
+public class Post : IRoleVisibility, ILabeled, ITitled
 {
     public int PostId { get; set; }
     public string? Label { get; set; }

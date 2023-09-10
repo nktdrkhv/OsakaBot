@@ -1,8 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Osaka.Bot.ChatFlow.ChatScope;
 
-public class ActiveKeyboardTrigger
+[Table("ActiveKeyboardTrigger")]
+public class ActiveKeyboardTrigger : ILabeled
 {
-    public string CustomLabel { get; set; } = null!;
-    public ShowedMessage Reason { get; set; } = null!;
-    public Trigger TriggerItself { get; set; } = null!;
+    public int ActiveKeyboardTriggerId { get; set; }
+    public string? Label { get; set; } = null!;
+    public int TriggerId { get; set; }
+    public Trigger Trigger { get; set; } = null!;
 }

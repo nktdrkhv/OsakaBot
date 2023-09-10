@@ -1,17 +1,15 @@
-using System.Collections.Immutable;
-
 namespace Osaka.Bot.Validation;
 
 public sealed class ValidationService : IValidationService
 {
-    private readonly IChatScopeStorage _chatScopeStorage;
+    private readonly IRepository _repository;
 
-    public ValidationService(IChatScopeStorage chatScopeStorage) => _chatScopeStorage = chatScopeStorage;
+    public ValidationService(IRepository repository) => _repository = repository;
 
     public async ValueTask<bool> ValidateAsync(InnerUser user, InnerMessage message)
     {
-        var scope = await _chatScopeStorage.RetrieveChatScope(user);
-        return scope.Validators is null || scope.Validators.GroupBy(v => v.PriorityGroup).Select(group =>
+        var validators = await _repository.GetValidators(user);
+        return validators is null || validators.GroupBy(v => v.PriorityGroup).Select(group =>
         {
             var result = true;
             foreach (var validator in group)

@@ -2,15 +2,15 @@ namespace Osaka.Bot.InputSystem;
 
 public class InputService : IInputService
 {
-    private IChatScopeStorage _chatScopeStorage;
-    private IDialogueService _dialogeService;
-    private IAutoInput _autoInput;
+    private readonly IDialogueService _dialogeService;
+    private readonly IAutoInputService _autoInput;
+    private readonly IRepository _repository;
 
-    public InputService(IChatScopeStorage chatScopeStorage, IDialogueService dialogeService, IAutoInput autoInput)
+    public InputService(IDialogueService dialogeService, IAutoInputService autoInput, IRepository repository)
     {
-        _chatScopeStorage = chatScopeStorage;
         _dialogeService = dialogeService;
         _autoInput = autoInput;
+        _repository = repository;
     }
 
     public async ValueTask<bool> IsThereAnyActiveDialogue(InnerUser user)
@@ -32,7 +32,7 @@ public class InputService : IInputService
         throw new NotImplementedException();
     }
 
-    public ValueTask AssignFromConcreteMessage(InnerUser user, int messageId, string data)
+    public ValueTask AssignFromTriggerAsync(InnerUser user, Trigger trigger, string text)
     {
         throw new NotImplementedException();
     }

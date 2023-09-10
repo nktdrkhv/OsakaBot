@@ -9,4 +9,5 @@ public abstract class EffectBase : ITitled
     public byte Order { get; set; }
     public string? Title { get; set; }
     [NotMapped] public InnerUser User { get; set; } = null!;
+    public abstract void SetArguments(string[] args);
 }

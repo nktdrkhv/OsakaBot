@@ -5,6 +5,11 @@ namespace Osaka.Bot.Effects;
 public class RemoveInlineKeyboardEffect : EffectBase
 {
     public int TargetMessageId { get; set; }
+
+    public override void SetArguments(string[] args)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class RemoveInlineKeyboardEffectApplier : IEffectApplier<AddMessageEffect>
