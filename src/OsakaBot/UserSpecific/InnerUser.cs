@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Telegram.Bot.Types;
 
 namespace Osaka.Bot.UserSpecific;
 
+[Table("InnerUser")]
 public class InnerUser
 {
     public int InnerUserId { get; set; }

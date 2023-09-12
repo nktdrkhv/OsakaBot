@@ -54,7 +54,7 @@ public class TriggerService : ITriggerService
             cs => cs
                 .Include(cs => cs.PlainTriggers),
             asNoTracking: true);
-        var triggerId = scope.PlainTriggers?.SingleOrDefault(pt => pt.Label == prepared)?.TriggerId;
+        var triggerId = scope.PlainTriggers?.SingleOrDefault(pt => pt.Name == prepared)?.TriggerId;
         return triggerId is not null
             ? await _repository.GetByIdAsync<Trigger>(triggerId, t => t.Include(t => t.Effects), asNoTracking: true)
             : null;
@@ -66,7 +66,7 @@ public class TriggerService : ITriggerService
             cs => cs
                 .Include(cs => cs.EncodedTriggers),
             asNoTracking: true);
-        var triggerId = scope.EncodedTriggers?.SingleOrDefault(pt => pt.Label == encodedId)?.TriggerId;
+        var triggerId = scope.EncodedTriggers?.SingleOrDefault(pt => pt.Name == encodedId)?.TriggerId;
         return triggerId is not null
             ? await _repository.GetByIdAsync<Trigger>(triggerId, t => t.Include(t => t.Effects), asNoTracking: true)
             : null;

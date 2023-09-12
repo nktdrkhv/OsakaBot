@@ -2,12 +2,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Osaka.Bot.ChatFlow.ChatScope;
 
+[Table("ChatScope")]
 public class ChatScope
 {
     public int ChatScopeId { get; set; }
     public int InnerUserId { get; set; }
     public InnerUser InnerUser { get; set; } = null!;
-    public string? Named { get; set; }
+    public string? Phrase { get; set; }
 
     public ICollection<ShowedMessage> ShowedMessages { get; set; } = null!;
     public ICollection<ActiveKeyboardTrigger>? PlainTriggers { get; set; }

@@ -8,3 +8,10 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
     public void Configure(EntityTypeBuilder<Post> builder)
     { }
 }
+
+// var converter = new EnumToStringConverter<UserRole>();
+
+// modelBuilder
+//   .Entity<User>()
+//   .Property(e => e.UserRole)
+//   .HasConversion(converter);

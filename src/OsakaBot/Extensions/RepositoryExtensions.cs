@@ -1,3 +1,4 @@
+using System.Linq.Dynamic.Core;
 using System.Net.Mail;
 using System.Runtime.Serialization.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -47,26 +48,59 @@ public static class RepositoryExtensions
                 cs => cs.Include(cs => cs.ActiveInput)
                             .ThenInclude(ai => ai!.RecievedFromUser),
                 asNoTracking: false, cancellationToken: ct);
-            scope.ActiveInput!.RecievedFromUser!.Add(innerUserInput);
+            if (scope.ActiveInput is not null)
+                scope.ActiveInput.RecievedFromUser!.Add(innerUserInput);
         }
         else
         {
             var scope = await repo.GetAsync<ChatScope>(cs => cs.InnerUserId == innerUser.InnerUserId,
-                cs => cs.Include(cs => cs.PlainTriggers)
-                        .Include(cs => cs.ShowedMessages)
-                            .ThenInclude(sm => sm.RecievedFromUser),
+                cs => cs.Include(cs => cs.PlainTriggers!)
+                            .ThenInclude(akt => akt.ShowedMessage)
+                                .ThenInclude(sm => sm.RecievedFromUser),
                 asNoTracking: false, cancellationToken: ct);
-            var desirableCollection = (from t in scope.PlainTriggers?.Where(akt => akt.TriggerId == reasonTrigger.TriggerId)
-                                       join sm in scope.ShowedMessages
-                                           on t.Label equals sm.Label
-                                       select sm.RecievedFromUser).LastOrDefault();
-            desirableCollection?.Add(innerUserInput);
+            scope.PlainTriggers!.First(akt => akt.TriggerId == reasonTrigger.TriggerId).ShowedMessage.RecievedFromUser!.Add(innerUserInput);
         }
     }
 
     public static async ValueTask<ICollection<ValidatorBase>?> GetValidators(this IRepository repo, InnerUser innerUser, bool ant = true, CancellationToken ct = default)
     {
-        var scope = await repo.GetAsync<ChatScope>(sc => sc.InnerUserId == innerUser.InnerUserId, sc => sc.Include(sc => sc.Validators), asNoTracking: ant, cancellationToken: ct);
+        var scope = await repo.GetAsync<ChatScope>(
+            sc => sc.InnerUserId == innerUser.InnerUserId,
+            sc => sc.Include(sc => sc.Validators),
+            asNoTracking: ant, cancellationToken: ct);
         return scope.Validators;
     }
+
+    public static async ValueTask<string?> GetPostMeta(this IRepository repo, int postId, CancellationToken ct = default) =>
+        await repo.GetQueryable<Post>()
+            .AsNoTracking()
+            .Where(p => p.PostId == postId)
+            .Select(p => p.MetaMark)
+            .FirstAsync();
+
+    public static async ValueTask<string?> GetContentMeta(this IRepository repo, int userId, int triggerId, CancellationToken ct = default) =>
+        await repo.GetQueryable<ActiveKeyboardTrigger>()
+            .AsNoTracking()
+            .Include(akt => akt.ChatScope)
+            .Include(akt => akt.ShowedMessage)
+                .ThenInclude(sm => sm.InnerMessage)
+            .Where(akt => akt.ChatScope.InnerUserId == userId && akt.TriggerId == triggerId)
+            .Select((akt, _) => akt.ShowedMessage.InnerMessage!.MetaMark)
+            .FirstAsync();
+
+    public static async ValueTask<string?> GetButtonMeta(this IRepository repo, int triggerId, CancellationToken ct = default) =>
+        await repo.GetQueryable<ButtonBase>()
+            .AsNoTracking()
+            .Where(b => b.TriggerId == triggerId)
+            .Select(b => b.MetaMark)
+            .FirstAsync();
+
+    public static async ValueTask<Text> GetButtonText(this IRepository repo, int triggerId, CancellationToken ct = default) =>
+        await repo.GetQueryable<ButtonBase>()
+            .AsNoTracking()
+            .Include(b => b.Text)
+                .ThenInclude(t => t.Surrogates)
+            .Where(b => b.TriggerId == triggerId)
+            .Select(b => b.Text)
+            .FirstAsync();
 }

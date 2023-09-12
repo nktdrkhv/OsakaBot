@@ -1,18 +1,28 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Osaka.Bot.Content;
 
-public class InnerMessage : ILabeled
+[Table("InnerMessage")]
+public class InnerMessage : ILabeled, ITitled, IMetaMark
 {
     public int InnerMessageId { get; set; }
     public InnerMessageType Type { get; set; }
+
     public int? CauseMessageId { get; set; }
     public int[]? CauseMessagesIds { get; set; }
     public string? MediaGroupId { get; set; }
+
+    public string? Title { get; set; }
     public string? Label { get; set; }
+    public string? MetaMark { get; set; }
+
+    public int TextId { get; set; }
     public Text? Text { get; set; }
     public ICollection<Media>? Media { get; set; }
+
+    public int? ContactId { get; set; }
     public InnerContact? Contact { get; set; }
     public Geolocation? Geolocation { get; set; }
 

@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Osaka.Bot.ChatFlow;
 
+[Table("Trigger")]
 public class Trigger
 {
     public int TriggerId { get; set; }

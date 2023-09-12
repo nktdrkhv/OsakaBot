@@ -33,44 +33,30 @@ public class ChatFlowService : IChatFlowService
                 case "s": // s:o3osd
                     if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger preparedTrigger)
                     {
-                        await _inputService.AssignFromTriggerAsync(innerUser, preparedTrigger);
+                        await _inputService.FromButtonTriggerAsync(innerUser, preparedTrigger);
                         await _triggerService.ExecuteAsync(innerUser, preparedTrigger);
                     }
                     else if (await _triggerService.FromEncodedStoredAsync(innerUser, args[1]) is Trigger storedTrigger && storedTrigger.AllowOutOfScope)
-                    {
                         await _triggerService.ExecuteAsync(innerUser, storedTrigger);
-                    }
                     else if (callbackQuery.Message?.MessageId is int sMsgId)
-                    {
                         await RemoveInlineKeyBoard(innerUser, sMsgId);
-                    }
                     break;
                 case "i": // i:dwo2q:31.03.2022
                     if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger iTrigger && args.Length == 3)
-                    {
-                        await _inputService.AssignFromTriggerAsync(innerUser, iTrigger, args[2]);
-                    }
+                        await _inputService.FromButtonTriggerAsync(innerUser, iTrigger, args[2]);
                     else if (callbackQuery.Message?.MessageId is int iMsgId)
-                    {
                         await RemoveInlineKeyBoard(innerUser, iMsgId);
-                    }
                     break;
                 case "d": // d:sa2qa:cc:4:r
                     // todo: execute outside of the scope
                     if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger dTrigger && args.Length >= 3)
-                    {
                         await _triggerService.ExecuteAsync(innerUser, dTrigger, args[2..]);
-                    }
                     else if (callbackQuery.Message?.MessageId is int dMsgId)
-                    {
                         await RemoveInlineKeyBoard(innerUser, dMsgId);
-                    }
                     break;
                 default:
                     if (callbackQuery.Message?.MessageId is int msgId)
-                    {
                         await RemoveInlineKeyBoard(innerUser, msgId);
-                    }
                     break;
             }
         }
@@ -95,8 +81,7 @@ public class ChatFlowService : IChatFlowService
         if (innerMessage.Text?.OriginalText is string messageText && await _triggerService.FromPlainPreparedAsync(innerUser, messageText) is Trigger replyTrigger)
         {
             innerMessage!.Type = InnerMessageType.TextFromButton;
-            if (await _inputService.IsThereAnyActiveDialogue(innerUser))
-                await _inputService.AssignFromTriggerAsync(innerUser, replyTrigger, innerMessage);
+            await _inputService.FromMessageTriggerAsync(innerUser, replyTrigger, innerMessage);
             await _chatScopeService.SetInputToReasonAsync(innerUser, replyTrigger, innerMessage);
             await _triggerService.ExecuteAsync(innerUser, replyTrigger);
         }
@@ -106,8 +91,7 @@ public class ChatFlowService : IChatFlowService
                 await _triggerService.FromValidCustomInput(innerUser) is Trigger triggerForValid)
             {
                 await _chatScopeService.SetInputToActiveAsync(innerUser, innerMessage!);
-                if (await _inputService.IsThereAnyActiveDialogue(innerUser))
-                    await _inputService.AssignFromTriggerAsync(innerUser, triggerForValid, innerMessage!);
+                await _inputService.FromMessageTriggerAsync(innerUser, triggerForValid, innerMessage!);
                 await _triggerService.ExecuteAsync(innerUser, triggerForValid);
             }
             else if (await _triggerService.FromInvalidCustomInput(innerUser) is Trigger triggerForInvalid)
@@ -120,8 +104,7 @@ public class ChatFlowService : IChatFlowService
                 else
                 {
                     await _chatScopeService.SetInputToActiveAsync(innerUser, innerMessage!);
-                    if (await _inputService.IsThereAnyActiveDialogue(innerUser))
-                        await _inputService.AssignFromTriggerAsync(innerUser, triggerForInvalid, innerMessage!);
+                    await _inputService.FromMessageTriggerAsync(innerUser, triggerForInvalid, innerMessage!);
                     await _triggerService.ExecuteAsync(innerUser, triggerForInvalid);
                 }
             }
