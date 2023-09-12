@@ -31,17 +31,13 @@ IHost host = Host.CreateDefaultBuilder(args)
                 //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Admin")
                 .AddDefaultExceptionHandler());
 
-        //services.AddMemoryCache();
+        services.AddGenericRepository<BotDbContext>();
         services.AddHttpClient();
         services.AddSingleton(new SqidsEncoder(new()
         {
-            Alphabet = "ABCEDFGHIJ0123456789",
-            MinLength = 6,
+            Alphabet = "abcdefghijklmnopqrstuvwxyz1234567890",
+            MinLength = 4,
         }));
-
-        // services.AddEFSecondLevelCache(options =>
-        //     options.UseMemoryCacheProvider().DisableLogging(true).UseCacheKeyPrefix("EF_")
-        // );
 
         services.AddHostedService<Worker>();
         services.AddHostedService<WeatherService>();

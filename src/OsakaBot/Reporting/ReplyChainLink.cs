@@ -1,6 +1,6 @@
 namespace Osaka.Bot.Reporting;
 
-public class ReplyPair
+public class ReplyChainLink
 {
 
 }

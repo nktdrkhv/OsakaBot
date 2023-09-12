@@ -9,4 +9,5 @@ public class Dialogue : ITitled, ILabeled
     public string? Title { get; set; }
     public string? Label { get; set; }
     public ICollection<DialogueField> Fields { get; set; } = null!;
+    public ICollection<IncludedDialog>? BeingPartOf { get; set; }
 }

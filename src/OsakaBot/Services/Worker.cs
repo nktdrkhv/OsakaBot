@@ -8,9 +8,9 @@ public class Worker : UpdateWriterServiceAbs
 {
     public Worker(IUpdater updater) : base(updater)
     {
-        updater.AddUserNumericStateKeeper(InnerUserType.Regular.ToString());
-        updater.AddUserNumericStateKeeper(InnerUserType.Support.ToString());
-        updater.AddUserNumericStateKeeper(InnerUserType.Admin.ToString());
+        updater.AddUserNumericStateKeeper("regular");
+        updater.AddUserNumericStateKeeper("support");
+        updater.AddUserNumericStateKeeper("admin");
     }
 
     public override async Task ExecuteAsync(CancellationToken stoppingToken)

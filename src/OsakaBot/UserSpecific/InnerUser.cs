@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 using Telegram.Bot.Types;
 
 namespace Osaka.Bot.UserSpecific;
@@ -10,8 +11,7 @@ public class InnerUser
     public long TelegramUserId { get; set; }
     public string OriginalFullName { get; set; } = null!;
     public string? Username { get; set; }
-    public InnerUserState State { get; set; } = null!;
-    public InnerUserType Type { get; set; }
+    public bool IsInCrewMode { get; set; }
     public RegularUserRole? Role { get; set; }
     public InnerContact? Contact { get; set; }
 
@@ -20,11 +20,5 @@ public class InnerUser
         TelegramUserId = user.Id;
         OriginalFullName = user.LastName is null ? user.FirstName : $"{user.FirstName} {user.LastName}";
         Username = user.Username;
-        State = new()
-        {
-            CurrentType = InnerUserType.None,
-            ChatFlowType = ChatFlowType.Common,
-        };
-        Type = InnerUserType.None;
     }
 }

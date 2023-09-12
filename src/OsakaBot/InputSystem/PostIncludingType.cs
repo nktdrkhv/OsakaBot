@@ -1,6 +1,6 @@
 namespace Osaka.Bot.InputSystem;
 
-public enum IncludingType
+public enum PostIncludingType
 {
     UserInput,
     ButtonMeta,

@@ -36,7 +36,7 @@ public class InputService : IInputService
 
         switch (activeIncludedPost.IncludedPost.IncludingType)
         {
-            case IncludingType.UserInput:
+            case PostIncludingType.UserInput:
                 if (autoInputed != null && autoInputed.Count > 0 && autoInputed[0].Text != null)
                 {
                     await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: autoInputed[0].Text!);
@@ -57,15 +57,15 @@ public class InputService : IInputService
                         await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: buttonText.OriginalText);
                 }
                 break;
-            case IncludingType.PostMeta:
+            case PostIncludingType.PostMeta:
                 var postMeta = await _repository.GetPostMeta(activeIncludedPost.IncludedPost.PostId);
                 await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: postMeta);
                 break;
-            case IncludingType.ContentMeta:
+            case PostIncludingType.ContentMeta:
                 var contentMeta = await _repository.GetContentMeta(user.InnerUserId, trigger.TriggerId);
                 await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: contentMeta);
                 break;
-            case IncludingType.ButtonMeta:
+            case PostIncludingType.ButtonMeta:
                 var buttonMeta = await _repository.GetButtonMeta(trigger.TriggerId);
                 await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: buttonMeta);
                 break;

@@ -6,7 +6,7 @@ namespace Osaka.Bot.InputSystem;
 public class IncludedPost
 {
     public int IncludedPostId { get; set; }
-    public IncludingType IncludingType { get; set; } = IncludingType.UserInput;
+    public PostIncludingType IncludingType { get; set; } = PostIncludingType.UserInput;
     public AutoInputType? AutoInputType { get; set; }
 
     public int DialogueFieldId { get; set; }
