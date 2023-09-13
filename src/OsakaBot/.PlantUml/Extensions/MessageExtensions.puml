@@ -1,4 +1,0 @@
-@startuml
-class MessageExtensions <<static>> {
-}
-@enduml

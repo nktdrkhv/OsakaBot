@@ -1,7 +1,0 @@
-@startuml
-class InlineButton {
-    + Url : string? <<get>> <<set>>
-    + CallbackData : string? <<get>> <<set>>
-}
-ButtonBase <|-- InlineButton
-@enduml

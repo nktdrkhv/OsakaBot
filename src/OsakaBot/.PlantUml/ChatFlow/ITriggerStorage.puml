@@ -1,5 +1,0 @@
-@startuml
-interface ITriggerStorage {
-    RetrieveTrigger(triggerId:int) : ValueTask<Trigger?>
-}
-@enduml

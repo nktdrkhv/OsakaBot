@@ -1,8 +1,0 @@
-@startuml
-class SqlTriggerStorage {
-    + SqlTriggerStorage(botDbContext:BotDbContext)
-    + <<async>> RetrieveTrigger(triggerId:int) : ValueTask<Trigger?>
-}
-ITriggerStorage <|-- SqlTriggerStorage
-SqlTriggerStorage --> "_botDbContext" BotDbContext
-@enduml

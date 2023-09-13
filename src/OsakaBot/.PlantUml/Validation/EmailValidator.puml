@@ -1,6 +1,0 @@
-@startuml
-class EmailValidator {
-    + <<override>> Validate(message:InnerMessage) : bool
-}
-RegexValidatorBase <|-- EmailValidator
-@enduml

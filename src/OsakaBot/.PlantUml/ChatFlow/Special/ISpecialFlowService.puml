@@ -1,6 +1,0 @@
-@startuml
-interface ISpecialFlowService {
-    DisplayAsync() : ValueTask<InnerUserState>
-}
-ITelegramSubmitter <|-- ISpecialFlowService
-@enduml

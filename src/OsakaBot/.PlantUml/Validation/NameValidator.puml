@@ -1,6 +1,0 @@
-@startuml
-class NameValidator {
-    + <<override>> Validate(message:InnerMessage) : bool
-}
-RegexValidatorBase <|-- NameValidator
-@enduml

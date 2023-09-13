@@ -1,5 +1,0 @@
-@startuml
-class DialogeService {
-}
-IDialogueService <|-- DialogeService
-@enduml

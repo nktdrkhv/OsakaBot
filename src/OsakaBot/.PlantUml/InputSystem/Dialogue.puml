@@ -1,9 +1,0 @@
-@startuml
-class Dialogue {
-    + DialogueId : int <<get>> <<set>>
-    + Title : string <<get>> <<set>>
-}
-class "ICollection`1"<T> {
-}
-Dialogue o-> "Parts<DialogueField>" "ICollection`1"
-@enduml

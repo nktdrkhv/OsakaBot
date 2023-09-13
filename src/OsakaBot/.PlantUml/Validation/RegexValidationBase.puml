@@ -1,7 +1,0 @@
-@startuml
-abstract class RegexValidatorBase {
-    + DoFormatting : bool = false
-    + {abstract} <<override>> Validate(message:InnerMessage) : bool
-}
-ValidatorBase <|-- RegexValidatorBase
-@enduml

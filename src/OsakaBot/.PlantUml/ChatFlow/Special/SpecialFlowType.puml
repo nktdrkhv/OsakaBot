@@ -1,6 +1,0 @@
-@startuml
-enum SpecialFlowType {
-    Issues= 10,
-    Contactss= 20,
-}
-@enduml

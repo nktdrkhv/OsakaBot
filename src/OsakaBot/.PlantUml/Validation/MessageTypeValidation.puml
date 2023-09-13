@@ -1,8 +1,0 @@
-@startuml
-class MessageTypeValidator {
-    + MessageTypeValidator(type:InnerMessageType)
-    + <<override>> Validate(message:InnerMessage) : bool
-}
-ValidatorBase <|-- MessageTypeValidator
-MessageTypeValidator --> "Type" InnerMessageType
-@enduml

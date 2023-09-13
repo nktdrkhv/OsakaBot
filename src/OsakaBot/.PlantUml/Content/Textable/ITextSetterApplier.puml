@@ -1,7 +1,0 @@
-@startuml
-interface ITextSetterApplier {
-    Apply(textSetter:TextSetterBase) : ValueTask<string>
-}
-interface "ITextSetterApplier`1"<T> {
-}
-@enduml

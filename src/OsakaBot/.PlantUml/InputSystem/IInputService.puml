@@ -1,8 +1,0 @@
-@startuml
-interface IInputService {
-    IsThereAnyActiveDialogue(user:InnerUser) : ValueTask<bool>
-    AssignFromTriggerAsync(user:InnerUser, trigger:Trigger) : ValueTask
-    AssignFromTriggerAsync(user:InnerUser, trigger:Trigger, message:InnerMessage) : ValueTask
-    AssignFromConcreteMessage(user:InnerUser, messageId:int, data:string) : ValueTask
-}
-@enduml

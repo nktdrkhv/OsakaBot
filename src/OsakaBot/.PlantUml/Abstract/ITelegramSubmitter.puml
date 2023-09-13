@@ -1,6 +1,0 @@
-@startuml
-interface ITelegramSubmitter {
-    SubmitCallbackQueryAsync(callbackQuery:CallbackQuery) : ValueTask<InnerUserState>
-    SubmitMessageAsync(message:Message) : ValueTask<InnerUserState>
-}
-@enduml

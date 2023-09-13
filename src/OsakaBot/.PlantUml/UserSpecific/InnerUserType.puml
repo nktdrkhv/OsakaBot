@@ -1,8 +1,0 @@
-@startuml
-enum InnerUserType {
-    None= 0,
-    Regular= 1,
-    Support= 2,
-    Admin= 4,
-}
-@enduml

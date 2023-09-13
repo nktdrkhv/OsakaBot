@@ -1,7 +1,0 @@
-@startuml
-interface IChatScopeStorage {
-    CreateChatScope(user:User) : ValueTask<ChatScope>
-    RetrieveChatScope(user:InnerUser) : ValueTask<ChatScope>
-    CommitChatScope(chatScope:ChatScope) : ValueTask
-}
-@enduml

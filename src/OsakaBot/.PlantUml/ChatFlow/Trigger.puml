@@ -1,9 +1,0 @@
-@startuml
-class Trigger {
-    + TriggerId : int <<get>> <<set>>
-    + AllowOutOfScope : bool <<get>> <<set>> = false
-}
-class "ICollection`1"<T> {
-}
-Trigger o-> "Effects<EffectBase>" "ICollection`1"
-@enduml

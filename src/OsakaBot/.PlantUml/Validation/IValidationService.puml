@@ -1,5 +1,0 @@
-@startuml
-interface IValidationService {
-    ValidateAsync(user:InnerUser, message:InnerMessage) : ValueTask<bool>
-}
-@enduml

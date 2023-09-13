@@ -1,5 +1,0 @@
-@startuml
-abstract class TextSetterBase {
-    + TextSetterId : int <<get>> <<set>>
-}
-@enduml

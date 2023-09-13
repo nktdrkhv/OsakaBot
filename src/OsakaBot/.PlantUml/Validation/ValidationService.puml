@@ -1,8 +1,0 @@
-@startuml
-class ValidationService <<sealed>> {
-    + ValidationService(chatScopeStorage:IChatScopeStorage)
-    + <<async>> ValidateAsync(user:InnerUser, message:InnerMessage) : ValueTask<bool>
-}
-IValidationService <|-- ValidationService
-ValidationService --> "_chatScopeStorage" IChatScopeStorage
-@enduml

@@ -1,5 +1,0 @@
-@startuml
-class KeyboardInlineDayPicker {
-}
-KeyboardInline <|-- KeyboardInlineDayPicker
-@enduml

@@ -1,8 +1,0 @@
-@startuml
-abstract class ValidatorBase {
-    + ValidationBaseId : int <<get>> <<set>>
-    + PriorityGroup : byte <<get>> <<set>>
-    + Invert : bool <<get>> <<set>>
-    + {abstract} Validate(message:InnerMessage) : bool
-}
-@enduml

@@ -1,9 +1,0 @@
-@startuml
-class BotConfiguration {
-    + {static} <<readonly>> Section : string = "BotConfiguration"
-    + BotName : string <<get>> <<set>>
-    + BotToken : string <<get>> <<set>>
-    + BaseUrl : string <<get>> <<set>>
-    + IsTestEnv : bool <<get>> <<set>>
-}
-@enduml

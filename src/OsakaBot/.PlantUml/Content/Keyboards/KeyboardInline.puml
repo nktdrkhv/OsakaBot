@@ -1,5 +1,0 @@
-@startuml
-class KeyboardInline {
-}
-KeyboardBase <|-- KeyboardInline
-@enduml

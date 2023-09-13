@@ -76,7 +76,7 @@ public static class RepositoryExtensions
             .AsNoTracking()
             .Where(p => p.PostId == postId)
             .Select(p => p.MetaMark)
-            .FirstAsync();
+            .FirstAsync(ct);
 
     public static async ValueTask<string?> GetContentMeta(this IRepository repo, int userId, int triggerId, CancellationToken ct = default) =>
         await repo.GetQueryable<ActiveKeyboardTrigger>()
@@ -86,14 +86,14 @@ public static class RepositoryExtensions
                 .ThenInclude(sm => sm.InnerMessage)
             .Where(akt => akt.ChatScope.InnerUserId == userId && akt.TriggerId == triggerId)
             .Select((akt, _) => akt.ShowedMessage.InnerMessage!.MetaMark)
-            .FirstAsync();
+            .FirstAsync(ct);
 
     public static async ValueTask<string?> GetButtonMeta(this IRepository repo, int triggerId, CancellationToken ct = default) =>
         await repo.GetQueryable<ButtonBase>()
             .AsNoTracking()
             .Where(b => b.TriggerId == triggerId)
             .Select(b => b.MetaMark)
-            .FirstAsync();
+            .FirstAsync(ct);
 
     public static async ValueTask<Text> GetButtonText(this IRepository repo, int triggerId, CancellationToken ct = default) =>
         await repo.GetQueryable<ButtonBase>()
@@ -102,5 +102,5 @@ public static class RepositoryExtensions
                 .ThenInclude(t => t.Surrogates)
             .Where(b => b.TriggerId == triggerId)
             .Select(b => b.Text)
-            .FirstAsync();
+            .FirstAsync(ct);
 }

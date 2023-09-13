@@ -1,6 +1,0 @@
-@startuml
-enum ChatFlowType {
-    Common,
-    Special,
-}
-@enduml
