@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Osaka.Bot.InputSystem;
@@ -21,14 +20,14 @@ public class DialogueService : IDialogueService
     {
         var existed = await _repository.GetAsync<EnteredData>(ed =>
             ed.AuthorId == user.InnerUserId
-            && ed.VariableId == variable.Name
+            && ed.VariableName == variable.Name
             && ed.AttachedToId == actualDialogue.ActualDialogueId,
             ed => ed.Include(ed => ed.InnerMessage),
             asNoTracking: false);
         if (existed != null && rewrite)
         {
             existed.InnerMessage = messageData;
-            existed.Text = textData;
+            existed.BasicText = textData;
             existed.DateTime = DateTime.UtcNow;
         }
         else if (existed == null)
@@ -39,7 +38,7 @@ public class DialogueService : IDialogueService
                 Author = user,
                 AttachedTo = actualDialogue,
                 InnerMessage = messageData,
-                Text = textData
+                BasicText = textData
             };
             await _repository.AddAsync(enteredData);
         }
@@ -47,14 +46,17 @@ public class DialogueService : IDialogueService
 
     public async ValueTask<ActiveIncludedPost?> RetrieveActiveIncludedPost(InnerUser user, Trigger trigger)
     {
-        var postId = await _repository.GetQueryable<ActiveKeyboardTrigger>().Include(akt => akt.ChatScope).Include(akt => akt.ShowedMessage)
+        var postId = await _repository.GetQueryable<ActiveKeyboardTrigger>()
+            .Include(akt => akt.ChatScope)
+            .Include(akt => akt.ShowedMessage)
+            .AsSplitQuery()
             .Where(akt => akt.TriggerId == trigger.TriggerId && akt.ChatScope.InnerUserId == user.InnerUserId)
             .Select((akt, _) => akt.ShowedMessage.PostId)
             .LastAsync();
         if (postId == null)
             return null;
         var activeDialogues = _repository.GetQueryable<ActualDialogue>()
-            .Where(ad => ad.UserId == user.InnerUserId && ad.Finished == null);
+            .Where(ad => ad.UserId == user.InnerUserId && ad.Finished == null && !ad.IsUnfinished);
         var activeIncludedPost = from ip in _repository.GetQueryable<IncludedPost>().Include(ip => ip.DialogueField)
                                  join ad in activeDialogues on ip.DialogueField.AttachedToId equals ad.SourceId
                                  where ip.PostId == postId

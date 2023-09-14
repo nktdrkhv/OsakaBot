@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
+using Microsoft.Extensions.Logging.Abstractions;
 using Telegram.Bot.Types;
 
 namespace Osaka.Bot.UserSpecific;
@@ -12,8 +14,14 @@ public class InnerUser
     public string OriginalFullName { get; set; } = null!;
     public string? Username { get; set; }
     public bool IsInCrewMode { get; set; }
+
+    public int? RoleId { get; set; }
     public RegularUserRole? Role { get; set; }
+
+    public int ContactId { get; set; }
     public InnerContact? Contact { get; set; }
+
+    public InnerUser() { }
 
     public InnerUser(User user)
     {

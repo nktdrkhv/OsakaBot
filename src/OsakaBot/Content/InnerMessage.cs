@@ -24,7 +24,12 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
 
     public int? ContactId { get; set; }
     public InnerContact? Contact { get; set; }
+
+    public int? GeolocationId { get; set; }
     public Geolocation? Geolocation { get; set; }
+
+    public ICollection<ShowedMessage> ShowingBy { get; set; }
+    public ICollection<ShowedMessage> SentByUser { get; set; }
 
     public InnerMessage() { }
 

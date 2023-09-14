@@ -10,9 +10,12 @@ public class ShowedMessage : ILabeled
     public InnerMessageType Type { get; set; }
     public string? Label { get; set; } = null!;
 
-    public int TextId { get; set; }
+    public int? TextId { get; set; }
     public Text? Text { get; set; }
     public ICollection<Media>? Media { get; set; }
+
+    public int ChatScopeId { get; set; }
+    public ChatScope ChatScope { get; set; } = null!;
 
     public int? PostId { get; set; }
     public Post? Post { get; set; }
@@ -21,4 +24,5 @@ public class ShowedMessage : ILabeled
     public InnerMessage? InnerMessage { get; set; }
 
     public ICollection<InnerMessage>? RecievedFromUser { get; set; }
+    public ICollection<ActiveKeyboardTrigger>? RelatedTriggers { get; set; }
 }

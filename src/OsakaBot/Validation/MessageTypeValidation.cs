@@ -2,9 +2,14 @@ namespace Osaka.Bot.Validation;
 
 public class MessageTypeValidator : ValidatorBase
 {
-    public InnerMessageType Type { get; set; }
+    public InnerMessageType DesiredType { get; set; }
 
-    public MessageTypeValidator(InnerMessageType type) => Type = type;
+    public MessageTypeValidator() => Type = ValidatorType.MessageType;
 
-    public override bool Validate(InnerMessage message) => Invert ? Type != message.Type : Type == message.Type;
+    public MessageTypeValidator(InnerMessageType type) : base()
+    {
+        DesiredType = type;
+    }
+
+    public override bool Validate(InnerMessage message) => Invert ? DesiredType != message.Type : DesiredType == message.Type;
 }

@@ -10,8 +10,8 @@ public class SentReport
     public int ReportId { get; set; }
     public Report Report { get; set; } = null!;
 
-    public int UserId { get; set; }
-    public InnerUser User { get; set; } = null!;
+    public int ByUserId { get; set; }
+    public InnerUser ByUser { get; set; } = null!;
 
     public int? CrewOwnerId { get; set; }
     public CrewMember? CrewOwner { get; set; }

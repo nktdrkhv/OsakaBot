@@ -5,6 +5,12 @@ public class BotCommand
     public int BotCommandId { get; set; }
     public string Label { get; set; } = null!;
     public string Description { get; set; } = null!;
+
+    public int TriggerId { get; set; }
     public Trigger Trigger { get; set; } = null!;
-    public InnerUserType Visibility { get; set; } = InnerUserType.None | InnerUserType.Regular;
+
+    public ICollection<RegularUserRole>? RegularUserTarger { get; set; }
+
+    public bool IsForCrew { get; set; }
+    public CrewMemberType? CrewTarget { get; set; }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Options;
 using Telegram.Bot.Types;
@@ -8,11 +9,11 @@ public class DataSeed
 {
     public void Initialize(BotDbContext context)
     {
-        RegularUserRole guest = new() { Label = "Гость" };
-        RegularUserRole resident = new() { Label = "Резидент" };
-        RegularUserRole eventTenant = new() { Label = "Событийный арендатор" };
-        RegularUserRole constantTenant = new() { Label = "Временный арендатор" };
-        RegularUserRole worker = new() { Label = "Сотрудник" };
+        RegularUserRole guest = new() { Name = "Гость" };
+        RegularUserRole resident = new() { Name = "Резидент" };
+        RegularUserRole eventTenant = new() { Name = "Событийный арендатор" };
+        RegularUserRole constantTenant = new() { Name = "Временный арендатор" };
+        RegularUserRole worker = new() { Name = "Сотрудник" };
 
         context.AddRange(guest, resident, eventTenant, constantTenant, worker);
         context.SaveChanges();

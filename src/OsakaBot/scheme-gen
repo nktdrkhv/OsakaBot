@@ -1,2 +1,2 @@
 #!/bin/bash
-puml-gen ./ ./.plantuml/ -dir -excludePaths bin,obj,Properties,Files -createAssociation -allInOne
+puml-gen ./ ./.plantuml/all -dir -excludePaths bin,obj,Properties,Files,DatabaseSpecific,Program.cs,Usings.cs,Services -allInOne

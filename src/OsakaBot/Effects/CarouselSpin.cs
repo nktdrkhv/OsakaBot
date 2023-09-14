@@ -3,11 +3,17 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects;
 
-public class ContentCarouselEffect : EffectBase
+public class CarouselSpinEffect : EffectBase
 {
     // group
     [NotMapped] public int CurrentPosition { get; set; }
     [NotMapped] public bool IsMovingForward { get; set; }
+
+    public CarouselSpinEffect()
+    {
+        Type = EffectType.CarouselSpin;
+    }
+
     public override void SetArguments(string[] args)
     {
         if (args[0] != ButtonInlineCarousel.Identifier)
@@ -17,18 +23,18 @@ public class ContentCarouselEffect : EffectBase
     }
 }
 
-public class ContentCarouselEffectApplier : IEffectApplier<ContentCarouselEffect>
+public class CarouselSpinEffectApplier : IEffectApplier<CarouselSpinEffect>
 {
     private readonly ITelegramBotClient _botClient;
 
-    public ContentCarouselEffectApplier(ITelegramBotClient botClient)
+    public CarouselSpinEffectApplier(ITelegramBotClient botClient)
     {
         _botClient = botClient;
     }
 
     public async Task Apply(EffectBase effect)
     {
-        var concrete = (ContentCarouselEffect)effect;
+        var concrete = (CarouselSpinEffect)effect;
         await Task.CompletedTask;
     }
 }

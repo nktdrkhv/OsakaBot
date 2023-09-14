@@ -12,6 +12,9 @@ public class Media
     public string? Path { get; set; }
     public string? BotName { get; set; }
 
+    public ICollection<InnerMessage>? InnerMessages { get; set; }
+    public ICollection<ShowedMessage>? ShowedMessages { get; set; }
+
     public Media(MediaType mediaType, string? fileId = null, string? fileUniqueId = null, string? path = null)
     {
         MediaType = mediaType;

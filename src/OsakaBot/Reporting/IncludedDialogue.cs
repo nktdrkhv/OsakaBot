@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Osaka.Bot.Reporting;
 
 [Table("IncludedDialogue")]
-public class IncludedDialog
+public class IncludedDialogue
 {
     public int IncludedDialogueId { get; set; }
     public DialogueIncludingType IncludingType { get; set; } = DialogueIncludingType.AsNormal;
+    public int Order { get; set; }
 
     public int DialogueId { get; set; }
     public Dialogue Dialogue { get; set; } = null!;

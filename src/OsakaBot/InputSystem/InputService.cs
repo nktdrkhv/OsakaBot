@@ -27,19 +27,19 @@ public class InputService : IInputService
         var activeIncludedPost = await _dialogeService.RetrieveActiveIncludedPost(user, trigger);
         if (activeIncludedPost == null) return;
 
-        List<AutoInputPair>? autoInputed = activeIncludedPost.IncludedPost.AutoInputType switch
+        ICollection<AutoInputPair> autoInputed = activeIncludedPost.IncludedPost.AutoInputType switch
         {
-            AutoInputType.Contact => message?.Contact != null ? await _autoInput.DecomposeAsync(message, activeIncludedPost.IncludedPost.AutoInputType.Value) : null,
-            AutoInputType.Date => text != null ? await _autoInput.DecomposeAsync(text, activeIncludedPost.IncludedPost.AutoInputType.Value) : null,
-            _ => null
+            AutoInputType.Contact => message?.Contact != null ? await _autoInput.DecomposeAsync(message, activeIncludedPost.IncludedPost.AutoInputType.Value) : Array.Empty<AutoInputPair>(),
+            AutoInputType.Date => text != null ? await _autoInput.DecomposeAsync(text, activeIncludedPost.IncludedPost.AutoInputType.Value) : Array.Empty<AutoInputPair>(),
+            _ => Array.Empty<AutoInputPair>(),
         };
 
         switch (activeIncludedPost.IncludedPost.IncludingType)
         {
             case PostIncludingType.UserInput:
-                if (autoInputed != null && autoInputed.Count > 0 && autoInputed[0].Text != null)
+                if (autoInputed != null && autoInputed.Count > 0 && autoInputed.First().Text is string firstText)
                 {
-                    await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: autoInputed[0].Text!);
+                    await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: firstText);
                     foreach (var inputed in autoInputed.Skip(1))
                         if (inputed.Variable != null && inputed.Text != null)
                             await _dialogeService.EnterDataAsync(user, activeIncludedPost.ActualDialogue, inputed.Variable, textData: inputed.Text);

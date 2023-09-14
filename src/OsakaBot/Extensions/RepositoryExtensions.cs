@@ -81,6 +81,7 @@ public static class RepositoryExtensions
     public static async ValueTask<string?> GetContentMeta(this IRepository repo, int userId, int triggerId, CancellationToken ct = default) =>
         await repo.GetQueryable<ActiveKeyboardTrigger>()
             .AsNoTracking()
+            .AsSplitQuery()
             .Include(akt => akt.ChatScope)
             .Include(akt => akt.ShowedMessage)
                 .ThenInclude(sm => sm.InnerMessage)

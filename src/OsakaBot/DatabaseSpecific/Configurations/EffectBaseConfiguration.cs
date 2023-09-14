@@ -1,0 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace Osaka.Bot.DatabaseSpecific.Configurations;
+
+public class EffectBaseConfiguration : IEntityTypeConfiguration<EffectBase>
+{
+    public void Configure(EntityTypeBuilder<EffectBase> builder)
+    {
+        builder
+            .HasDiscriminator(et => et.Type)
+                .HasValue<CarouselSpinEffect>(EffectType.CarouselSpin)
+                .HasValue<SendPostEffect>(EffectType.SendPost)
+                .HasValue<RemoveInlineKeyboardEffect>(EffectType.RemoveInlineKeyboard)
+                .HasValue<RemoveShowedMessageEffect>(EffectType.RemoveShowedMessage);
+    }
+}

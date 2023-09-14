@@ -1,7 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Osaka.Bot.Content;
 
 public class Geolocation
 {
+    public int GeolocationId { get; set; }
     public double Longitude { get; set; }
     public double Latitude { get; set; }
     public string? Title { get; set; }

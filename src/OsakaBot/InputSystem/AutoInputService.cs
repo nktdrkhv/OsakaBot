@@ -1,4 +1,5 @@
 using System.Globalization;
+using MixERP.Net.VCards.Models;
 using Telegram.Bot.Types;
 
 namespace Osaka.Bot.InputSystem;
@@ -12,7 +13,7 @@ public class AutoInputService : IAutoInputService
         _repository = repository;
     }
 
-    public async ValueTask<List<AutoInputPair>> DecomposeAsync(object input, AutoInputType type)
+    public async ValueTask<ICollection<AutoInputPair>> DecomposeAsync(object input, AutoInputType type)
     {
         switch (type)
         {
@@ -25,27 +26,32 @@ public class AutoInputService : IAutoInputService
                     return await DateTransformAsync(date);
                 break;
         }
-        return new();
+        return Array.Empty<AutoInputPair>();
     }
 
     private async ValueTask<List<AutoInputPair>> ContactExtractAsync(InnerContact contact)
     {
-
         var result = new List<AutoInputPair>
         {
             new AutoInputPair(await _repository.GetByIdAsync<Variable>("phone"), contact.PhoneNumber),
             new AutoInputPair(await _repository.GetByIdAsync<Variable>("name"), contact.FullName),
-            new AutoInputPair(await _repository.GetByIdAsync<Variable>("email"), contact.Email),
-            new AutoInputPair(await _repository.GetByIdAsync<Variable>("title"), contact.Title),
-            new AutoInputPair(await _repository.GetByIdAsync<Variable>("organization"), contact.Organization)
         };
+
+        if (contact.Email != null)
+            result.Add(new AutoInputPair(await _repository.GetByIdAsync<Variable>("email"), contact.Email));
+        if (contact.Title != null)
+            result.Add(new AutoInputPair(await _repository.GetByIdAsync<Variable>("title"), contact.Title));
+        if (contact.Organization != null)
+            result.Add(new AutoInputPair(await _repository.GetByIdAsync<Variable>("organization"), contact.Organization));
+
         return result;
     }
 
-    private static ValueTask<List<AutoInputPair>> DateTransformAsync(string input)
+    private static readonly CultureInfo CultureInfoRu = new("ru-RU");
+
+    private static ValueTask<AutoInputPair[]> DateTransformAsync(string input)
     {
-        var cultureInfo = new CultureInfo("ru-RU");
-        var date = DateOnly.Parse(input, cultureInfo);
-        return ValueTask.FromResult(new List<AutoInputPair>() { new(null, date.ToLongDateString()) });
+        var date = DateOnly.Parse(input, CultureInfoRu);
+        return ValueTask.FromResult(new AutoInputPair[] { new(null, date.ToLongDateString()) });
     }
 }

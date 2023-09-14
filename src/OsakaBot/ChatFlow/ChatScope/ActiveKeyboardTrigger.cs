@@ -6,7 +6,7 @@ namespace Osaka.Bot.ChatFlow.ChatScope;
 public class ActiveKeyboardTrigger
 {
     public int ActiveKeyboardTriggerId { get; set; }
-    public string Name { get; set; } = null!;
+    public string Text { get; set; } = null!;
 
     public int ChatScopeId { get; set; }
     public ChatScope ChatScope { get; set; } = null!;

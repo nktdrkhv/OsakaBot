@@ -6,13 +6,18 @@ public class RemoveInlineKeyboardEffect : EffectBase
 {
     public int TargetMessageId { get; set; }
 
+    public RemoveInlineKeyboardEffect()
+    {
+        Type = EffectType.RemoveInlineKeyboard;
+    }
+
     public override void SetArguments(string[] args)
     {
         throw new NotImplementedException();
     }
 }
 
-public class RemoveInlineKeyboardEffectApplier : IEffectApplier<AddMessageEffect>
+public class RemoveInlineKeyboardEffectApplier : IEffectApplier<SendPostEffect>
 {
     private readonly ITelegramBotClient _botClient;
 

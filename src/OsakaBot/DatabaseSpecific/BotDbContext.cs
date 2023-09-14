@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Telegram.Bot.Types;
 
 namespace Osaka.Bot.DatabaseSpecific;
 
@@ -19,15 +20,24 @@ public class BotDbContext : DbContext
     public DbSet<Dialogue> Dialogues { get; set; } = null!;
     public DbSet<EnteredData> EnteredData { get; set; } = null!;
 
-    public BotDbContext() => Database.EnsureCreated();
+    public BotDbContext()
+    {
+        Database.EnsureDeleted();
+        Database.EnsureCreated();
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=oez.db");
+        optionsBuilder.UseSqlite("Data Source=Files/oez.db");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<Enum>().HaveConversion<string>();
     }
 }
