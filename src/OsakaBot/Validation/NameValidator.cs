@@ -8,4 +8,9 @@ public class NameValidator : RegexValidatorBase
     {
         throw new NotImplementedException();
     }
+
+    public override bool Validate(string text)
+    {
+        throw new NotImplementedException();
+    }
 }

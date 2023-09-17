@@ -8,7 +8,7 @@ public interface ITextSetterDispatcher
 public sealed class TextSetterDispatcher : ITextSetterDispatcher
 {
     private readonly IServiceProvider _provider;
-    private static readonly Type Generic = typeof(IEffectApplier<>);
+    private static readonly Type Generic = typeof(ITextSetterApplier<>);
 
     public TextSetterDispatcher(IServiceProvider provider) => _provider = provider;
 

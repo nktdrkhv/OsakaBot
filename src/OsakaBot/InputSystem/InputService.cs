@@ -37,7 +37,7 @@ public class InputService : IInputService
         switch (activeIncludedPost.IncludedPost.IncludingType)
         {
             case PostIncludingType.UserInput:
-                if (autoInputed != null && autoInputed.Count > 0 && autoInputed.First().Text is string firstText)
+                if (autoInputed != null && autoInputed.Any() && autoInputed.First().Text is string firstText)
                 {
                     await _dialogeService.EnterDataAsync(user, activeIncludedPost, textData: firstText);
                     foreach (var inputed in autoInputed.Skip(1))

@@ -12,4 +12,6 @@ public class MessageTypeValidator : ValidatorBase
     }
 
     public override bool Validate(InnerMessage message) => Invert ? DesiredType != message.Type : DesiredType == message.Type;
+
+    public override bool Validate(string text) => DesiredType == InnerMessageType.Text;
 }

@@ -31,6 +31,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         //         //.AutoCollectScopedHandlers("Osaka.Bot.UpdateHandlers.Admin")
         //         .AddDefaultExceptionHandler());
 
+        services.AddDbContext<BotDbContext>();
         services.AddGenericRepository<BotDbContext>();
         services.AddHttpClient();
         services.AddSingleton(new SqidsEncoder(new()
@@ -48,7 +49,12 @@ using (var scope = host.Services.CreateScope())
 {
     try
     {
-        var db = scope.ServiceProvider.GetService<IRepository>();
+        var db = scope.ServiceProvider.GetService<BotDbContext>();
+        if (!db!.Posts.Any())
+        {
+            var seed = new DataSeed();
+            seed.Initialize(db);
+        }
     }
     catch (Exception ex)
     {

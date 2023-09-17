@@ -17,4 +17,16 @@ public sealed class ValidationService : IValidationService
             return result;
         }).Any(conjunction => conjunction);
     }
+
+    public async ValueTask<bool> ValidateAsync(InnerUser user, string text)
+    {
+        var validators = await _repository.GetValidators(user);
+        return validators is null || validators.GroupBy(v => v.PriorityGroup).Select(group =>
+        {
+            var result = true;
+            foreach (var validator in group)
+                result &= validator.Validate(text);
+            return result;
+        }).Any(conjunction => conjunction);
+    }
 }

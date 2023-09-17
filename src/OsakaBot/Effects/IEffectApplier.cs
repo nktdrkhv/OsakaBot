@@ -2,7 +2,7 @@ namespace Osaka.Bot.Effects;
 
 public interface IEffectApplier
 {
-    Task Apply(EffectBase effect);
+    ValueTask Apply(EffectBase effect);
 }
 
 public interface IEffectApplier<T> : IEffectApplier

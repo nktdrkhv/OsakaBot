@@ -6,8 +6,10 @@ namespace Osaka.Bot.ChatFlow.ChatScope;
 public class ShowedMessage : ILabeled
 {
     public int ShowedMessageId { get; set; }
-    public int? CauseMessageId { get; set; }
     public InnerMessageType Type { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public int? CauseMessageId { get; set; }
     public string? Label { get; set; } = null!;
 
     public int? TextId { get; set; }

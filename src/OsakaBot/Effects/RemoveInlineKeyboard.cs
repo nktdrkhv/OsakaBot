@@ -6,10 +6,7 @@ public class RemoveInlineKeyboardEffect : EffectBase
 {
     public int TargetMessageId { get; set; }
 
-    public RemoveInlineKeyboardEffect()
-    {
-        Type = EffectType.RemoveInlineKeyboard;
-    }
+    public RemoveInlineKeyboardEffect() => Type = EffectType.RemoveInlineKeyboard;
 
     public override void SetArguments(string[] args)
     {
@@ -26,7 +23,7 @@ public class RemoveInlineKeyboardEffectApplier : IEffectApplier<SendPostEffect>
         _botClient = botClient;
     }
 
-    public async Task Apply(EffectBase effect)
+    public async ValueTask Apply(EffectBase effect)
     {
         var concrete = (RemoveInlineKeyboardEffect)effect;
         await Task.CompletedTask;

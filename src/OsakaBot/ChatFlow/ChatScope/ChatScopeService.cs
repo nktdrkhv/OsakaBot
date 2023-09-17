@@ -13,8 +13,8 @@ public class ChatScopeService : IChatScopeService
 
     public async ValueTask CleanScopeAsync(InnerUser user)
     {
-        var scope = await _repository.GetChatScope(user, includeAll: true);
-        if (scope.OnClearScope is Trigger toExecute)
+        var scope = await _repository.GetUserScope(user);
+        if (scope.OnScopeClean is Trigger toExecute)
             await _triggerService.ExecuteAsync(user, toExecute);
         scope.ShowedMessages.Clear();
         scope.PlainTriggers?.Clear();
@@ -28,7 +28,7 @@ public class ChatScopeService : IChatScopeService
 
     public async ValueTask<bool> HasCorrectionLoop(InnerUser user)
     {
-        var scope = await _repository.GetChatScope(user);
+        var scope = await _repository.GetAsync<ChatScope>(sc => sc.InnerUserId == user.InnerUserId, asNoTracking: true);
         return scope.HasToRedirectInvalidInput;
     }
 

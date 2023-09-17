@@ -18,7 +18,7 @@ public class TriggerService : ITriggerService
 
     public async ValueTask ExecuteAsync(InnerUser user, Trigger trigger, string[]? args = null)
     {
-        foreach (var effect in trigger.Effects)
+        foreach (var effect in trigger.Effects.OrderBy(e => e.Order))
             await ExecuteAsync(user, effect, args);
     }
 
@@ -33,8 +33,8 @@ public class TriggerService : ITriggerService
     public async ValueTask<Trigger?> FromValidCustomInput(InnerUser user)
     {
         var scope = await _repository.GetAsync<ChatScope.ChatScope>(cs => cs.InnerUserId == user.InnerUserId,
-            cs => cs
-                .Include(cs => cs.OnValidInput),
+            cs => cs.Include(cs => cs.OnValidInput)
+                        .ThenInclude(t => t!.Effects),
             asNoTracking: true);
         return scope.OnValidInput;
     }
@@ -42,8 +42,8 @@ public class TriggerService : ITriggerService
     public async ValueTask<Trigger?> FromInvalidCustomInput(InnerUser user)
     {
         var scope = await _repository.GetAsync<ChatScope.ChatScope>(cs => cs.InnerUserId == user.InnerUserId,
-            cs => cs
-                .Include(cs => cs.OnValidInput),
+            cs => cs.Include(cs => cs.OnInvalidInput)
+                        .ThenInclude(t => t!.Effects),
             asNoTracking: true);
         return scope.OnInvalidInput;
     }
@@ -51,10 +51,10 @@ public class TriggerService : ITriggerService
     public async ValueTask<Trigger?> FromPlainPreparedAsync(InnerUser user, string prepared)
     {
         var scope = await _repository.GetAsync<ChatScope.ChatScope>(cs => cs.InnerUserId == user.InnerUserId,
-            cs => cs
-                .Include(cs => cs.PlainTriggers),
+            cs => cs.Include(cs => cs.PlainTriggers!.Where(akt => akt.Text == prepared))
+                        .ThenInclude(akt => akt.Trigger),
             asNoTracking: true);
-        var triggerId = scope.PlainTriggers?.SingleOrDefault(pt => pt.Text == prepared)?.TriggerId;
+        var triggerId = scope.PlainTriggers?.LastOrDefault()?.TriggerId;
         return triggerId is not null
             ? await _repository.GetByIdAsync<Trigger>(triggerId, t => t.Include(t => t.Effects), asNoTracking: true)
             : null;
@@ -63,10 +63,11 @@ public class TriggerService : ITriggerService
     public async ValueTask<Trigger?> FromEncodedPreparedAsync(InnerUser user, string encodedId)
     {
         var scope = await _repository.GetAsync<ChatScope.ChatScope>(cs => cs.InnerUserId == user.InnerUserId,
-            cs => cs
-                .Include(cs => cs.EncodedTriggers),
+            cs => cs.Include(cs => cs.EncodedTriggers!.Where(akt => akt.Text == encodedId))
+                        .ThenInclude(akt => akt.Trigger)
+                            .ThenInclude(t => t.Effects),
             asNoTracking: true);
-        var triggerId = scope.EncodedTriggers?.SingleOrDefault(pt => pt.Text == encodedId)?.TriggerId;
+        var triggerId = scope.PlainTriggers?.LastOrDefault()?.TriggerId;
         return triggerId is not null
             ? await _repository.GetByIdAsync<Trigger>(triggerId, t => t.Include(t => t.Effects), asNoTracking: true)
             : null;
@@ -76,7 +77,8 @@ public class TriggerService : ITriggerService
     {
         var ids = _sqids.Decode(encodedId);
         return ids.Length == 2 && ids[0] == user.InnerUserId ?
-            await _repository.GetByIdAsync<Trigger>(ids[1], t => t.Include(t => t.Effects), asNoTracking: true) :
+            await _repository.GetAsync<Trigger>(t => t.TriggerId == ids[1] && t.AllowOutOfScope, t => t.Include(t => t.Effects),
+            asNoTracking: true) :
             null;
     }
 

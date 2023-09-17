@@ -11,9 +11,15 @@ public interface IEffectDispatcher
 public sealed class EffectDispatcher : IEffectDispatcher
 {
     private readonly IServiceProvider _provider;
+    private readonly IRepository _repository;
+
     private static readonly Type Generic = typeof(IEffectApplier<>);
 
-    public EffectDispatcher(IServiceProvider provider) => _provider = provider;
+    public EffectDispatcher(IServiceProvider provider)
+    {
+        _provider = provider;
+        _repository = provider.GetRequiredService<IRepository>();
+    }
 
     public async Task ResolveAsync<TEffect>(TEffect effect) where TEffect : EffectBase
     {
@@ -21,5 +27,6 @@ public sealed class EffectDispatcher : IEffectDispatcher
         var constructed = Generic.MakeGenericType(argType);
         var applier = (IEffectApplier)_provider.GetRequiredService(constructed);
         await applier.Apply(effect);
+        await _repository.SaveChangesAsync();
     }
 }

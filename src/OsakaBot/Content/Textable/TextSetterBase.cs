@@ -8,9 +8,6 @@ public abstract class TextSetterBase
 {
     [Key] public int TextSetterId { get; set; }
     public TextSetterType Type { get; set; }
-
+    [NotMapped] public InnerUser User { get; set; } = null!;
     public int Position { get; set; }
-
-    public int TextId { get; set; }
-    public Text Text { get; set; } = null!;
 }

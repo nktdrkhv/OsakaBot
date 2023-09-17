@@ -12,4 +12,5 @@ public abstract class ValidatorBase
     public bool Invert { get; set; }
     public ICollection<ChatScope>? IncludedIn { get; set; }
     public abstract bool Validate(InnerMessage message);
+    public abstract bool Validate(string text);
 }

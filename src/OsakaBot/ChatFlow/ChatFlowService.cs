@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using MixERP.Net.VCards.Extensions;
 using Telegram.Bot.Types;
+using TelegramUpdater;
 
 namespace Osaka.Bot.ChatFlow;
 
@@ -36,14 +37,29 @@ public class ChatFlowService : IChatFlowService
                         await _inputService.FromButtonTriggerAsync(innerUser, preparedTrigger);
                         await _triggerService.ExecuteAsync(innerUser, preparedTrigger);
                     }
-                    else if (await _triggerService.FromEncodedStoredAsync(innerUser, args[1]) is Trigger storedTrigger && storedTrigger.AllowOutOfScope)
+                    else if (await _triggerService.FromEncodedStoredAsync(innerUser, args[1]) is Trigger storedTrigger)
                         await _triggerService.ExecuteAsync(innerUser, storedTrigger);
                     else if (callbackQuery.Message?.MessageId is int sMsgId)
                         await RemoveInlineKeyBoard(innerUser, sMsgId);
                     break;
-                case "i": // i:dwo2q:31.03.2022
-                    if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger iTrigger && args.Length == 3)
-                        await _inputService.FromButtonTriggerAsync(innerUser, iTrigger, args[2]);
+                case "i": // i:dwo2q:31.03.2022 || i:#:31.03.2023
+                    if (args.Length == 3)
+                    {
+                        if (args[1] == "#" &&
+                            await _validationService.ValidateAsync(innerUser, args[2]) &&
+                            await _triggerService.FromValidCustomInput(innerUser) is Trigger triggerForValid)
+                        {
+                            await _inputService.FromButtonTriggerAsync(innerUser, triggerForValid, args[2]);
+                            await _triggerService.ExecuteAsync(innerUser, triggerForValid);
+                        }
+                        else if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger iTrigger)
+                        {
+                            await _inputService.FromButtonTriggerAsync(innerUser, iTrigger, args[2]);
+                            await _triggerService.ExecuteAsync(innerUser, iTrigger);
+                        }
+                        else if (callbackQuery.Message?.MessageId is int iMsgId)
+                            await RemoveInlineKeyBoard(innerUser, iMsgId);
+                    }
                     else if (callbackQuery.Message?.MessageId is int iMsgId)
                         await RemoveInlineKeyBoard(innerUser, iMsgId);
                     break;
@@ -70,12 +86,12 @@ public class ChatFlowService : IChatFlowService
     }
 
     public async ValueTask SubmitMediaGroupAsync(IEnumerable<Message> mediaGroup) =>
-        await SubmitInnerMessage(mediaGroup.First().From!, new(mediaGroup));
+        await SubmitInnerMessageAsync(mediaGroup.First().From!, new(mediaGroup));
 
     public async ValueTask SubmitMessageAsync(Message message) =>
-        await SubmitInnerMessage(message.From!, new(message));
+        await SubmitInnerMessageAsync(message.From!, new(message));
 
-    private async ValueTask SubmitInnerMessage(User user, InnerMessage innerMessage)
+    private async ValueTask SubmitInnerMessageAsync(User user, InnerMessage innerMessage)
     {
         var innerUser = await _repository.GetInnerUser(user, true);
         if (innerMessage.Text?.OriginalText is string messageText && await _triggerService.FromPlainPreparedAsync(innerUser, messageText) is Trigger replyTrigger)
@@ -107,6 +123,10 @@ public class ChatFlowService : IChatFlowService
                     await _inputService.FromMessageTriggerAsync(innerUser, triggerForInvalid, innerMessage!);
                     await _triggerService.ExecuteAsync(innerUser, triggerForInvalid);
                 }
+            }
+            else
+            {
+                // todo: delete unnesesary input
             }
         };
         return;

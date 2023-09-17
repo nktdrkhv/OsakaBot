@@ -9,5 +9,5 @@ public class KeyboardRemove : KeyboardBase
         Type = KeyboardType.Remove;
     }
 
-    public override KeyboardMarkup BuildMarkup(CompositeArgument arg) => new(new ReplyKeyboardRemove());
+    public override KeyboardMarkup BuildMarkup(CompositeArgument arg) => new(new ReplyKeyboardRemove(), Array.Empty<ActiveKeyboardTrigger>());
 }

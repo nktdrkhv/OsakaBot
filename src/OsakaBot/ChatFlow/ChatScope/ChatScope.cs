@@ -24,7 +24,25 @@ public class ChatScope
     public ShowedMessage? ActiveInput { get; set; }
     public Trigger? OnValidInput { get; set; }
     public Trigger? OnInvalidInput { get; set; }
-    public Trigger? OnClearScope { get; set; }
+    public Trigger? OnScopeClean { get; set; }
 
     public bool HasToRedirectInvalidInput { get; set; } = false;
+
+    public void InsertActiveTriggers(KeyboardType sourceOfTriggers, ICollection<ActiveKeyboardTrigger> triggers)
+    {
+        var target = sourceOfTriggers switch
+        {
+            KeyboardType.Inline => EncodedTriggers,
+            KeyboardType.InlineDayPicker => EncodedTriggers,
+            KeyboardType.Reply => PlainTriggers,
+            KeyboardType.Remove => PlainTriggers,
+            _ => throw new ArgumentException("KeyboardType is unsupported")
+        };
+
+        // if (sourceOfTriggers == KeyboardType.Remove)
+        //     target.Clear()
+
+        // if (target == null)
+        //     target =
+    }
 }

@@ -4,10 +4,7 @@ namespace Osaka.Bot.Effects;
 
 public class RemoveShowedMessageEffect : EffectBase
 {
-    public RemoveShowedMessageEffect()
-    {
-        Type = EffectType.RemoveShowedMessage;
-    }
+    public RemoveShowedMessageEffect() => Type = EffectType.RemoveShowedMessage;
 
     public override void SetArguments(string[] args)
     {
@@ -24,9 +21,7 @@ public class RemoveShowedMessageEffectApplier : IEffectApplier<RemoveShowedMessa
         _botClient = botClient;
     }
 
-    public async Task Apply(RemoveShowedMessageEffect effect) { }
-
-    public Task Apply(EffectBase effect)
+    public ValueTask Apply(EffectBase effect)
     {
         throw new NotImplementedException();
     }

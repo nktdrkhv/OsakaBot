@@ -32,9 +32,9 @@ public class CarouselSpinEffectApplier : IEffectApplier<CarouselSpinEffect>
         _botClient = botClient;
     }
 
-    public async Task Apply(EffectBase effect)
+    public async ValueTask Apply(EffectBase effect)
     {
         var concrete = (CarouselSpinEffect)effect;
-        await Task.CompletedTask;
+        await ValueTask.CompletedTask;
     }
 }
