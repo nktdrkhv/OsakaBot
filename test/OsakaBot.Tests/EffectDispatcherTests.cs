@@ -9,6 +9,11 @@ namespace Osaka.Bot.Tests;
 public class TestEffect : EffectBase
 {
     public int Foo { get; set; }
+
+    public override void SetArguments(string[] args)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public class TestEffectApplier : IEffectApplier<TestEffect>
@@ -24,6 +29,11 @@ public class TestEffectApplier : IEffectApplier<TestEffect>
         var effect1 = (TestEffect)effect;
         Console.WriteLine("Foo is {0}", effect1.Foo);
         return Task.CompletedTask;
+    }
+
+    ValueTask IEffectApplier.Apply(EffectBase effect)
+    {
+        throw new NotImplementedException();
     }
 }
 

@@ -10,9 +10,20 @@ public class EffectBaseConfiguration : IEntityTypeConfiguration<EffectBase>
     {
         builder
             .HasDiscriminator(et => et.Type)
-                .HasValue<CarouselSpinEffect>(EffectType.CarouselSpin)
+                .HasValue<CarouselSpinEffect>(EffectType.ContentCarouselSpin)
                 .HasValue<SendPostEffect>(EffectType.SendPost)
                 .HasValue<RemoveInlineKeyboardEffect>(EffectType.RemoveInlineKeyboard)
                 .HasValue<RemoveShowedMessageEffect>(EffectType.RemoveShowedMessage);
+    }
+}
+
+public class ChatChangeEffectBaseConfiguration : IEntityTypeConfiguration<ChatChangeEffectBase>
+{
+    public void Configure(EntityTypeBuilder<ChatChangeEffectBase> builder)
+    {
+        builder
+            .OwnsOne(cceb => cceb.Target);
+        builder
+            .OwnsOne(cceb => cceb.Source);
     }
 }

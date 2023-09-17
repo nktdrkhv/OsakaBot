@@ -11,7 +11,7 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
     public InnerMessageType Type { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public int? CauseMessageId { get; set; }
+    public int CauseMessageId { get; set; }
     public int[]? CauseMessagesIds { get; set; }
     public string? MediaGroupId { get; set; }
 
@@ -126,6 +126,7 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
     public InnerMessage(IEnumerable<Message> messages)
     {
         var first = messages.First();
+        CauseMessageId = first.MessageId;
         MediaGroupId = first.MediaGroupId!;
         Type = first.Type switch
         {

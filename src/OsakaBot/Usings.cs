@@ -15,6 +15,8 @@ global using Osaka.Bot.DatabaseSpecific;
 global using Osaka.Bot.DatabaseSpecific.Configurations;
 global using Osaka.Bot.InputSystem;
 global using Osaka.Bot.Effects;
+global using Osaka.Bot.Effects.ChatFlow;
+global using Osaka.Bot.Effects.InputSystem;
 global using Osaka.Bot.Extensions;
 global using Osaka.Bot.Reporting;
 global using Osaka.Bot.Services;

@@ -16,6 +16,10 @@ public class TextSetterConfiguration : IEntityTypeConfiguration<TextSetterBase>
                 .HasConversion(new EnumToStringConverter<TextSetterType>());
         builder
             .HasDiscriminator(ts => ts.Type)
-                .HasValue<EnteredDataTextSetter>(TextSetterType.EnteredData);
+                .HasValue<EnteredDataTextSetter>(TextSetterType.EnteredData)
+                .HasValue<ContactListTextSetter>(TextSetterType.ContactList)
+                .HasValue<WeatherTextSetter>(TextSetterType.Weather)
+                .HasValue<UserRoleTextSetter>(TextSetterType.UserRole)
+                .HasValue<TicketsTextSetter>(TextSetterType.Tickets);
     }
 }

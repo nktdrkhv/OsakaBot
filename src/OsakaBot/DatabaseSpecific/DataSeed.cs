@@ -1,9 +1,3 @@
-using System.Diagnostics;
-using System.Windows.Markup;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Options;
-using Telegram.Bot.Types;
-
 namespace Osaka.Bot.DatabaseSpecific;
 
 public class DataSeed
@@ -80,8 +74,8 @@ public class DataSeed
                 Type = InnerMessageType.Text,
                 Text = new()
                 {
-                    OriginalText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{p:role}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>",
-                    PreparedText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{0}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>",
+                    OriginalText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{p:role}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>. Нажмите /menu для возврата в основное меню",
+                    PreparedText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{0}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>. Нажмите /menu для возврата в основное меню",
                     Surrogates = new[] { new UserRoleTextSetter() }
                 }
             },
@@ -449,7 +443,7 @@ public class DataSeed
                 Text = new()
                 {
                     OriginalText = "Рады, что вы снова обратились в УК ОЭЗ «Томск»!\n\n<i>{p:weather}</i>\n\n<b>Чем мы можем вам помочь?</b>",
-                    PreparedText = "Рады, что вы снова обратились в УК ОЭЗ «Томск»!\n\n<i>{0}</i>\n\n<b>Чем мы можем вам помочь?</b>",
+                    PreparedText = "Рады, что вы снова обратились в УК ОЭЗ «Томск»!\n{0}\n<b>Чем мы можем вам помочь?</b>",
                     Surrogates = new TextSetterBase[] { new WeatherTextSetter() { Latitude = 56.478517, Longitude = 85.047436 } }
                 },
                 Media = new Media[] { mainF[17] }
@@ -908,6 +902,120 @@ public class DataSeed
 
         #endregion
 
+        #region Commands
 
+        var startTrigger = new Trigger()
+        {
+            AllowOutOfScope = true,
+            Effects = new EffectBase[]
+                {
+                    new CleanScopeEffect(),
+                    new FinishDialogueEffect(),
+                    new SendPostEffect(post00),
+                    new SendPostEffect(post01_1_t1_i1),
+                }
+        };
+        var start1Command = new BotCommand()
+        {
+            Name = "start",
+            Order = 0,
+            Description = "Вернуться в начало",
+            RegularUserTarger = new[] { anon },
+            Trigger = startTrigger,
+        };
+        var start2Command = new BotCommand()
+        {
+            Name = "start",
+            Order = 10,
+            Description = "Запустить чат-бота заново",
+            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = startTrigger,
+        };
+        var menuCommand = new BotCommand()
+        {
+            Name = "menu",
+            Order = 1,
+            Description = "Главное меню",
+            RegularUserTarger = new[] { resident, worker, },
+            Trigger = new()
+            {
+                AllowOutOfScope = true,
+                Effects = new EffectBase[]
+                {
+                     new CleanScopeEffect(),
+                     new FinishDialogueEffect(),
+                }
+            }
+        };
+        var ticketsCommand = new BotCommand()
+        {
+            Name = "tickets",
+            Order = 2,
+            Description = "Мои заявки и вопросы",
+            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = new()
+            {
+                AllowOutOfScope = true,
+                Effects = new EffectBase[]
+                {
+                     new CleanScopeEffect(),
+                     new FinishDialogueEffect(),
+                }
+            }
+        };
+        var contactsCommand = new BotCommand()
+        {
+            Name = "contacts",
+            Order = 3,
+            Description = "Мои контакты",
+            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = new()
+            {
+                AllowOutOfScope = true,
+                Effects = new EffectBase[]
+                {
+                     new CleanScopeEffect(),
+                     new FinishDialogueEffect(),
+                }
+            }
+        };
+        var issuesCommand = new BotCommand()
+        {
+            Name = "issues",
+            Order = 4,
+            Description = "Сообщить о проблеме",
+            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = new()
+            {
+                AllowOutOfScope = true,
+                Effects = new EffectBase[]
+                {
+                     new CleanScopeEffect(),
+                     new FinishDialogueEffect(),
+                }
+            }
+        };
+        var reserveCommand = new BotCommand()
+        {
+            Name = "reserve",
+            Order = 5,
+            Description = "Забронировать конференц-зал / переговорную",
+            RegularUserTarger = new[] { resident, worker, constantTenant },
+            Trigger = new()
+            {
+                AllowOutOfScope = true,
+                Effects = new EffectBase[]
+                {
+                     new CleanScopeEffect(),
+                     new FinishDialogueEffect(),
+    }
+            }
+        };
+
+        var commands = new BotCommand[] { start1Command, start2Command, ticketsCommand, contactsCommand, issuesCommand, reserveCommand };
+        context.BotCommands.AddRange(commands);
+        context.SaveChanges();
+
+        #endregion
     }
 }

@@ -1,9 +1,11 @@
 using Telegram.Bot;
 
-namespace Osaka.Bot.Effects;
+namespace Osaka.Bot.Effects.ChatFlow;
 
-public class RemoveShowedMessageEffect : EffectBase
+public class RemoveShowedMessageEffect : ChatChangeEffectBase
 {
+    public bool WithUserInput { get; set; } = true;
+
     public RemoveShowedMessageEffect() => Type = EffectType.RemoveShowedMessage;
 
     public override void SetArguments(string[] args)

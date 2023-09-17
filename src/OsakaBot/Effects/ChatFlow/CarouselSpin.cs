@@ -1,25 +1,24 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Telegram.Bot;
 
-namespace Osaka.Bot.Effects;
+namespace Osaka.Bot.Effects.ChatFlow;
 
 public class CarouselSpinEffect : EffectBase
 {
-    // group
     [NotMapped] public int CurrentPosition { get; set; }
     [NotMapped] public bool IsMovingForward { get; set; }
 
-    public CarouselSpinEffect()
-    {
-        Type = EffectType.CarouselSpin;
-    }
+    public int GroupId { get; set; }
+    public Group Group { get; set; } = null!;
+
+    public CarouselSpinEffect() => Type = EffectType.ContentCarouselSpin;
 
     public override void SetArguments(string[] args)
     {
         if (args[0] != ButtonInlineCarousel.Identifier)
             return;
         CurrentPosition = int.Parse(args[1]);
-        IsMovingForward = args[2] == "r";
+        IsMovingForward = args[2] == ButtonInlineCarousel.Rightwards;
     }
 }
 

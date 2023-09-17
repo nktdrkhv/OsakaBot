@@ -4,7 +4,12 @@ public enum EffectType
 {
     None,
     SendPost,
-    CarouselSpin,
+    ContentCarouselSpin,
+    EditShowedMessage,
+    RemoveShowedMessage,
     RemoveInlineKeyboard,
-    RemoveShowedMessage
+    StartDialogue,
+    FinishDialogue,
+    SendReport,
+    CleanScope
 }

@@ -22,6 +22,11 @@ public class ChatFlowService : IChatFlowService
         _repository = repository;
     }
 
+    public ValueTask SubmitCommandAsync(string command)
+    {
+        throw new NotImplementedException();
+    }
+
     public async ValueTask SubmitCallbackQueryAsync(CallbackQuery callbackQuery)
     {
         var innerUser = await _repository.GetInnerUser(callbackQuery.From, true);

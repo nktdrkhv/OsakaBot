@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Osaka.Bot.ChatFlow.Skeleton;
 
+[Table("GroupedContent")]
 public class GroupedContent
 {
     public int GroupedContentId { get; set; }

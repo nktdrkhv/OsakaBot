@@ -3,7 +3,7 @@ using Sqids;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace Osaka.Bot.Effects;
+namespace Osaka.Bot.Effects.ChatFlow;
 
 public class SendPostEffect : EffectBase
 {
@@ -11,6 +11,7 @@ public class SendPostEffect : EffectBase
     public Post Post { get; set; } = null!;
 
     public SendPostEffect() => Type = EffectType.SendPost;
+    public SendPostEffect(Post post) : base() => Post = post;
 
     public override void SetArguments(string[] args) { }
 }

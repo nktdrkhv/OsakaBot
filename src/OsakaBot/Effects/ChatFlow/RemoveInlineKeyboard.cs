@@ -1,8 +1,8 @@
 using Telegram.Bot;
 
-namespace Osaka.Bot.Effects;
+namespace Osaka.Bot.Effects.ChatFlow;
 
-public class RemoveInlineKeyboardEffect : EffectBase
+public class RemoveInlineKeyboardEffect : ChatChangeEffectBase
 {
     public int TargetMessageId { get; set; }
 
