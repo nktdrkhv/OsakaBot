@@ -1,17 +1,16 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class RemoveShowedMessageEffect : ChatChangeEffectBase
+public class RemoveShowedMessageEffect : ChatChangingEffectBase
 {
+    [Column("WithUserInput")]
     public bool WithUserInput { get; set; } = true;
 
     public RemoveShowedMessageEffect() => Type = EffectType.RemoveShowedMessage;
 
-    public override void SetArguments(string[] args)
-    {
-        throw new NotImplementedException();
-    }
+    public override void SetArguments(string[] args) { }
 }
 
 public class RemoveShowedMessageEffectApplier : IEffectApplier<RemoveShowedMessageEffect>
@@ -23,8 +22,9 @@ public class RemoveShowedMessageEffectApplier : IEffectApplier<RemoveShowedMessa
         _botClient = botClient;
     }
 
-    public ValueTask Apply(EffectBase effect)
+    public async ValueTask Apply(EffectBase effect)
     {
-        throw new NotImplementedException();
+        var concrete = (RemoveShowedMessageEffect)effect;
+        await Task.CompletedTask;
     }
 }

@@ -74,9 +74,9 @@ public class DataSeed
                 Type = InnerMessageType.Text,
                 Text = new()
                 {
-                    OriginalText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{p:role}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>. Нажмите /menu для возврата в основное меню",
+                    OriginalPreparedText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{p:role}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>. Нажмите /menu для возврата в основное меню",
                     PreparedText = "<b>Обратите внимание,</b> ваша текущая роль: <i>{0}</i>. При оставлении новой заявки через меню ниже, она может смениться, но <i>её можно вернуть обратно</i>. Нажмите /menu для возврата в основное меню",
-                    Surrogates = new[] { new UserRoleTextSetter() }
+                    Surrogates = new[] { new UserRoleTextSetter() { Position = 0 } }
                 }
             },
             RoleVisibility = new[] { guest, resident, eventTenant, constantTenant, worker }
@@ -91,7 +91,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "<b>Приветствую вас в ОЭЗ Томск!</b>\n\nЯ ваш помощник и проводник. Для навигации используйте кнопки и команды меню (внизу слева).",
+                    OriginalPreparedText = "<b>Приветствую вас в ОЭЗ Томск!</b>\n\nЯ ваш помощник и проводник. Для навигации используйте кнопки и команды меню (внизу слева).",
                 },
                 Media = new Media[] { mainF[0] }
             }
@@ -106,7 +106,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "<b>ОЭЗ “Томск”</b> технико-внедренческого типа создана в 2006 году (до 2055 года).\n\nЗдесь действует особый режим ведения предпринимательской деятельности, может применяться процедура свободной таможенной зоны.\n\nОЭЗ расположена на двух площадках – Южной и Северной, где создана необходимая инфраструктура, находятся объекты резидентов, выделены участки для реализации новых проектов. С 2015 года в ОЭЗ «Томск» разрешена промышленно-производственная деятельность.",
+                    OriginalPreparedText = "<b>ОЭЗ “Томск”</b> технико-внедренческого типа создана в 2006 году (до 2055 года).\n\nЗдесь действует особый режим ведения предпринимательской деятельности, может применяться процедура свободной таможенной зоны.\n\nОЭЗ расположена на двух площадках – Южной и Северной, где создана необходимая инфраструктура, находятся объекты резидентов, выделены участки для реализации новых проектов. С 2015 года в ОЭЗ «Томск» разрешена промышленно-производственная деятельность.",
                 },
                 Media = new Media[] { mainF[1] }
             },
@@ -124,7 +124,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Управляющая компания <i>АО «Особая экономическая зона «Томск»</i> предлагает всестороннюю поддержку и услуги для развития бизнеса резидентов.\n\n → Аренда коммерческих помещений, переговорных комнат и конференц-залов\n → Помощь при строительстве и проектировании\n → Услуги по сопровождению проекта и документации\n → Техническое обслуживание объектов ОЭЗ\n → Консультирование по получению статуса резидента\n → Организация и проведение мероприятий",
+                    OriginalPreparedText = "Управляющая компания <i>АО «Особая экономическая зона «Томск»</i> предлагает всестороннюю поддержку и услуги для развития бизнеса резидентов.\n\n → Аренда коммерческих помещений, переговорных комнат и конференц-залов\n → Помощь при строительстве и проектировании\n → Услуги по сопровождению проекта и документации\n → Техническое обслуживание объектов ОЭЗ\n → Консультирование по получению статуса резидента\n → Организация и проведение мероприятий",
                 },
                 Media = new Media[] { mainF[2] }
             },
@@ -139,7 +139,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Участники <i>ОЭЗ «Томск»</i> имеют различные привелегии, такие как:\n\n → Снижение налога УСН и иных видов налогов\n → Льготная ставка аренды помещений\n → Возможность бесплатного получения юридического адреса в бизнес-центрах ОЭЗ\n С полным списком приемуществ вы можете ознакомиться по ссылке",
+                    OriginalPreparedText = "Участники <i>ОЭЗ «Томск»</i> имеют различные привелегии, такие как:\n\n → Снижение налога УСН и иных видов налогов\n → Льготная ставка аренды помещений\n → Возможность бесплатного получения юридического адреса в бизнес-центрах ОЭЗ\n С полным списком приемуществ вы можете ознакомиться по ссылке",
                 },
                 Media = new Media[] { mainF[3] }
             },
@@ -154,7 +154,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Получение статуса резидента <b>ОЭЗ «Томск»</b> состоит из нескольких этапов:\n\n 1. Отправка заявки и бизнес-плана в УК\n 2. УК пересылавет информацию в Департамент инвестиций Томской области\n 3. Происходит установление соответсвия заявки критериям <i>(до 55 рабочих дней)</i>\n 4. Затем она отправляется в экспертный совет <i>(до 15 рабочих дней)</i>\n 5. Трёхстороннее соглашение между Администрацией томской области, ОЭЗ «Томск» и резидентом\n\nПодробнее можно узнать по ссылке:",
+                    OriginalPreparedText = "Получение статуса резидента <b>ОЭЗ «Томск»</b> состоит из нескольких этапов:\n\n 1. Отправка заявки и бизнес-плана в УК\n 2. УК пересылавет информацию в Департамент инвестиций Томской области\n 3. Происходит установление соответсвия заявки критериям <i>(до 55 рабочих дней)</i>\n 4. Затем она отправляется в экспертный совет <i>(до 15 рабочих дней)</i>\n 5. Трёхстороннее соглашение между Администрацией томской области, ОЭЗ «Томск» и резидентом\n\nПодробнее можно узнать по ссылке:",
                 },
                 Media = new Media[] { mainF[4] }
             },
@@ -191,7 +191,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "В этом разделе можно найти <i>контакты управляющей компании ОЭЗ «Томск»</i> и бизнес-центров на Южной площадке",
+                    OriginalPreparedText = "В этом разделе можно найти <i>контакты управляющей компании ОЭЗ «Томск»</i> и бизнес-центров на Южной площадке",
                 },
                 Media = new Media[] { mainF[6] }
             },
@@ -206,7 +206,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "<b>Адрес:</b> 634055, Томск, пр. Развития, 3\n<b>Таможенный пост:</b> +7 (3822) 47-97-68\n<b>Пост охраны: +7 (3822) 488-792</b>\n<b>Email:</b> sb@oez.tomsk.ru",
+                    OriginalPreparedText = "<b>Адрес:</b> 634055, Томск, пр. Развития, 3\n<b>Таможенный пост:</b> +7 (3822) 47-97-68\n<b>Пост охраны: +7 (3822) 488-792</b>\n<b>Email:</b> sb@oez.tomsk.ru",
                 },
                 Media = new Media[] { mainF[7] }
             },
@@ -221,7 +221,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "<b>Адрес:</b> 634055 г. Томск, пр. Академический, 8/8\n<b>Таможенный пост:</b> +7 (3822) 46-78-57\n<b>Пост охраны: +7 (3822) 488-791</b>\n<b>Email:</b> sb@oez.tomsk.ru",
+                    OriginalPreparedText = "<b>Адрес:</b> 634055 г. Томск, пр. Академический, 8/8\n<b>Таможенный пост:</b> +7 (3822) 46-78-57\n<b>Пост охраны: +7 (3822) 488-791</b>\n<b>Email:</b> sb@oez.tomsk.ru",
                 },
                 Media = new Media[] { mainF[8] }
             },
@@ -236,7 +236,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "<b>Адрес:</b> 634055, г. Томск, пр. Развития, 8\n<b>Таможенный пост:</b> +7 (3822) 47-96-79\n<b>Пост охраны: +7 (3822) 48-87-94</b>\n<b>Email:</b> sb@oez.tomsk.ru",
+                    OriginalPreparedText = "<b>Адрес:</b> 634055, г. Томск, пр. Развития, 8\n<b>Таможенный пост:</b> +7 (3822) 47-96-79\n<b>Пост охраны: +7 (3822) 48-87-94</b>\n<b>Email:</b> sb@oez.tomsk.ru",
                 },
                 Media = new Media[] { mainF[9] }
             },
@@ -262,7 +262,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = " → 83.5Га – общая площадь\n → Площадка для размещения химических производств, металлургии, строительных предприятий, промышленного производства",
+                    OriginalPreparedText = " → 83.5Га – общая площадь\n → Площадка для размещения химических производств, металлургии, строительных предприятий, промышленного производства",
                 },
                 Media = new Media[] { mainF[11] }
             },
@@ -277,7 +277,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = " → 192.5Га – общая площадь\n → Действующая специализация: <i>информационные технологии, высокотехнологичное производство, девелоперские проекты, региональный выстовачный центр</i>",
+                    OriginalPreparedText = " → 192.5Га – общая площадь\n → Действующая специализация: <i>информационные технологии, высокотехнологичное производство, девелоперские проекты, региональный выстовачный центр</i>",
                 },
                 Media = new Media[] { mainF[12] }
             },
@@ -292,7 +292,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = " → 8 этажей и 80 парковочных мест\n → Офисные помещения\n → Лабораторные помещения\n → Производственные помещения\n → Меньшая стоимость аренды для компаний арендаторов со статусом резидента",
+                    OriginalPreparedText = " → 8 этажей и 80 парковочных мест\n → Офисные помещения\n → Лабораторные помещения\n → Производственные помещения\n → Меньшая стоимость аренды для компаний арендаторов со статусом резидента",
                 },
                 Media = new Media[] { mainF[8] }
             },
@@ -307,7 +307,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = " → 7 этажей и 200 парковочных мест\n → Офисные помещения\n → Лабораторные помещения\n → Производственные помещения\n → Меньшая стоимость аренды для компаний арендаторов со статусом резидента",
+                    OriginalPreparedText = " → 7 этажей и 200 парковочных мест\n → Офисные помещения\n → Лабораторные помещения\n → Производственные помещения\n → Меньшая стоимость аренды для компаний арендаторов со статусом резидента",
                 },
                 Media = new Media[] { mainF[7] }
             },
@@ -322,7 +322,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = " → 5 этажей и 110 парковочных мест\n → Офисные помещения\n → Лабораторные помещения\n → Производственные помещения\n → Меньшая стоимость аренды для компаний арендаторов со статусом резидента",
+                    OriginalPreparedText = " → 5 этажей и 110 парковочных мест\n → Офисные помещения\n → Лабораторные помещения\n → Производственные помещения\n → Меньшая стоимость аренды для компаний арендаторов со статусом резидента",
                 },
                 Media = new Media[] { mainF[9] }
             },
@@ -337,7 +337,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Бизнес-центры на <b>Южной площадке</b> располагают всем необходимым для проведения форумов, презентаций, совещаний, выставок, квизов и других мероприятий.\n\nДорога до центра города составляет <i>около 15 минут</i>, современные корпуса в экологически чистом районе окружены лесопарком и имеют вместительные парковки.\n\nЗалы оборудованы кондиционерами и гардеробными комнатами, в зданиях есть пространства для кофе-брейков, переговорные комнаты, лифты, системы безопасности",
+                    OriginalPreparedText = "Бизнес-центры на <b>Южной площадке</b> располагают всем необходимым для проведения форумов, презентаций, совещаний, выставок, квизов и других мероприятий.\n\nДорога до центра города составляет <i>около 15 минут</i>, современные корпуса в экологически чистом районе окружены лесопарком и имеют вместительные парковки.\n\nЗалы оборудованы кондиционерами и гардеробными комнатами, в зданиях есть пространства для кофе-брейков, переговорные комнаты, лифты, системы безопасности",
                 },
                 Media = new Media[] { mainF[13] }
             },
@@ -367,7 +367,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "В ОЭЗ «Томск» можно <i>арендовать помещения</i> разных типов, <i>не имея</i> статуса резидента. Расскажите о ваших потребностях и мы подберем подходящие помещения, или выберите вручную",
+                    OriginalPreparedText = "В ОЭЗ «Томск» можно <i>арендовать помещения</i> разных типов, <i>не имея</i> статуса резидента. Расскажите о ваших потребностях и мы подберем подходящие помещения, или выберите вручную",
                 },
                 Media = new Media[] { mainF[14] }
             },
@@ -382,7 +382,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Резиденты ОЭЗ «Томск» пользуются <i>льготами и преференциями</i>, могут применять таможенную процедуру <i>свободной таможенной зоны</i>",
+                    OriginalPreparedText = "Резиденты ОЭЗ «Томск» пользуются <i>льготами и преференциями</i>, могут применять таможенную процедуру <i>свободной таможенной зоны</i>",
                 },
                 Media = new Media[] { mainF[15] }
             },
@@ -397,7 +397,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Если вы уже взаимодействовали с ОЭЗ, выберите <i>свой текущий статус</i> и укажите контактные данные. Это позволит нам связаться с вами после ваших новых обращений.",
+                    OriginalPreparedText = "Если вы уже взаимодействовали с ОЭЗ, выберите <i>свой текущий статус</i> и укажите контактные данные. Это позволит нам связаться с вами после ваших новых обращений.",
                 },
                 Media = new Media[] { mainF[16] }
             },
@@ -412,7 +412,7 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Если вы хотите обратиться к УК ОЭЗ «Томск», пожалуйста, оставьте ваши контакты, чтобы мы могли связаться с вами",
+                    OriginalPreparedText = "Если вы хотите обратиться к УК ОЭЗ «Томск», пожалуйста, оставьте <i>ваши контакты</i>, чтобы мы могли связаться с вами",
                 },
                 Media = new Media[] { mainF[16] }
             },
@@ -442,9 +442,9 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Рады, что вы снова обратились в УК ОЭЗ «Томск»!\n\n<i>{p:weather}</i>\n\n<b>Чем мы можем вам помочь?</b>",
+                    OriginalPreparedText = "Рады, что вы снова обратились в УК ОЭЗ «Томск»!\n\n<i>{p:weather}</i>\n\n<b>Чем мы можем вам помочь?</b>",
                     PreparedText = "Рады, что вы снова обратились в УК ОЭЗ «Томск»!\n{0}\n<b>Чем мы можем вам помочь?</b>",
-                    Surrogates = new TextSetterBase[] { new WeatherTextSetter() { Latitude = 56.478517, Longitude = 85.047436 } }
+                    Surrogates = new TextSetterBase[] { new WeatherTextSetter(56.478517, 85.047436) { Position = 0 } }
                 },
                 Media = new Media[] { mainF[17] }
             },
@@ -459,14 +459,14 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "<b>Отправленные:</b>\n{p:tickets:unread}\n\n<b>В обработке:</b>\n{p:tickets:inprogress}\n\n<b>Обработанные:</b>\n{p:tickets:accept}\n\n<b>Отклонённые:</b>\n{p:tickets:decline}",
+                    OriginalPreparedText = "<b>Отправленные:</b>\n{p:tickets:unread}\n\n<b>В обработке:</b>\n{p:tickets:inprogress}\n\n<b>Обработанные:</b>\n{p:tickets:accept}\n\n<b>Отклонённые:</b>\n{p:tickets:decline}",
                     PreparedText = "<b>Отправленные:</b>\n{0}\n\n<b>В обработке:</b>\n{1}\n\n<b>Обработанные:</b>\n{2}\n\n<b>Отклонённые:</b>\n{3}",
                     Surrogates = new[]
                     {
-                        new TicketsTextSetter(){TicketStatus = SentReportStatus.Unread },
-                        new TicketsTextSetter(){TicketStatus = SentReportStatus.InProgress },
-                        new TicketsTextSetter(){TicketStatus = SentReportStatus.Accept },
-                        new TicketsTextSetter(){TicketStatus = SentReportStatus.Decline },
+                        new TicketsTextSetter(SentReportStatus.Unread, 5) {Position = 0},
+                        new TicketsTextSetter(SentReportStatus.InProgress, 5){Position = 1},
+                        new TicketsTextSetter(SentReportStatus.Accept, 5){Position = 2},
+                        new TicketsTextSetter(SentReportStatus.Decline, 5){Position = 3},
                     }
                 },
                 Media = new Media[] { mainF[19] }
@@ -482,7 +482,9 @@ public class DataSeed
                 Type = InnerMessageType.Photo,
                 Text = new()
                 {
-                    OriginalText = "Ваши актуальные контактные данные:\n\n{p:contactlist}",
+                    OriginalPreparedText = "Ваши актуальные контактные данные:\n\n{p:contactlist}",
+                    PreparedText = "Ваши актуальные контактные данные:\n\n{0}",
+                    Surrogates = new[] { new ContactListTextSetter() { Position = 0 } }
                 },
                 Media = new Media[] { mainF[19] }
             },
@@ -526,7 +528,7 @@ public class DataSeed
 
         # endregion
 
-        # region Prime dia
+        #region Prime dia
 
         Post dia01_poll1_2 = new()
         {
@@ -614,7 +616,7 @@ public class DataSeed
         };
         Post dia08_poll3 = new()
         {
-            Label = "Количество поситителей",
+            Title = "Количество поситителей",
             Content = new()
             {
                 Type = InnerMessageType.Text,
@@ -626,7 +628,7 @@ public class DataSeed
         };
         Post dia09_poll4 = new()
         {
-            Label = "Типо площедей для проекта",
+            Title = "Типо площедей для проекта",
             Content = new()
             {
                 Type = InnerMessageType.Text,
@@ -856,9 +858,9 @@ public class DataSeed
         context.AddRange(diaP);
         context.SaveChanges();
 
-        # endregion
+        #endregion
 
-        # region Vars
+        #region Vars
 
         var name = new Variable() { Name = "name", ShowedName = "Имя" };
         var phone = new Variable() { Name = "phone", ShowedName = "Телефон" };
@@ -910,7 +912,6 @@ public class DataSeed
             Effects = new EffectBase[]
                 {
                     new CleanScopeEffect(),
-                    new FinishDialogueEffect(),
                     new SendPostEffect(post00),
                     new SendPostEffect(post01_1_t1_i1),
                 }
@@ -927,7 +928,7 @@ public class DataSeed
         {
             Name = "start",
             Order = 10,
-            Description = "Запустить чат-бота заново",
+            Description = "Вернуться в начало",
             RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
             Trigger = startTrigger,
         };
@@ -936,14 +937,15 @@ public class DataSeed
             Name = "menu",
             Order = 1,
             Description = "Главное меню",
-            RegularUserTarger = new[] { resident, worker, },
+            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker
+            },
             Trigger = new()
             {
                 AllowOutOfScope = true,
                 Effects = new EffectBase[]
                 {
                      new CleanScopeEffect(),
-                     new FinishDialogueEffect(),
+                     new SendPostEffect(post26_2_t28_i18),
                 }
             }
         };
@@ -959,7 +961,7 @@ public class DataSeed
                 Effects = new EffectBase[]
                 {
                      new CleanScopeEffect(),
-                     new FinishDialogueEffect(),
+                     new SendPostEffect(post27_21_t29_i19)
                 }
             }
         };
@@ -975,7 +977,7 @@ public class DataSeed
                 Effects = new EffectBase[]
                 {
                      new CleanScopeEffect(),
-                     new FinishDialogueEffect(),
+                     new SendPostEffect(post28_22_t30_i20)
                 }
             }
         };
@@ -991,7 +993,7 @@ public class DataSeed
                 Effects = new EffectBase[]
                 {
                      new CleanScopeEffect(),
-                     new FinishDialogueEffect(),
+                     new SendPostEffect(post29_23_t31_i21)
                 }
             }
         };
@@ -1007,14 +1009,27 @@ public class DataSeed
                 Effects = new EffectBase[]
                 {
                      new CleanScopeEffect(),
-                     new FinishDialogueEffect(),
-    }
+                     new SendPostEffect(post31_25_t32_i22)
+                }
             }
         };
 
-        var commands = new BotCommand[] { start1Command, start2Command, ticketsCommand, contactsCommand, issuesCommand, reserveCommand };
+        var commands = new BotCommand[] { start1Command, start2Command, menuCommand, ticketsCommand, contactsCommand, issuesCommand, reserveCommand };
         context.BotCommands.AddRange(commands);
         context.SaveChanges();
+
+
+        #endregion
+
+        #region Filling posts with content
+
+        // var kb01 = new KeyboardInline(
+        //     new ButtonInlineEncoded(new("f"), 3, 3,
+        //         new Trigger(new SendPostEffect(post01_1_t1_i1))),
+        //     new ButtonInlineEncoded(new("f"), 3, 3,
+        //         new Trigger(new SendPostEffect(post01_1_t1_i1)))
+        //);
+        //post01_1_t1_i1
 
         #endregion
     }

@@ -4,7 +4,8 @@ public class WeatherTextSetter : TextSetterBase
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-    public WeatherTextSetter() => Type = TextSetterType.Weather;
+    protected WeatherTextSetter() => Type = TextSetterType.Weather;
+    public WeatherTextSetter(double latitude, double longitude) : this() => (Latitude, Longitude) = (latitude, longitude);
 }
 
 public class WeatherTextSetterApplier : ITextSetterApplier<WeatherTextSetter>

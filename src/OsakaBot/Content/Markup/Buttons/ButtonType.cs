@@ -6,5 +6,9 @@ public enum ButtonType
     Inline,
     InlineCarousel,
     InlineEncoded,
-    Reply
+    InlineMention,
+    InlineUrl,
+    Reply,
+    ReplyContact,
+    ReplyLocation
 }

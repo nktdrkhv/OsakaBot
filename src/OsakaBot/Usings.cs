@@ -11,6 +11,8 @@ global using Osaka.Bot.Content.Textable;
 global using Osaka.Bot.Content.Markup;
 global using Osaka.Bot.Content.Markup.Keyboards;
 global using Osaka.Bot.Content.Markup.Buttons;
+global using Osaka.Bot.Content.Markup.Buttons.Inline;
+global using Osaka.Bot.Content.Markup.Buttons.Reply;
 global using Osaka.Bot.DatabaseSpecific;
 global using Osaka.Bot.DatabaseSpecific.Configurations;
 global using Osaka.Bot.InputSystem;

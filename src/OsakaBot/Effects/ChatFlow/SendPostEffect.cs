@@ -5,13 +5,10 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class SendPostEffect : EffectBase
+public class SendPostEffect : ChatChangingEffectBase
 {
-    public int PostId { get; set; }
-    public Post Post { get; set; } = null!;
-
     public SendPostEffect() => Type = EffectType.SendPost;
-    public SendPostEffect(Post post) : base() => Post = post;
+    public SendPostEffect(Post post) : base() => Target = new(post);
 
     public override void SetArguments(string[] args) { }
 }
@@ -35,10 +32,7 @@ public class SendPostEffectApplier : IEffectApplier<SendPostEffect>
     {
         var concrete = (SendPostEffect)effect;
 
-        // var postSpec = new Specification<Post>();
-        // postSpec.SetSendingPostSpec();
-
-        var post = await _repository.GetPost(concrete.PostId);
+        var post = await _repository.GetPost(concrete.Target!.PostId!.Value);
         var scope = await _repository.GetUserScope(concrete.User);
 
         var preparedMessage = new PreparedMessage()
@@ -61,7 +55,7 @@ public class SendPostEffectApplier : IEffectApplier<SendPostEffect>
                 UserPhrase = scope.Phrase,
             };
 
-            var concreteKeyboard = post.Keyboard.BuildMarkup(compositeArgument);
+            var concreteKeyboard = await post.Keyboard.BuildMarkupAsync(compositeArgument);
             preparedMessage.Markup = concreteKeyboard.Markup;
         };
 

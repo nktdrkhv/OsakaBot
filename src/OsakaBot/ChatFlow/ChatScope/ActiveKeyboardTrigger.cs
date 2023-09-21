@@ -5,15 +5,19 @@ namespace Osaka.Bot.ChatFlow.ChatScope;
 [Table("ActiveKeyboardTrigger")]
 public class ActiveKeyboardTrigger
 {
-    public int ActiveKeyboardTriggerId { get; set; }
-    public string Text { get; set; } = null!;
+    public int ActiveKeyboardTriggerId { get; private set; }
+    public string Text { get; protected set; } = null!;
 
-    public int ChatScopeId { get; set; }
-    public ChatScope ChatScope { get; set; } = null!;
+    public int TriggerId { get; private set; }
+    public Trigger Trigger { get; private set; } = null!;
 
-    public int ShowedMessageId { get; set; }
-    public ShowedMessage ShowedMessage { get; set; } = null!;
+    public int ChatScopeId { get; private set; }
+    public ChatScope ChatScope { get; private set; } = null!;
 
-    public int TriggerId { get; set; }
-    public Trigger Trigger { get; set; } = null!;
+    public int ShowedMessageId { get; private set; }
+    public ShowedMessage ShowedMessage { get; private set; } = null!;
+
+    protected ActiveKeyboardTrigger() { }
+    public ActiveKeyboardTrigger(string text, Trigger trigger) => (Text, Trigger) = (text, trigger);
+    public void SetScope(ChatScope chatScope, ShowedMessage showedMessage) => (ChatScope, ShowedMessage) = (chatScope, showedMessage);
 }

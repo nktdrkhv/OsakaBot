@@ -1,9 +1,6 @@
-using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json;
-using Telegram.Bot.Types;
 
 namespace Osaka.Bot.DatabaseSpecific.Configurations;
 

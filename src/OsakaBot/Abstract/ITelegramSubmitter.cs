@@ -4,7 +4,7 @@ namespace Osaka.Bot.Abstract;
 
 public interface ITelegramSubmitter
 {
-    ValueTask SubmitCommandAsync(string command);
+    ValueTask SubmitCommandAsync(Message message);
     ValueTask SubmitCallbackQueryAsync(CallbackQuery callbackQuery);
     ValueTask SubmitMessageAsync(Message message);
 }

@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Telegram.Bot.Requests;
+
 namespace Osaka.Bot.ChatFlow.ChatScope;
 
 public class ChatScopeService : IChatScopeService
@@ -28,11 +31,14 @@ public class ChatScopeService : IChatScopeService
 
     public async ValueTask<bool> HasCorrectionLoop(InnerUser user)
     {
-        var scope = await _repository.GetAsync<ChatScope>(sc => sc.InnerUserId == user.InnerUserId, asNoTracking: true);
-        return scope.HasToRedirectInvalidInput;
+        return await (from cs in _repository.GetQueryable<ChatScope>().AsNoTracking()
+                      where cs.InnerUserId == user.InnerUserId
+                      select cs.HasToRedirectInvalidInput).SingleAsync();
     }
 
     public async ValueTask SetInputToActiveAsync(InnerUser user, InnerMessage message) => await _repository.SetUserInput(user, message);
+
+    public async ValueTask SetInputToCustomAsync(InnerUser user, InnerMessage message, Target target) => await _repository.SetUserInput(user, message, target);
 
     public async ValueTask SetInputToReasonAsync(InnerUser user, Trigger trigger, InnerMessage message) => await _repository.SetUserInput(user, message, trigger);
 }

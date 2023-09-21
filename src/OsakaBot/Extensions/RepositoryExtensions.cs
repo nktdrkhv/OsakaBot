@@ -32,27 +32,36 @@ public static class RepositoryExtensions
             asNoTracking: ant, cancellationToken: ct);
     }
 
-    public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, Trigger? reasonTrigger = null, CancellationToken ct = default)
+    public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, CancellationToken ct = default)
     {
-        if (reasonTrigger is null)
-        {
-            var scope = await repo.GetAsync<ChatScope>(cs => cs.InnerUserId == innerUser.InnerUserId,
-                cs => cs.Include(cs => cs.ActiveInput)
-                            .ThenInclude(ai => ai!.RecievedFromUser),
-                asNoTracking: false, cancellationToken: ct);
-            if (scope.ActiveInput is not null)
-                scope.ActiveInput.RecievedFromUser!.Add(innerUserInput);
-        }
-        else
-        {
-            var scope = await repo.GetAsync<ChatScope>(cs => cs.InnerUserId == innerUser.InnerUserId,
-                cs => cs.Include(cs => cs.PlainTriggers!)
-                            .ThenInclude(akt => akt.ShowedMessage)
-                                .ThenInclude(sm => sm.RecievedFromUser),
-                asNoTracking: false, cancellationToken: ct);
-            scope.PlainTriggers!.First(akt => akt.TriggerId == reasonTrigger.TriggerId).ShowedMessage.RecievedFromUser!.Add(innerUserInput);
-        }
+
+        var scope = await repo.GetAsync<ChatScope>(
+            cs => cs.InnerUserId == innerUser.InnerUserId,
+            cs => cs.Include(cs => cs.ActiveInput)
+                        .ThenInclude(ai => ai!.RecievedFromUser),
+            asNoTracking: false, cancellationToken: ct);
+        if (scope.ActiveInput is not null)
+            scope.ActiveInput.RecievedFromUser!.Add(innerUserInput);
+
         await repo.SaveChangesAsync();
+    }
+
+    public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, Trigger reasonTrigger, CancellationToken ct = default)
+    {
+
+        var scope = await repo.GetAsync<ChatScope>(
+            cs => cs.InnerUserId == innerUser.InnerUserId,
+            cs => cs.Include(cs => cs.PlainTriggers!)
+                        .ThenInclude(akt => akt.ShowedMessage)
+                            .ThenInclude(sm => sm.RecievedFromUser),
+            asNoTracking: false, cancellationToken: ct);
+        scope.PlainTriggers!.First(akt => akt.TriggerId == reasonTrigger.TriggerId).ShowedMessage.RecievedFromUser!.Add(innerUserInput);
+        await repo.SaveChangesAsync();
+    }
+
+    public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, Target target, CancellationToken ct = default)
+    {
+        await ValueTask.CompletedTask;
     }
 
     public static async ValueTask<ICollection<ValidatorBase>?> GetValidators(this IRepository repo, InnerUser innerUser, bool ant = true, CancellationToken ct = default)
@@ -93,7 +102,7 @@ public static class RepositoryExtensions
         await repo.GetQueryable<ButtonBase>()
             .AsNoTracking()
             .Include(b => b.Text)
-                .ThenInclude(t => t.Surrogates!.OrderBy(s => s.Position))
+                .ThenInclude(t => t.Surrogates!)
             .Where(b => b.TriggerId == triggerId)
             .Select(b => b.Text)
             .FirstAsync(ct);

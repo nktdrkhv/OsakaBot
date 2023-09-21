@@ -4,6 +4,8 @@ public enum TargetType
 {
     None,
     Labeled,
+    TelegramMessage,
     Content,
     Post,
+    Orphan
 }

@@ -10,21 +10,25 @@ public class ChatFlowService : IChatFlowService
     private readonly ITriggerService _triggerService;
     private readonly IValidationService _validationService;
     private readonly IInputService _inputService;
+    private readonly IBotCommandService _botCommandService;
     private readonly IChatScopeService _chatScopeService;
     private readonly IRepository _repository;
 
-    public ChatFlowService(IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService, IRepository repository)
+    public ChatFlowService(IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService, IBotCommandService botCommandService, IRepository repository)
     {
         _chatScopeService = chatScopeService;
         _triggerService = triggerService;
         _validationService = validationService;
         _inputService = inputService;
+        _botCommandService = botCommandService;
         _repository = repository;
     }
 
-    public ValueTask SubmitCommandAsync(string command)
+    public async ValueTask SubmitCommandAsync(Message command)
     {
-        throw new NotImplementedException();
+        var innerUser = await _repository.GetInnerUser(command.From!, true);
+        await _botCommandService.ExecuteCommand(innerUser, command.Text!);
+        await _chatScopeService.SetInputToCustomAsync(innerUser, new(command), new(true));
     }
 
     public async ValueTask SubmitCallbackQueryAsync(CallbackQuery callbackQuery)
@@ -36,7 +40,7 @@ public class ChatFlowService : IChatFlowService
             if (args.Length < 2) return;
             switch (args[0])
             {
-                case "s": // s:o3osd
+                case ButtonInline.SimplePrefix: // s:o3osd
                     if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger preparedTrigger)
                     {
                         await _inputService.FromButtonTriggerAsync(innerUser, preparedTrigger);
@@ -47,7 +51,7 @@ public class ChatFlowService : IChatFlowService
                     else if (callbackQuery.Message?.MessageId is int sMsgId)
                         await RemoveInlineKeyBoard(innerUser, sMsgId);
                     break;
-                case "i": // i:dwo2q:31.03.2022 || i:#:31.03.2023
+                case ButtonInline.InsidePrefix: // i:dwo2q:31.03.2022 || i:#:31.03.2023
                     if (args.Length == 3)
                     {
                         if (args[1] == "#" &&
@@ -68,7 +72,7 @@ public class ChatFlowService : IChatFlowService
                     else if (callbackQuery.Message?.MessageId is int iMsgId)
                         await RemoveInlineKeyBoard(innerUser, iMsgId);
                     break;
-                case "d": // d:sa2qa:cc:4:r
+                case ButtonInline.DynamicPrefix: // d:sa2qa:cc:4:r
                     // todo: execute outside of the scope
                     if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger dTrigger && args.Length >= 3)
                         await _triggerService.ExecuteAsync(innerUser, dTrigger, args[2..]);
@@ -86,7 +90,7 @@ public class ChatFlowService : IChatFlowService
 
     private async ValueTask RemoveInlineKeyBoard(InnerUser user, int targetMessageId)
     {
-        var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { TargetMessageId = targetMessageId };
+        var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { Target = new(targetMessageId) };
         await _triggerService.ExecuteAsync(user, removeInlineKeyboard);
     }
 
@@ -131,7 +135,8 @@ public class ChatFlowService : IChatFlowService
             }
             else
             {
-                // todo: delete unnesesary input
+                var removeShowedMessage = new RemoveShowedMessageEffect() { Target = new(innerMessage.CauseMessageId) };
+                await _triggerService.ExecuteAsync(innerUser, removeShowedMessage);
             }
         };
         return;

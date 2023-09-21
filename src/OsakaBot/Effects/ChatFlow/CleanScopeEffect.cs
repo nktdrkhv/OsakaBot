@@ -1,15 +1,16 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
 public class CleanScopeEffect : EffectBase
 {
+    [Column("WithUserInput")]
+    public bool WithUserInput { get; set; } = true;
+
     public CleanScopeEffect() => Type = EffectType.CleanScope;
 
-    public override void SetArguments(string[] args)
-    {
-        throw new NotImplementedException();
-    }
+    public override void SetArguments(string[] args) { }
 }
 
 public class CleanScopeEffectApplier : IEffectApplier<CleanScopeEffect>

@@ -5,8 +5,9 @@ namespace Osaka.Bot.ChatFlow.ChatScope;
 [Table("ChatScope")]
 public class ChatScope
 {
-    public int ChatScopeId { get; set; }
+    public int ChatScopeId { get; private set; }
     public string? Phrase { get; set; }
+    public DateTime LastSentOn { get; set; } = DateTime.UtcNow;
 
     public int InnerUserId { get; set; }
     public InnerUser InnerUser { get; set; } = null!;
@@ -15,6 +16,7 @@ public class ChatScope
     public ICollection<ActiveKeyboardTrigger>? PlainTriggers { get; set; }
     public ICollection<ActiveKeyboardTrigger>? EncodedTriggers { get; set; }
     public ICollection<ValidatorBase>? Validators { get; set; }
+
 
     public int? ActiveInputId { get; set; }
     public int? OnValidInputId { get; set; }

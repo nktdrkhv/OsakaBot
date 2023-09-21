@@ -3,11 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Osaka.Bot.ChatFlow.Skeleton;
 
 [Table("Post")]
-public class Post : IRoleVisibility, ILabeled, ITitled, IMetaMark
+public class Post : IRoleVisibility, ITitled, IMetaMark
 {
     public int PostId { get; set; }
 
-    public string? Label { get; set; }
     public string? Title { get; set; }
     public string? MetaMark { get; set; }
 

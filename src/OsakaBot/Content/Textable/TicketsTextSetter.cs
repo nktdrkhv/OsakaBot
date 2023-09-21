@@ -2,8 +2,10 @@ namespace Osaka.Bot.Content.Textable;
 
 public class TicketsTextSetter : TextSetterBase
 {
-    public SentReportStatus TicketStatus { get; set; }
-    public TicketsTextSetter() => Type = TextSetterType.Tickets;
+    public SentReportStatus TicketStatus { get; private set; }
+    public byte Limit { get; private set; }
+    protected TicketsTextSetter() => Type = TextSetterType.Tickets;
+    public TicketsTextSetter(SentReportStatus status, byte limit = 0) : this() => (TicketStatus, Limit) = (status, limit);
 }
 
 public class TicketsSetterApplier : ITextSetterApplier<TicketsTextSetter>

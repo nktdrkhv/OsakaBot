@@ -2,5 +2,5 @@ namespace Osaka.Bot.Abstract;
 
 public interface ILabeled
 {
-    public string? Label { get; set; }
+    public string? Label { get; }
 }

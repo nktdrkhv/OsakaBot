@@ -5,7 +5,7 @@ using Telegram.Bot.Types.Enums;
 namespace Osaka.Bot.Content;
 
 [Table("InnerMessage")]
-public class InnerMessage : ILabeled, ITitled, IMetaMark
+public class InnerMessage : ITitled, IMetaMark
 {
     public int InnerMessageId { get; set; }
     public InnerMessageType Type { get; set; }
@@ -16,7 +16,6 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
     public string? MediaGroupId { get; set; }
 
     public string? Title { get; set; }
-    public string? Label { get; set; }
     public string? MetaMark { get; set; }
 
     public int? TextId { get; set; }
@@ -48,7 +47,7 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
         {
             case MessageType.Text:
                 Type = InnerMessageType.Text;
-                Text = new(message.Text!);
+                Text = new(message.Text!, message.Entities);
                 break;
             case MessageType.Photo:
                 Type = InnerMessageType.Photo;
@@ -56,35 +55,35 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
                 var photoFileId = photo.FileId;
                 var photoUniqueId = photo.FileUniqueId;
                 Media = new Media[] { new(MediaType.Photo, photoFileId, photoUniqueId) };
-                Text = message.Caption != null ? new(message.Caption!) : null;
+                Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Audio:
                 Type = InnerMessageType.Audio;
                 var audioFileId = message.Audio!.FileId;
                 var audioUniqueId = message.Audio!.FileUniqueId;
                 Media = new Media[] { new(MediaType.Audio, audioFileId, audioUniqueId) };
-                Text = message.Caption != null ? new(message.Caption!) : null;
+                Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Video:
                 Type = InnerMessageType.Video;
                 var videoFileId = message.Video!.FileId;
                 var videoUniqueId = message.Video!.FileUniqueId;
                 Media = new Media[] { new(MediaType.Video, videoFileId, videoUniqueId) };
-                Text = message.Caption != null ? new(message.Caption!) : null;
+                Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Voice:
                 Type = InnerMessageType.Voice;
                 var voiceFileId = message.Voice!.FileId;
                 var voiceUniqueId = message.Voice!.FileUniqueId;
                 Media = new Media[] { new(MediaType.Voice, voiceFileId, voiceUniqueId) };
-                Text = message.Caption != null ? new(message.Caption!) : null;
+                Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Document:
                 Type = InnerMessageType.Document;
                 var documentFileId = message.Document!.FileId;
                 var documentUniqueId = message.Document!.FileUniqueId;
                 Media = new Media[] { new(MediaType.Document, documentFileId, documentUniqueId) };
-                Text = message.Caption != null ? new(message.Caption!) : null;
+                Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Sticker:
                 Type = InnerMessageType.Sticker;
@@ -115,7 +114,7 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
                 var aniFileId = message.Animation!.FileId;
                 var aniUniqueId = message.Animation!.FileUniqueId;
                 Media = new Media[] { new(MediaType.Animation, aniFileId, aniUniqueId) };
-                Text = message.Caption != null ? new(message.Caption!) : null;
+                Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             default:
                 Type = InnerMessageType.Unsupported;
@@ -136,7 +135,7 @@ public class InnerMessage : ILabeled, ITitled, IMetaMark
             MessageType.Document => InnerMessageType.DocumentAlbum,
             _ => InnerMessageType.Unsupported
         };
-        Text = first.Caption != null ? new(first.Caption!) : null;
+        Text = first.Caption != null ? new(first.Caption!, first.Entities) : null;
         var ids = new List<int>();
         Media = new List<Media>();
         foreach (var msg in messages)

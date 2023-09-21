@@ -2,14 +2,11 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.InputSystem;
 
-public class FinishDialogueEffect : EffectBase
+public class FinishDialogueEffect : DialogueEffectBase
 {
     public FinishDialogueEffect() => Type = EffectType.FinishDialogue;
 
-    public override void SetArguments(string[] args)
-    {
-        throw new NotImplementedException();
-    }
+    public override void SetArguments(string[] args) { }
 }
 
 public class FinishDialogueEffectApplier : IEffectApplier<FinishDialogueEffect>
