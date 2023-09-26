@@ -6,9 +6,6 @@ namespace Osaka.Bot.Content.Markup.Keyboards;
 
 public class KeyboardInlineDayPicker : KeyboardInline
 {
-    public int? CommonTriggerId { get; set; }
-    public Trigger? CommonTrigger { get; set; }
-
     public KeyboardInlineDayPicker() => Type = KeyboardType.InlineDayPicker;
 
     public override ValueTask<KeyboardMarkup> BuildMarkupAsync(CompositeArgument arg)

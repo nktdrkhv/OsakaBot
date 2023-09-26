@@ -6,12 +6,12 @@ public class DataSeed
     {
         #region Roles
 
-        RegularUserRole anon = new() { Name = "Аноним" };
-        RegularUserRole guest = new() { Name = "Гость" };
-        RegularUserRole resident = new() { Name = "Резидент" };
-        RegularUserRole eventTenant = new() { Name = "Событийный арендатор" };
-        RegularUserRole constantTenant = new() { Name = "Временный арендатор" };
-        RegularUserRole worker = new() { Name = "Сотрудник" };
+        UserRole anon = new() { Name = "Анонимный пользователь" };
+        UserRole guest = new() { Name = "Гость" };
+        UserRole resident = new() { Name = "Резидент" };
+        UserRole eventTenant = new() { Name = "Событийный арендатор" };
+        UserRole constantTenant = new() { Name = "Арендатор" };
+        UserRole worker = new() { Name = "Сотрудник" };
 
         #endregion
 
@@ -94,6 +94,15 @@ public class DataSeed
                     OriginalPreparedText = "<b>Приветствую вас в ОЭЗ Томск!</b>\n\nЯ ваш помощник и проводник. Для навигации используйте кнопки и команды меню (внизу слева).",
                 },
                 Media = new Media[] { mainF[0] }
+            }
+        };
+        var post01_a = new Post()
+        {
+            Title = "Назад, узнать об ОЭЗ",
+            Content = new()
+            {
+                Type = InnerMessageType.Text,
+                Text = new() { OriginalText = "Нажмите «Назад» для возврата" },
             }
         };
 
@@ -522,7 +531,7 @@ public class DataSeed
             },
         };
 
-        Post[] mainP = new Post[] { post00, post01_1_t1_i1, post02_11_t2_i2, /*post03_111_t2_i2,*/ post04_1111_t7_i3, post05_1112_t8_i4, post06_1113_t9_i5, post07_114_t26_i6, post08_1141_t27_i6, post09_112_t3_i7, post10_1121_t4_i8, post11_1122_t5_i9, post12_1123_t6_i10, post13_113_t0_i11, post14_1131_t10_i12, post15_1132_t12_i13, post16_11321_t13_i9, post17_11322_t14_i8, post18_11323_t15_i10, post19_12_t18_i14, /*post20_121_t19_i0,*/ post21_13_t21_i15, post22_14_t22_i16, post23_15_t24_i17, post24_16_t25_i17, post25_17_t20_i0, post26_2_t28_i18, post27_21_t29_i19, post28_22_t30_i20, post29_23_t31_i21, /*post30_24_t0_i0,*/ post31_25_t32_i22 };
+        Post[] mainP = new Post[] { post00, post01_1_t1_i1, post01_a, post02_11_t2_i2, /*post03_111_t2_i2,*/ post04_1111_t7_i3, post05_1112_t8_i4, post06_1113_t9_i5, post07_114_t26_i6, post08_1141_t27_i6, post09_112_t3_i7, post10_1121_t4_i8, post11_1122_t5_i9, post12_1123_t6_i10, post13_113_t0_i11, post14_1131_t10_i12, post15_1132_t12_i13, post16_11321_t13_i9, post17_11322_t14_i8, post18_11323_t15_i10, post19_12_t18_i14, /*post20_121_t19_i0,*/ post21_13_t21_i15, post22_14_t22_i16, post23_15_t24_i17, post24_16_t25_i17, post25_17_t20_i0, post26_2_t28_i18, post27_21_t29_i19, post28_22_t30_i20, post29_23_t31_i21, /*post30_24_t0_i0,*/ post31_25_t32_i22 };
         context.AddRange(mainP);
         context.SaveChanges();
 
@@ -530,7 +539,7 @@ public class DataSeed
 
         #region Prime dia
 
-        Post dia01_poll1_2 = new()
+        Post dia01_poll1 = new()
         {
             Title = "Имя",
             Content = new()
@@ -542,7 +551,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia02_poll1_2 = new()
+        Post dia02_poll1 = new()
         {
             Title = "Телефон",
             Content = new()
@@ -554,7 +563,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia03_poll1_2 = new()
+        Post dia03_poll1 = new()
         {
             Title = "Почта",
             Content = new()
@@ -566,7 +575,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia04_poll2 = new()
+        Post dia04_poll1 = new()
         {
             Title = "Компания",
             Content = new()
@@ -578,7 +587,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia05_poll2 = new()
+        Post dia05_poll1 = new()
         {
             Title = "Должность",
             Content = new()
@@ -590,7 +599,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia06_poll3 = new()
+        Post dia06_poll2 = new()
         {
             Title = "Дата и время аренды под мероприятие",
             Content = new()
@@ -602,7 +611,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia07_poll3 = new()
+        Post dia07_poll2 = new()
         {
             Title = "Цель и тема мероприятия",
             Content = new()
@@ -614,7 +623,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia08_poll3 = new()
+        Post dia08_poll2 = new()
         {
             Title = "Количество поситителей",
             Content = new()
@@ -626,7 +635,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia09_poll4 = new()
+        Post dia09_poll3 = new()
         {
             Title = "Типо площедей для проекта",
             Content = new()
@@ -638,7 +647,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia10_poll4 = new()
+        Post dia10_poll3 = new()
         {
             Title = "Необходимая площадь для проекта",
             Content = new()
@@ -650,7 +659,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia11_poll4 = new()
+        Post dia11_poll3 = new()
         {
             Title = "Период начала аренды",
             Content = new()
@@ -662,7 +671,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia12_poll5 = new()
+        Post dia12_poll4 = new()
         {
             Title = "Стадия реализации",
             Content = new()
@@ -674,7 +683,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia13_poll5 = new()
+        Post dia13_poll4 = new()
         {
             Title = "Количество сотрудников",
             Content = new()
@@ -686,7 +695,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia14_poll5 = new()
+        Post dia14_poll4 = new()
         {
             Title = "Планируемые инвестиции",
             Content = new()
@@ -698,7 +707,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia15_poll6 = new()
+        Post dia15_poll5 = new()
         {
             Title = "Необходимая площадь земельного участка",
             Content = new()
@@ -710,7 +719,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia16_poll6 = new()
+        Post dia16_poll5 = new()
         {
             Title = "Период начала строительства",
             Content = new()
@@ -722,7 +731,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia17_poll7 = new()
+        Post dia17_poll6 = new()
         {
             Title = "День для арендф",
             Content = new()
@@ -734,7 +743,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia18_poll7 = new()
+        Post dia18_poll6 = new()
         {
             Title = "Время бронирования",
             Content = new()
@@ -746,7 +755,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia19_poll7 = new()
+        Post dia19_poll6 = new()
         {
             Title = "Длительность бронирования",
             Content = new()
@@ -758,7 +767,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia20_poll7 = new()
+        Post dia20_poll6 = new()
         {
             Title = "Дополнительные пожелания",
             Content = new()
@@ -769,7 +778,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia21_poll8 = new()
+        Post dia21_poll7 = new()
         {
             Title = "Техническая проблема",
             Content = new()
@@ -781,7 +790,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia22_poll8 = new()
+        Post dia22_poll7 = new()
         {
             Title = "Точный адрес",
             Content = new()
@@ -793,7 +802,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia23_poll9 = new()
+        Post dia23_poll8 = new()
         {
             Title = "Рационализаторская проблема",
             Content = new()
@@ -805,7 +814,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia24_poll9 = new()
+        Post dia24_poll8 = new()
         {
             Title = "Суть предложения",
             Content = new()
@@ -817,7 +826,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia25_poll9 = new()
+        Post dia25_poll8 = new()
         {
             Title = "Общедоступные примеры",
             Content = new()
@@ -829,7 +838,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia26_poll9 = new()
+        Post dia26_poll8 = new()
         {
             Title = "Необходимые ресурсы",
             Content = new()
@@ -841,7 +850,7 @@ public class DataSeed
                 },
             },
         };
-        Post dia27_poll9 = new()
+        Post dia27_poll8 = new()
         {
             Title = "Возможно ли участие",
             Content = new()
@@ -854,7 +863,7 @@ public class DataSeed
             },
         };
 
-        Post[] diaP = new Post[] { dia01_poll1_2, dia02_poll1_2, dia03_poll1_2, dia04_poll2, dia05_poll2, dia06_poll3, dia07_poll3, dia08_poll3, dia09_poll4, dia10_poll4, dia11_poll4, dia12_poll5, dia13_poll5, dia14_poll5, dia15_poll6, dia16_poll6, dia17_poll7, dia18_poll7, dia19_poll7, dia20_poll7, dia21_poll8, dia22_poll8, dia23_poll9, dia24_poll9, dia25_poll9, dia26_poll9, dia27_poll9 };
+        Post[] diaP = new Post[] { dia01_poll1, dia02_poll1, dia03_poll1, dia04_poll1, dia05_poll1, dia06_poll2, dia07_poll2, dia08_poll2, dia09_poll3, dia10_poll3, dia11_poll3, dia12_poll4, dia13_poll4, dia14_poll4, dia15_poll5, dia16_poll5, dia17_poll6, dia18_poll6, dia19_poll6, dia20_poll6, dia21_poll7, dia22_poll7, dia23_poll8, dia24_poll8, dia25_poll8, dia26_poll8, dia27_poll8 };
         context.AddRange(diaP);
         context.SaveChanges();
 
@@ -906,130 +915,276 @@ public class DataSeed
 
         #region Commands
 
-        var startTrigger = new Trigger()
-        {
-            AllowOutOfScope = true,
-            Effects = new EffectBase[]
-                {
-                    new CleanScopeEffect(),
-                    new SendPostEffect(post00),
-                    new SendPostEffect(post01_1_t1_i1),
-                }
-        };
-        var start1Command = new BotCommand()
+        var startTrigger = new Trigger(
+            true,
+            new CleanScopeEffect(true, 0),
+            new SendPostEffect(post00, 1),
+            new SendPostEffect(post01_1_t1_i1, 2));
+        var start1Command = new TextCommand()
         {
             Name = "start",
             Order = 0,
-            Description = "Вернуться в начало",
-            RegularUserTarger = new[] { anon },
-            Trigger = startTrigger,
+            Description = "Начать заново",
+            RoleVisibility = new[] { anon },
+            Trigger = startTrigger
         };
-        var start2Command = new BotCommand()
+        var start2Command = new TextCommand()
         {
             Name = "start",
             Order = 10,
             Description = "Вернуться в начало",
-            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
-            Trigger = startTrigger,
+            RoleVisibility = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = startTrigger
         };
-        var menuCommand = new BotCommand()
+        var menuCommand = new TextCommand()
         {
             Name = "menu",
             Order = 1,
             Description = "Главное меню",
-            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker
+            RoleVisibility = new[] { guest, resident, eventTenant, constantTenant, worker
             },
-            Trigger = new()
-            {
-                AllowOutOfScope = true,
-                Effects = new EffectBase[]
-                {
-                     new CleanScopeEffect(),
-                     new SendPostEffect(post26_2_t28_i18),
-                }
-            }
+            Trigger = new(
+                true,
+                new CleanScopeEffect(true, 0),
+                new SendPostEffect(post26_2_t28_i18, 1)
+            )
         };
-        var ticketsCommand = new BotCommand()
+        var ticketsCommand = new TextCommand()
         {
             Name = "tickets",
             Order = 2,
             Description = "Мои заявки и вопросы",
-            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
-            Trigger = new()
-            {
-                AllowOutOfScope = true,
-                Effects = new EffectBase[]
-                {
-                     new CleanScopeEffect(),
-                     new SendPostEffect(post27_21_t29_i19)
-                }
-            }
+            RoleVisibility = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = new(
+                true,
+                new CleanScopeEffect(true, 0),
+                new SendPostEffect(post27_21_t29_i19, 1))
         };
-        var contactsCommand = new BotCommand()
+        var contactsCommand = new TextCommand()
         {
             Name = "contacts",
             Order = 3,
             Description = "Мои контакты",
-            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
-            Trigger = new()
-            {
-                AllowOutOfScope = true,
-                Effects = new EffectBase[]
-                {
-                     new CleanScopeEffect(),
-                     new SendPostEffect(post28_22_t30_i20)
-                }
-            }
+            RoleVisibility = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = new(
+                true,
+                new CleanScopeEffect(true, 0),
+                new SendPostEffect(post28_22_t30_i20, 1))
         };
-        var issuesCommand = new BotCommand()
+        var issuesCommand = new TextCommand()
         {
             Name = "issues",
             Order = 4,
             Description = "Сообщить о проблеме",
-            RegularUserTarger = new[] { guest, resident, eventTenant, constantTenant, worker },
-            Trigger = new()
-            {
-                AllowOutOfScope = true,
-                Effects = new EffectBase[]
-                {
-                     new CleanScopeEffect(),
-                     new SendPostEffect(post29_23_t31_i21)
-                }
-            }
+            RoleVisibility = new[] { guest, resident, eventTenant, constantTenant, worker },
+            Trigger = new(
+                true,
+                new CleanScopeEffect(true, 0),
+                new SendPostEffect(post29_23_t31_i21, 1))
         };
-        var reserveCommand = new BotCommand()
+        var reserveCommand = new TextCommand()
         {
             Name = "reserve",
             Order = 5,
             Description = "Забронировать конференц-зал / переговорную",
-            RegularUserTarger = new[] { resident, worker, constantTenant },
-            Trigger = new()
-            {
-                AllowOutOfScope = true,
-                Effects = new EffectBase[]
-                {
-                     new CleanScopeEffect(),
-                     new SendPostEffect(post31_25_t32_i22)
-                }
-            }
+            RoleVisibility = new[] { resident, worker, constantTenant },
+            Trigger = new(
+                true,
+                new CleanScopeEffect(true, 0),
+                new SendPostEffect(post31_25_t32_i22, 1))
         };
 
-        var commands = new BotCommand[] { start1Command, start2Command, menuCommand, ticketsCommand, contactsCommand, issuesCommand, reserveCommand };
+        var commands = new TextCommand[] { start1Command, start2Command, menuCommand, ticketsCommand, contactsCommand, issuesCommand, reserveCommand };
         context.BotCommands.AddRange(commands);
         context.SaveChanges();
 
 
         #endregion
 
+        #region Dialogues
+
+        var d1_contacts = new Dialogue(
+            "Контактные данные",
+            new DialogueField(0, name, new IncludedPost(dia01_poll1)),
+            new DialogueField(1, phone, new IncludedPost(dia02_poll1, autoInput: AutoInputType.Contact)),
+            new DialogueField(2, email, new IncludedPost(dia03_poll1)),
+            new DialogueField(3, organization, new IncludedPost(dia04_poll1)),
+            new DialogueField(4, title, new IncludedPost(dia05_poll1))
+            );
+        var d2_event = new Dialogue(
+            title: "Ожидания от помещения на мероприятие",
+            new DialogueField(0, event_date_time, new IncludedPost(dia06_poll2)),
+            new DialogueField(1, event_subject, new IncludedPost(dia07_poll2)),
+            new DialogueField(2, event_visitors, new IncludedPost(dia08_poll2))
+        );
+        var d3_area = new Dialogue(
+            title: "Требования к арендуемой площади",
+            new DialogueField(0, area_type, new IncludedPost(dia09_poll3)),
+            new DialogueField(1, area_premises, new IncludedPost(dia10_poll3)),
+            new DialogueField(2, area_rental_start, new IncludedPost(dia11_poll3))
+        );
+        var d4_project = new Dialogue(
+            title: "Ключевые параметры проекта",
+            new DialogueField(0, project_stage, new IncludedPost(dia12_poll4)),
+            new DialogueField(1, project_crew, new IncludedPost(dia13_poll4)),
+            new DialogueField(2, project_volume, new IncludedPost(dia14_poll4))
+        );
+        var d5_building = new Dialogue(
+            title: "Планы на строительство",
+            new DialogueField(0, building_premises, new IncludedPost(dia15_poll5)),
+            new DialogueField(1, building_start, new IncludedPost(dia16_poll5))
+        );
+        var d6_hall = new Dialogue(
+            title: "Ожидаемая дата и время бронирования конференц-зала / переговорки",
+            new DialogueField(0, hall_date, new IncludedPost(dia17_poll6, autoInput: AutoInputType.LongDate)),
+            new DialogueField(1, hall_time, new IncludedPost(dia18_poll6)),
+            new DialogueField(2, hall_period, new IncludedPost(dia19_poll6)),
+            new DialogueField(3, hall_wish, new IncludedPost(dia20_poll6))
+        );
+        var d7_problem = new Dialogue(
+            title: "Неисправность в ОЭЗ",
+            new DialogueField(0, problem_main, new IncludedPost(dia21_poll7)),
+            new DialogueField(order: 1, problem_address, new IncludedPost(dia22_poll7))
+        );
+        var d8_solution = new Dialogue(
+            title: "Рационализаторское предложение",
+            new DialogueField(0, solution_main, new IncludedPost(dia23_poll8)),
+            new DialogueField(1, solution_idea, new IncludedPost(dia24_poll8)),
+            new DialogueField(2, solution_example, new IncludedPost(dia25_poll8)),
+            new DialogueField(3, solution_res, new IncludedPost(dia26_poll8)),
+            new DialogueField(4, solution_involve, new IncludedPost(dia27_poll8))
+        );
+
+        context.Dialogues.AddRange(d1_contacts, d2_event, d3_area, d4_project, d5_building, d6_hall, d7_problem, d8_solution);
+        context.SaveChanges();
+
+        #endregion
+
+        #region 
+
+        var r_eventTenant = new Report(
+            "Аренда помещения для мероприятия",
+            "Событийная аренда",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d2_event)
+            );
+        var r_constantTenant = new Report(
+            "Долгосрочная аренда",
+            "Заявка на долгосрочную аренду",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d3_area)
+            );
+        var r_residentWithRent = new Report(
+            "Получение статуса резидента (аренда)",
+            "Заявка на статус резидента (аренда)",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d4_project),
+            new IncludedDialogue(2, d3_area)
+            );
+        var r_residentWithBuild = new Report(
+            "Получение статуса резидента (строительство)",
+            "Заявка на статус резидента (строительство)",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d4_project),
+            new IncludedDialogue(2, d5_building)
+            );
+        var r_promblem_electr = new Report(
+            "Проблема в электроснабжении",
+            "Проблема: электроснабжение",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d7_problem)
+            );
+        var r_promblem_water = new Report(
+            "Проблема в водоснабжении / канализации",
+            "Проблема: водоснабжение / канализация",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d7_problem)
+            );
+        var r_promblem_internet = new Report(
+            "Проблема с интернетом / телефонией / серверными комнатами",
+            "Проблема: интернет / телефония / серверные",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d7_problem)
+            );
+        var r_promblem_heating = new Report(
+            "Проблема с отоплением / кондиционированием",
+            "Проблема: отопление / кондиционирование",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d7_problem)
+            );
+        var r_promblem_other = new Report(
+            "Мелкий и средний ремонт",
+            "Проблема: другое",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d7_problem)
+            );
+        var r_booking_meeting = new Report(
+            "Бронирование конференц-зала / переговорной",
+            "Бронирование конференц-зала / переговорной",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d6_hall)
+            );
+        var r_idea = new Report(
+            "Рационализаторское предложение",
+            "Рационализаторское предложение",
+            new IncludedDialogue(0, d1_contacts),
+            new IncludedDialogue(1, d8_solution)
+            );
+
+
+        context.Reports.AddRange(r_eventTenant, r_constantTenant, r_residentWithRent, r_residentWithBuild, r_promblem_electr, r_promblem_heating, r_promblem_water, r_promblem_internet, r_promblem_other, r_booking_meeting, r_idea);
+        context.SaveChanges();
+
+        #endregion
+
         #region Filling posts with content
 
-        // var kb01 = new KeyboardInline(
-        //     new ButtonInlineEncoded(new("f"), 3, 3,
-        //         new Trigger(new SendPostEffect(post01_1_t1_i1))),
-        //     new ButtonInlineEncoded(new("f"), 3, 3,
-        //         new Trigger(new SendPostEffect(post01_1_t1_i1)))
-        //);
-        //post01_1_t1_i1
+        // ------------------   1   ------------------
+        var kb01_a = new KeyboardReply("Назад в первое меню", "Об ОЭЗ", true, true, true,
+                            new ButtonReply(new Text() { OriginalText = "Назад" }, trigger: new(false, new RemoveShowedMessageEffect(new(post02_11_t2_i2))))
+                        );
+        var kb01 = new KeyboardReply("Первое меню", null, true, true, false,
+            new ButtonReply(new Text() { OriginalText = "📕 Узнать об ОЭЗ" }, 1, 1,
+                new Trigger(
+                    false,
+                    new SendPostEffect(post01_a, 0),
+                    new SendPostEffect(post02_11_t2_i2, 0)
+                )),
+            new ButtonReply(new Text() { OriginalText = "📢 Аренда для мероприятий" }, 1, 2,
+                new Trigger(
+                    false,
+                    new SendPostEffect(post19_12_t18_i14)
+                )),
+            new ButtonReply(new Text() { OriginalText = "📠 Аренда для нерезидентов" }, 1, 3,
+                new Trigger(
+                    false,
+                    new SendPostEffect(post21_13_t21_i15)
+                )),
+            new ButtonReply(new Text() { OriginalText = "💼 Стать резидентом" }, 1, 4,
+                new Trigger(
+                    false,
+                    new SendPostEffect(post22_14_t22_i16)
+                )),
+            new ButtonReply(new Text() { OriginalText = "👥 Я уже часть ОЭЗ" }, 1, 5,
+                new Trigger(
+                    false,
+                    new SendPostEffect(post23_15_t24_i17)
+                )),
+            new ButtonReply(new Text() { OriginalText = "👤 Я гость" }, 2, 5,
+                new Trigger(
+                    false,
+                    new SendPostEffect(post24_16_t25_i17)
+                ))
+        );
+        post01_1_t1_i1.Keyboard = kb01;
+        // ------------------   -   ------------------
+
+        // var kb02 = ney
+        // post02_11_t2_i2.Keyboard = null;
+
+        //
+
+        context.SaveChanges();
 
         #endregion
     }

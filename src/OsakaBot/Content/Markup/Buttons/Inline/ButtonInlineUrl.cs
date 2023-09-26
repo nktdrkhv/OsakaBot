@@ -13,7 +13,7 @@ public class ButtonInlineUrl : ButtonInline
         Text text,
         byte rowPriority,
         byte columnPriority,
-        ICollection<RegularUserRole>? roleVisibility = null,
+        ICollection<UserRole>? roleVisibility = null,
         string? phraseVisibility = null)
         : base(text, rowPriority, columnPriority, null, null, roleVisibility, phraseVisibility)
     {

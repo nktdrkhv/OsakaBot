@@ -1,24 +1,25 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata;
 using System.Runtime.Versioning;
 
 namespace Osaka.Bot.Effects;
 
+[Table("Table")]
 public class Target : ILabeled
 {
-    public TargetType Type { get; set; } = TargetType.None;
+    public int TargetId { get; protected set; }
+    public TargetType Type { get; protected set; } = TargetType.None;
 
-    public string? Label { get; set; }
-    public int? MessageId { get; set; }
+    public string? Label { get; private set; }
+    public int? MessageId { get; private set; }
 
-    public int? ContentId { get; set; }
-    public InnerMessage? Content { get; set; }
+    public int? ContentId { get; private set; }
+    public InnerMessage? Content { get; private set; }
 
-    public int? PostId { get; set; }
-    public Post? Post { get; set; }
+    public int? PostId { get; private set; }
+    public Post? Post { get; private set; }
 
-    public bool? AtTheBegginnig { get; set; }
-
-    public Target() { }
+    public OrphanType? Orphan { get; private set; }
 
     public Target(string label)
     {
@@ -26,10 +27,10 @@ public class Target : ILabeled
         Label = label;
     }
 
-    public Target(bool atTheBegginnigOfTheScope)
+    public Target(OrphanType orphan)
     {
         Type = TargetType.Orphan;
-        AtTheBegginnig = atTheBegginnigOfTheScope;
+        Orphan = orphan;
     }
 
     public Target(int messageId)
@@ -49,4 +50,6 @@ public class Target : ILabeled
         Type = TargetType.Post;
         Post = post;
     }
+
+    protected Target() { }
 }

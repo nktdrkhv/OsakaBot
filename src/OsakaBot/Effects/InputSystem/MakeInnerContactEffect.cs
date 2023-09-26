@@ -2,9 +2,11 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.InputSystem;
 
-public class MakeInnerContactEffect : EffectBase
+public sealed class MakeInnerContactEffect : EffectBase
 {
-    public MakeInnerContactEffect() => Type = EffectType.MakeInnerContact;
+    public MakeInnerContactEffect(byte order = 0) : base(EffectType.MakeInnerContact, order) { }
+
+    private MakeInnerContactEffect() { }
 
     public override void SetArguments(string[] args) { }
 }

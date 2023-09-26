@@ -15,17 +15,14 @@ public class ChatScope
     public ICollection<ShowedMessage> ShowedMessages { get; set; } = null!;
     public ICollection<ActiveKeyboardTrigger>? PlainTriggers { get; set; }
     public ICollection<ActiveKeyboardTrigger>? EncodedTriggers { get; set; }
-    public ICollection<ValidatorBase>? Validators { get; set; }
-
 
     public int? ActiveInputId { get; set; }
-    public int? OnValidInputId { get; set; }
-    public int? OnInvalidInputId { get; set; }
-    public int? OnClearScopeId { get; set; }
-
     public ShowedMessage? ActiveInput { get; set; }
-    public Trigger? OnValidInput { get; set; }
-    public Trigger? OnInvalidInput { get; set; }
+
+    public int? UserInputId { get; set; }
+    public UserInput? UserInput { get; set; }
+
+    public int? OnClearScopeId { get; set; }
     public Trigger? OnScopeClean { get; set; }
 
     public bool HasToRedirectInvalidInput { get; set; } = false;

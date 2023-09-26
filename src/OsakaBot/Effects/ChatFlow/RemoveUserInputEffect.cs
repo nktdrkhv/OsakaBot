@@ -2,13 +2,14 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class RemoveUserInputEffect : ChatChangingEffectBase
+public sealed class RemoveUserInputEffect : ChatChangingEffectBase
 {
     public RemoveUserInputOptions Options { get; private set; } = RemoveUserInputOptions.All;
 
-    public RemoveUserInputEffect() => Type = EffectType.RemoveUserInput;
+    public RemoveUserInputEffect(RemoveUserInputOptions options, byte order = 0) : base(EffectType.RemoveUserInput, order)
+        => Options = options;
 
-    public RemoveUserInputEffect(RemoveUserInputOptions options) : this() => Options = options;
+    private RemoveUserInputEffect() { }
 
     public override void SetArguments(string[] args) { }
 }

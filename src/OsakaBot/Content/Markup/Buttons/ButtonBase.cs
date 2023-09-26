@@ -23,7 +23,7 @@ public abstract class ButtonBase : IRoleVisibility, IMetaMark, IMarkupBuilder<Bu
     public KeyboardBase Keyboard { get; private set; } = null!;
 
     public string? MetaMark { get; protected set; }
-    public ICollection<RegularUserRole>? RoleVisibility { get; protected set; }
+    public ICollection<UserRole>? RoleVisibility { get; protected set; }
     public string? PhraseVisibility { get; protected set; }
 
     protected ButtonBase() { }
@@ -34,7 +34,7 @@ public abstract class ButtonBase : IRoleVisibility, IMetaMark, IMarkupBuilder<Bu
         byte columnPriority,
         Trigger? trigger = null,
         string? metaMark = null,
-        ICollection<RegularUserRole>? roleVisibility = null,
+        ICollection<UserRole>? roleVisibility = null,
         string? phraseVisibility = null)
     {
         Text = text;
@@ -47,7 +47,7 @@ public abstract class ButtonBase : IRoleVisibility, IMetaMark, IMarkupBuilder<Bu
     }
 
     protected bool CheckVisibility(CompositeArgument arg) =>
-        RoleVisibility != null && RoleVisibility.Any(rv => rv.RegularUserRoleId == arg.RoleId)
+        RoleVisibility != null && RoleVisibility.Any(rv => rv.UserRoleId == arg.RoleId)
         || PhraseVisibility != null && PhraseVisibility == arg.UserPhrase;
 
     public abstract ValueTask<ButtonMarkup?> BuildMarkupAsync(CompositeArgument arg);

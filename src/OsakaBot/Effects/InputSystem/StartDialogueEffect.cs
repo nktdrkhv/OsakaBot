@@ -2,14 +2,13 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.InputSystem;
 
-public class StartDialogueEffect : EffectBase
+public sealed class StartDialogueEffect : DialogueEffectBase
 {
-    public StartDialogueEffect() => Type = EffectType.StartDialogue;
+    public StartDialogueEffect(Dialogue? dialogue, byte order = 0) : base(dialogue, EffectType.StartDialogue, order) { }
 
-    public override void SetArguments(string[] args)
-    {
-        throw new NotImplementedException();
-    }
+    private StartDialogueEffect() { }
+
+    public override void SetArguments(string[] args) { }
 }
 
 public class StartDialogueEffectApplier : IEffectApplier<StartDialogueEffect>

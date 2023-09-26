@@ -3,13 +3,19 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class CleanScopeEffect : EffectBase
+public sealed class CleanScopeEffect : EffectBase
 {
-    [Column("WithUserInput")]
-    public bool WithUserInput { get; set; } = true;
+    public ICollection<Target>? Except { get; private set; }
 
-    public CleanScopeEffect() => Type = EffectType.CleanScope;
+    [Column("WithUserInput")] public bool WithUserInput { get; private set; } = true;
 
+    public CleanScopeEffect(bool withUserInput, byte order = 0, params Target[] except) : base(EffectType.CleanScope, order)
+    {
+        WithUserInput = withUserInput;
+        Except = except;
+    }
+
+    private CleanScopeEffect() { }
     public override void SetArguments(string[] args) { }
 }
 

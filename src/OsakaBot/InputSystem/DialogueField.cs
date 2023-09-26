@@ -7,12 +7,23 @@ namespace Osaka.Bot.InputSystem;
 [Table("DialogueField")]
 public class DialogueField
 {
-    public int DialogueFieldId { get; set; }
+    public int DialogueFieldId { get; private set; }
+    public int Order { get; private set; }
 
-    public string AssignToName { get; set; } = null!;
-    public int AttachedToId { get; set; }
+    public string AssignToName { get; private set; } = null!;
+    public Variable AssignTo { get; private set; } = null!;
 
-    public Variable AssignTo { get; set; } = null!;
-    public Dialogue AttachedTo { get; set; } = null!;
-    public ICollection<IncludedPost> IncludedPost { get; set; } = null!;
+    public int AttachedToId { get; private set; }
+    public Dialogue AttachedTo { get; private set; } = null!;
+
+    public ICollection<IncludedPost> IncludedPosts { get; private set; } = null!;
+
+    public DialogueField(int order, Variable assignTo, params IncludedPost[] posts)
+    {
+        Order = order;
+        AssignTo = assignTo;
+        IncludedPosts = posts;
+    }
+
+    private DialogueField() { }
 }

@@ -21,7 +21,11 @@ public class BotDbContext : DbContext
     public DbSet<IncludedPost> IncludedPosts { get; set; } = null!;
     public DbSet<Dialogue> Dialogues { get; set; } = null!;
     public DbSet<EnteredData> EnteredData { get; set; } = null!;
-    public DbSet<Commands.BotCommand> BotCommands { get; set; } = null!;
+    public DbSet<TextCommand> BotCommands { get; set; } = null!;
+    public DbSet<Target> Targets { get; set; } = null!;
+    public DbSet<Source> Sources { get; set; } = null!;
+    public DbSet<EffectBase> Effects { get; set; } = null!;
+    public DbSet<Report> Reports { get; set; } = null!;
 
     public BotDbContext()
     {

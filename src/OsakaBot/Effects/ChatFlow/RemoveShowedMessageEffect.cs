@@ -3,12 +3,18 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class RemoveShowedMessageEffect : ChatChangingEffectBase
+public sealed class RemoveShowedMessageEffect : ChatChangingEffectBase
 {
     [Column("WithUserInput")]
-    public bool WithUserInput { get; set; } = true;
+    public bool WithUserInput { get; private set; } = true;
 
-    public RemoveShowedMessageEffect() => Type = EffectType.RemoveShowedMessage;
+    public RemoveShowedMessageEffect(Target target, bool withUserInput = true, byte order = 0) : base(EffectType.RemoveShowedMessage, order)
+    {
+        Target = target;
+        WithUserInput = withUserInput;
+    }
+
+    private RemoveShowedMessageEffect() { }
 
     public override void SetArguments(string[] args) { }
 }

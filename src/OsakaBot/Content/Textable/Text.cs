@@ -27,14 +27,18 @@ public class Text
     public string? PreparedText { get; set; }
     public ICollection<TextSetterBase>? Surrogates { get; set; }
 
-    public Text() { }
-
     public Text(string text, MessageEntity[]? entities)
     {
         // todo: transformation
         OriginalText = text.Trim();
         OriginalEntities = entities;
     }
+    public Text() { }
+
+    // public static Text ForButton(string text, params TextSetterBase[] setters)
+    // {
+
+    // }
 
     public async ValueTask<string> ToStringAsync(InnerUser user, ITextSetterDispatcher dispatcher, bool isPlain)
     {

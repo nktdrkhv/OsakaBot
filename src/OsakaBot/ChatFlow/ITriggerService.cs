@@ -4,8 +4,8 @@ namespace Osaka.Bot.ChatFlow;
 
 public interface ITriggerService
 {
-    ValueTask ExecuteAsync(InnerUser user, Trigger trigger, string[]? args = null);
-    ValueTask ExecuteAsync(InnerUser user, EffectBase effect, string[]? args = null);
+    ValueTask ExecuteAsync(InnerUser user, Trigger trigger, params string[] args);
+    ValueTask ExecuteAsync(InnerUser user, EffectBase effect, params string[] args);
     ValueTask<Trigger?> FromValidCustomInput(InnerUser user);
     ValueTask<Trigger?> FromInvalidCustomInput(InnerUser user);
     ValueTask<Trigger?> FromPlainPreparedAsync(InnerUser user, string prepared);

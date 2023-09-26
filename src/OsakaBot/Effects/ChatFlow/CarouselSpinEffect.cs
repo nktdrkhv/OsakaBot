@@ -3,15 +3,21 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class CarouselSpinEffect : ChatChangingEffectBase
+public sealed class CarouselSpinEffect : ChatChangingEffectBase
 {
-    [NotMapped] public int CurrentPosition { get; set; }
-    [NotMapped] public bool IsMovingForward { get; set; }
+    [NotMapped] public int CurrentPosition { get; private set; }
+    [NotMapped] public bool IsMovingForward { get; private set; }
 
-    public int GroupId { get; set; }
-    public Group Group { get; set; } = null!;
+    public int GroupId { get; private set; }
+    public Group Group { get; private set; } = null!;
 
-    public CarouselSpinEffect() => Type = EffectType.CarouselSpin;
+    public CarouselSpinEffect(Target target, Group group, byte order = 0) : base(EffectType.CarouselSpin, order)
+    {
+        Target = target;
+        Group = group;
+    }
+
+    private CarouselSpinEffect() { }
 
     public override void SetArguments(string[] args)
     {

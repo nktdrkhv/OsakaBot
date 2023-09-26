@@ -21,7 +21,7 @@ public class AutoInputService : IAutoInputService
                 if (input is InnerMessage msg && msg.Contact is InnerContact contact)
                     return await ContactExtractAsync(contact);
                 break;
-            case AutoInputType.Date:
+            case AutoInputType.LongDate:
                 if (input is string date)
                     return await DateTransformAsync(date);
                 break;

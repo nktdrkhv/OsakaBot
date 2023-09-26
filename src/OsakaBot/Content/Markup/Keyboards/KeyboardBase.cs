@@ -11,6 +11,10 @@ public abstract class KeyboardBase : ITitled, IMarkupBuilder<KeyboardMarkup>
     [Key] public int KeyboardId { get; private set; }
     public KeyboardType Type { get; protected set; } = KeyboardType.None;
     public string? Title { get; protected set; }
+
+    public int? CommonTriggerId { get; protected set; }
+    public Trigger? CommonTrigger { get; protected set; }
+
     public ICollection<ButtonBase>? Buttons { get; protected set; }
 
     public abstract ValueTask<KeyboardMarkup> BuildMarkupAsync(CompositeArgument args);

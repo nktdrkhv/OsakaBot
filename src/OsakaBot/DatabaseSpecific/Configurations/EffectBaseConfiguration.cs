@@ -11,27 +11,37 @@ public class EffectBaseConfiguration : IEntityTypeConfiguration<EffectBase>
         builder
             .HasDiscriminator(et => et.Type)
                 .HasValue<CarouselSpinEffect>(EffectType.CarouselSpin)
-                .HasValue<CleanScopeEffect>(EffectType.CleanScope)
                 .HasValue<EditShowedMessageEffect>(EffectType.EditShowedMessage)
                 .HasValue<RemoveInlineKeyboardEffect>(EffectType.RemoveInlineKeyboard)
                 .HasValue<RemoveShowedMessageEffect>(EffectType.RemoveShowedMessage)
                 .HasValue<RemoveUserInputEffect>(EffectType.RemoveUserInput)
-                .HasValue<SendPostEffect>(EffectType.SendPost);
-        builder
-            .HasDiscriminator(et => et.Type)
+                .HasValue<SendPostEffect>(EffectType.SendPost)
+                .HasValue<CleanScopeEffect>(EffectType.CleanScope)
                 .HasValue<StartDialogueEffect>(EffectType.StartDialogue)
                 .HasValue<FinishDialogueEffect>(EffectType.FinishDialogue)
-                .HasValue<SendReportEffect>(EffectType.SendReport);
+                .HasValue<SendReportEffect>(EffectType.SendReport)
+                .HasValue<MakeInnerContactEffect>(EffectType.MakeInnerContact)
+                .HasValue<SetPhraseEffect>(EffectType.SetPhrase);
     }
 }
 
-public class ChatChangeEffectBaseConfiguration : IEntityTypeConfiguration<ChatChangingEffectBase>
+// public class ChatChangeEffectBaseConfiguration : IEntityTypeConfiguration<ChatChangingEffectBase>
+// {
+//     public void Configure(EntityTypeBuilder<ChatChangingEffectBase> builder)
+//     {
+//         builder
+//             .OwnsOne(cceb => cceb.Target);
+//         builder
+//             .OwnsOne(cceb => cceb.Source);
+//     }
+// }
+
+public class CleanScopeEffectConfiguration : IEntityTypeConfiguration<CleanScopeEffect>
 {
-    public void Configure(EntityTypeBuilder<ChatChangingEffectBase> builder)
+    public void Configure(EntityTypeBuilder<CleanScopeEffect> builder)
     {
         builder
-            .OwnsOne(cceb => cceb.Target);
-        builder
-            .OwnsOne(cceb => cceb.Source);
+            .HasMany(cse => cse.Except)
+            .WithMany();
     }
 }

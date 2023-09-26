@@ -5,7 +5,7 @@ namespace Osaka.Bot.ChatFlow.Skeleton;
 [Table("Post")]
 public class Post : IRoleVisibility, ITitled, IMetaMark
 {
-    public int PostId { get; set; }
+    public int PostId { get; private set; }
 
     public string? Title { get; set; }
     public string? MetaMark { get; set; }
@@ -13,7 +13,7 @@ public class Post : IRoleVisibility, ITitled, IMetaMark
     public int ContentId { get; set; }
     public InnerMessage Content { get; set; } = null!;
 
-    public ICollection<RegularUserRole>? RoleVisibility { get; set; }
+    public ICollection<UserRole>? RoleVisibility { get; set; }
     public string? PhraseVisibility { get; set; }
 
     public int? KeyboardId { get; set; }

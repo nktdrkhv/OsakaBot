@@ -30,7 +30,7 @@ public class InputService : IInputService
         ICollection<AutoInputPair> autoInputed = activeIncludedPost.IncludedPost.AutoInputType switch
         {
             AutoInputType.Contact => message?.Contact != null ? await _autoInput.DecomposeAsync(message, activeIncludedPost.IncludedPost.AutoInputType.Value) : Array.Empty<AutoInputPair>(),
-            AutoInputType.Date => text != null ? await _autoInput.DecomposeAsync(text, activeIncludedPost.IncludedPost.AutoInputType.Value) : Array.Empty<AutoInputPair>(),
+            AutoInputType.LongDate => text != null ? await _autoInput.DecomposeAsync(text, activeIncludedPost.IncludedPost.AutoInputType.Value) : Array.Empty<AutoInputPair>(),
             _ => Array.Empty<AutoInputPair>(),
         };
 

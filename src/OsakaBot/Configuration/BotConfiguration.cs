@@ -8,4 +8,5 @@ public class BotConfiguration
     public string BotToken { get; set; } = null!;
     public string BaseUrl { get; set; } = null!;
     public bool IsTestEnv { get; set; }
+    public string WeatherToken { get; set; } = null!;
 }

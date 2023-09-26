@@ -13,5 +13,6 @@ public enum EffectType
     FinishDialogue,
     SendReport,
     CleanScope,
-    MakeInnerContact
+    MakeInnerContact,
+    SetPhrase
 }

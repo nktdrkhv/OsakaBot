@@ -10,11 +10,11 @@ public class ChatFlowService : IChatFlowService
     private readonly ITriggerService _triggerService;
     private readonly IValidationService _validationService;
     private readonly IInputService _inputService;
-    private readonly IBotCommandService _botCommandService;
+    private readonly ITextCommandService _botCommandService;
     private readonly IChatScopeService _chatScopeService;
     private readonly IRepository _repository;
 
-    public ChatFlowService(IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService, IBotCommandService botCommandService, IRepository repository)
+    public ChatFlowService(IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService, ITextCommandService botCommandService, IRepository repository)
     {
         _chatScopeService = chatScopeService;
         _triggerService = triggerService;
@@ -26,14 +26,16 @@ public class ChatFlowService : IChatFlowService
 
     public async ValueTask SubmitCommandAsync(Message command)
     {
-        var innerUser = await _repository.GetInnerUser(command.From!, true);
+        var innerUser = await _repository.GetInnerUser(command.From!, true)
+            ?? throw new NullReferenceException("InnerUser has to exist on the Chat Flow");
         await _botCommandService.ExecuteCommand(innerUser, command.Text!);
-        await _chatScopeService.SetInputToCustomAsync(innerUser, new(command), new(true));
+        await _chatScopeService.SetInputToCustomAsync(innerUser, new(command), new(OrphanType.AtTheBegginnigOfTheScope));
     }
 
     public async ValueTask SubmitCallbackQueryAsync(CallbackQuery callbackQuery)
     {
-        var innerUser = await _repository.GetInnerUser(callbackQuery.From, true);
+        var innerUser = await _repository.GetInnerUser(callbackQuery.From, true)
+            ?? throw new NullReferenceException("InnerUser has to exist on the Chat Flow");
         if (callbackQuery?.Data is string queryData)
         {
             var args = queryData.Split(':', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
@@ -85,12 +87,11 @@ public class ChatFlowService : IChatFlowService
                     break;
             }
         }
-        return;
     }
 
     private async ValueTask RemoveInlineKeyBoard(InnerUser user, int targetMessageId)
     {
-        var removeInlineKeyboard = new RemoveInlineKeyboardEffect() { Target = new(targetMessageId) };
+        var removeInlineKeyboard = new RemoveInlineKeyboardEffect(new(targetMessageId));
         await _triggerService.ExecuteAsync(user, removeInlineKeyboard);
     }
 
@@ -102,12 +103,13 @@ public class ChatFlowService : IChatFlowService
 
     private async ValueTask SubmitInnerMessageAsync(User user, InnerMessage innerMessage)
     {
-        var innerUser = await _repository.GetInnerUser(user, true);
+        var innerUser = await _repository.GetInnerUser(user, true)
+            ?? throw new NullReferenceException("InnerUser has to exist on the Chat Flow");
         if (innerMessage.Text?.OriginalText is string messageText && await _triggerService.FromPlainPreparedAsync(innerUser, messageText) is Trigger replyTrigger)
         {
             innerMessage!.Type = InnerMessageType.TextFromButton;
             await _inputService.FromMessageTriggerAsync(innerUser, replyTrigger, innerMessage);
-            await _chatScopeService.SetInputToReasonAsync(innerUser, replyTrigger, innerMessage);
+            await _chatScopeService.SetInputToReasonAsync(innerUser, innerMessage, replyTrigger);
             await _triggerService.ExecuteAsync(innerUser, replyTrigger);
         }
         else
@@ -135,10 +137,9 @@ public class ChatFlowService : IChatFlowService
             }
             else
             {
-                var removeShowedMessage = new RemoveShowedMessageEffect() { Target = new(innerMessage.CauseMessageId) };
+                var removeShowedMessage = new RemoveShowedMessageEffect(new(innerMessage.CauseMessageId));
                 await _triggerService.ExecuteAsync(innerUser, removeShowedMessage);
             }
         };
-        return;
     }
 }

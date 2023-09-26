@@ -1,8 +1,6 @@
 using System.Linq.Dynamic.Core;
-using System.Net.Mail;
-using System.Runtime.Serialization.Formatters;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Telegram.Bot.Types;
 
 namespace Osaka.Bot.Extensions;
@@ -11,10 +9,10 @@ public static class RepositoryExtensions
 {
     // public static IQueryable<ChatScope> GetUserScopeQuery(this IRepository repo, InnerUser user) => repo.GetQueryable<ChatScope>().Where(cs => cs.InnerUserId == user.InnerUserId);
 
-    public static async ValueTask<InnerUser> GetInnerUser(this IRepository repo, User user, bool ant = false, CancellationToken ct = default) =>
+    public static async ValueTask<InnerUser?> GetInnerUser(this IRepository repo, User user, bool ant = false, CancellationToken ct = default) =>
         await repo.GetAsync<InnerUser>(iu => iu.TelegramUserId == user.Id, ant, cancellationToken: ct);
 
-    public static async ValueTask<ChatScope> GetUserScope(this IRepository repo, InnerUser innerUser, bool includeAll = false, bool ant = false, CancellationToken ct = default)
+    public static async ValueTask<ChatScope> GetUserScope(this IRepository repo, InnerUser innerUser, bool ant = false, CancellationToken ct = default)
     {
         return await repo.GetAsync<ChatScope>(cs => cs.InnerUserId == innerUser.InnerUserId,
         cs => cs
@@ -23,18 +21,16 @@ public static class RepositoryExtensions
             .Include(cs => cs.ShowedMessages!)
             .Include(cs => cs.PlainTriggers!)
             .Include(cs => cs.EncodedTriggers!)
-            .Include(cs => cs.Validators!)
+            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.Validators)
+            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnValidInput).ThenInclude(t => t.Effects)
+            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnInvalidInput).ThenInclude(t => t!.Effects)
             .Include(cs => cs.ActiveInput!)
-            .Include(cs => cs.OnInvalidInput!)
-            .Include(cs => cs.OnValidInput!)
-            .Include(cs => cs.OnScopeClean!)
-                .ThenInclude(t => t.Effects),
+            .Include(cs => cs.OnScopeClean!).ThenInclude(t => t.Effects),
             asNoTracking: ant, cancellationToken: ct);
     }
 
     public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, CancellationToken ct = default)
     {
-
         var scope = await repo.GetAsync<ChatScope>(
             cs => cs.InnerUserId == innerUser.InnerUserId,
             cs => cs.Include(cs => cs.ActiveInput)
@@ -42,8 +38,7 @@ public static class RepositoryExtensions
             asNoTracking: false, cancellationToken: ct);
         if (scope.ActiveInput is not null)
             scope.ActiveInput.RecievedFromUser!.Add(innerUserInput);
-
-        await repo.SaveChangesAsync();
+        await repo.SaveChangesAsync(ct);
     }
 
     public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, Trigger reasonTrigger, CancellationToken ct = default)
@@ -56,21 +51,54 @@ public static class RepositoryExtensions
                             .ThenInclude(sm => sm.RecievedFromUser),
             asNoTracking: false, cancellationToken: ct);
         scope.PlainTriggers!.First(akt => akt.TriggerId == reasonTrigger.TriggerId).ShowedMessage.RecievedFromUser!.Add(innerUserInput);
-        await repo.SaveChangesAsync();
+        await repo.SaveChangesAsync(ct);
     }
 
     public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, Target target, CancellationToken ct = default)
     {
-        await ValueTask.CompletedTask;
+        var showedMessage = await repo.GetShowedMessageByTarget(innerUser, target, false, ct);
+        showedMessage.RecievedFromUser!.Add(innerUserInput);
+        await repo.SaveChangesAsync(ct);
     }
 
-    public static async ValueTask<ICollection<ValidatorBase>?> GetValidators(this IRepository repo, InnerUser innerUser, bool ant = true, CancellationToken ct = default)
+    public static async ValueTask<ShowedMessage> GetShowedMessageByTarget(this IRepository repo, InnerUser innerUser, Target target, bool ant = false, CancellationToken ct = default)
+    {
+        var spec = new Specification<ShowedMessage>
+        {
+            Includes = sm => sm.Include(sm => sm.RecievedFromUser)
+        };
+
+        if (target.Type == TargetType.Orphan)
+        {
+            if (target.Orphan == OrphanType.AtTheBegginnigOfTheScope)
+                spec.OrderBy = sm => sm.OrderBy(sm => sm.CreatedAt);
+        }
+        else
+        {
+            Expression<Func<ShowedMessage, bool>> condition = target.Type switch
+            {
+                TargetType.Labeled => (sm) => sm.Label == target.Label!,
+                TargetType.TelegramMessage => (sm) => sm.CauseMessageId == target.MessageId!,
+                TargetType.Content => (sm) => sm.InnerMessageId == target.ContentId!,
+                TargetType.Post => (sm) => sm.PostId == target.PostId!,
+                _ => throw new ArgumentException("Target has to be in appropriate type")
+            };
+            spec.Conditions.Add(condition);
+        }
+
+        var scope = await repo.GetAsync<ChatScope>(cs => cs.InnerUserId == innerUser.InnerUserId, ant, ct);
+        spec.Conditions.Add(sm => sm.ChatScopeId == scope.ChatScopeId);
+
+        return await repo.GetAsync(spec, ant, ct);
+    }
+
+    public static async ValueTask<ICollection<ValidatorBase>?> GetValidators(this IRepository repo, InnerUser innerUser, bool ant = false, CancellationToken ct = default)
     {
         var scope = await repo.GetAsync<ChatScope>(
             sc => sc.InnerUserId == innerUser.InnerUserId,
-            sc => sc.Include(sc => sc.Validators),
+            sc => sc.Include(sc => sc.UserInput).ThenInclude(ui => ui!.Validators),
             asNoTracking: ant, cancellationToken: ct);
-        return scope.Validators;
+        return scope.UserInput?.Validators;
     }
 
     public static async ValueTask<string?> GetPostMeta(this IRepository repo, int postId, CancellationToken ct = default) =>
@@ -107,7 +135,7 @@ public static class RepositoryExtensions
             .Select(b => b.Text)
             .FirstAsync(ct);
 
-    public static async ValueTask<Post> GetPost(this IRepository repo, int postId, bool ant = true, CancellationToken ct = default)
+    public static async ValueTask<Post> GetPost(this IRepository repo, int postId, bool ant = false, CancellationToken ct = default)
     {
         return await repo.GetByIdAsync<Post>(postId,
             p => p
@@ -117,14 +145,12 @@ public static class RepositoryExtensions
                 .Include(p => p.Content)
                     .ThenInclude(im => im.Text)
                         .ThenInclude(t => t!.Surrogates!)
-                .Include(p => p.Content)
-                    .ThenInclude(im => im.Geolocation)
-                .Include(p => p.Content)
-                    .ThenInclude(im => im.Contact)
                 .Include(p => p.RoleVisibility)
                 .Include(p => p.Keyboard)
+                    .ThenInclude(k => k!.Buttons)!
+                        .ThenInclude(b => b.RoleVisibility)
                 .Include(p => p.UserInput)
-                .Include(p => p.OnUserScopeClear),
+                    .ThenInclude(ui => ui!.Validators),
                 asNoTracking: ant, cancellationToken: ct);
     }
 }

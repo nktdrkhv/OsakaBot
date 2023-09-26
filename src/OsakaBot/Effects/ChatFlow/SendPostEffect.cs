@@ -5,10 +5,12 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class SendPostEffect : ChatChangingEffectBase
+public sealed class SendPostEffect : ChatChangingEffectBase
 {
-    public SendPostEffect() => Type = EffectType.SendPost;
-    public SendPostEffect(Post post) : base() => Target = new(post);
+    public SendPostEffect(Post post, byte order = 0) : base(EffectType.SendPost, order)
+        => Source = new(post);
+
+    private SendPostEffect() { }
 
     public override void SetArguments(string[] args) { }
 }

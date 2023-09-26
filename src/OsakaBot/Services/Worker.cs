@@ -8,9 +8,9 @@ public class Worker : UpdateWriterServiceAbs
 {
     public Worker(IUpdater updater) : base(updater)
     {
-        updater.AddUserNumericStateKeeper("regular");
-        updater.AddUserNumericStateKeeper("support");
-        updater.AddUserNumericStateKeeper("admin");
+        updater.AddUserNumericStateKeeper(UserStateKeeperAccessor.Regular);
+        updater.AddUserNumericStateKeeper(UserStateKeeperAccessor.Support);
+        updater.AddUserNumericStateKeeper(UserStateKeeperAccessor.Admin);
     }
 
     public override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -23,10 +23,8 @@ public class Worker : UpdateWriterServiceAbs
                 await foreach (var update in reciever.WithCancellation(stoppingToken))
                     await EnqueueUpdateAsync(update, stoppingToken);
             }
-            catch (Exception ex)
-            {
-                Logger.LogError($"{nameof(Worker)}: {0}", ex.ToString());
-            }
+            catch
+            { }
         }
     }
 }

@@ -22,10 +22,8 @@ public class ChatScopeService : IChatScopeService
         scope.ShowedMessages.Clear();
         scope.PlainTriggers?.Clear();
         scope.EncodedTriggers?.Clear();
-        scope.Validators?.Clear();
+        scope.UserInput = null;
         scope.ActiveInput = null;
-        scope.OnValidInput = null;
-        scope.OnInvalidInput = null;
         scope.HasToRedirectInvalidInput = false;
     }
 
@@ -40,5 +38,5 @@ public class ChatScopeService : IChatScopeService
 
     public async ValueTask SetInputToCustomAsync(InnerUser user, InnerMessage message, Target target) => await _repository.SetUserInput(user, message, target);
 
-    public async ValueTask SetInputToReasonAsync(InnerUser user, Trigger trigger, InnerMessage message) => await _repository.SetUserInput(user, message, trigger);
+    public async ValueTask SetInputToReasonAsync(InnerUser user, InnerMessage message, Trigger trigger) => await _repository.SetUserInput(user, message, trigger);
 }

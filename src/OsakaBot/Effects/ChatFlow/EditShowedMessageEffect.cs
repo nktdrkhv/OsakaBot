@@ -2,9 +2,15 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class EditShowedMessageEffect : ChatChangingEffectBase
+public sealed class EditShowedMessageEffect : ChatChangingEffectBase
 {
-    public EditShowedMessageEffect() => Type = EffectType.EditShowedMessage;
+    public EditShowedMessageEffect(Target target, Source source, byte order) : base(EffectType.EditShowedMessage, order)
+    {
+        Target = target;
+        Source = source;
+    }
+
+    private EditShowedMessageEffect() { }
 
     public override void SetArguments(string[] args) { }
 }

@@ -1,19 +1,26 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Osaka.Bot.Effects;
 
-public class Source
+[Table("Source")]
+public class Source : ILabeled
 {
-    public SourceType Type { get; set; } = SourceType.None;
+    public int SourceId { get; private set; }
+    public SourceType Type { get; private set; } = SourceType.None;
 
-    public int? KeyboardId { get; set; }
-    public KeyboardBase? Keyboard { get; set; }
+    public int? KeyboardId { get; private set; }
+    public KeyboardBase? Keyboard { get; private set; }
 
-    public int? ContentId { get; set; }
-    public InnerMessage? Content { get; set; }
+    public int? ContentId { get; private set; }
+    public InnerMessage? Content { get; private set; }
 
-    public int? PostId { get; set; }
-    public Post? Post { get; set; }
+    public int? PostId { get; private set; }
+    public Post? Post { get; private set; }
 
-    public Source() { }
+    public int? MediaId { get; private set; }
+    public Media? Media { get; private set; }
+
+    public string? Label { get; private set; }
 
     public Source(KeyboardBase keyboard)
     {
@@ -32,4 +39,13 @@ public class Source
         Type = SourceType.Post;
         Post = post;
     }
+
+    public Source(Media media, string label)
+    {
+        Type = SourceType.LabeledMedia;
+        Media = media;
+        Label = label;
+    }
+
+    protected Source() { }
 }

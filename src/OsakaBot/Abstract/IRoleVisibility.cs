@@ -2,6 +2,6 @@ namespace Osaka.Bot.Abstract;
 
 public interface IRoleVisibility
 {
-    public ICollection<RegularUserRole>? RoleVisibility { get; }
+    public ICollection<UserRole>? RoleVisibility { get; }
     public string? PhraseVisibility { get; }
 }

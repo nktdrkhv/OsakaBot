@@ -18,7 +18,7 @@ public abstract class ButtonInline : ButtonBase
         byte columnPriority,
         Trigger? trigger,
         string? metaMark = null,
-        ICollection<RegularUserRole>? roleVisibility = null,
+        ICollection<UserRole>? roleVisibility = null,
         string? phraseVisibility = null)
         : base(text, rowPriority, columnPriority, trigger, metaMark, roleVisibility, phraseVisibility)
         => Type = ButtonType.Inline;

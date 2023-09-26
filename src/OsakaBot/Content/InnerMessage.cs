@@ -51,45 +51,32 @@ public class InnerMessage : ITitled, IMetaMark
                 break;
             case MessageType.Photo:
                 Type = InnerMessageType.Photo;
-                var photo = message.Photo!.Last();
-                var photoFileId = photo.FileId;
-                var photoUniqueId = photo.FileUniqueId;
-                Media = new Media[] { new(MediaType.Photo, photoFileId, photoUniqueId) };
+                Media = new Media[] { new(message) };
                 Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Audio:
                 Type = InnerMessageType.Audio;
-                var audioFileId = message.Audio!.FileId;
-                var audioUniqueId = message.Audio!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Audio, audioFileId, audioUniqueId) };
+                Media = new Media[] { new(message) };
                 Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Video:
                 Type = InnerMessageType.Video;
-                var videoFileId = message.Video!.FileId;
-                var videoUniqueId = message.Video!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Video, videoFileId, videoUniqueId) };
+                Media = new Media[] { new(message) };
                 Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Voice:
                 Type = InnerMessageType.Voice;
-                var voiceFileId = message.Voice!.FileId;
-                var voiceUniqueId = message.Voice!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Voice, voiceFileId, voiceUniqueId) };
+                Media = new Media[] { new(message) };
                 Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Document:
                 Type = InnerMessageType.Document;
-                var documentFileId = message.Document!.FileId;
-                var documentUniqueId = message.Document!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Document, documentFileId, documentUniqueId) };
+                Media = new Media[] { new(message) };
                 Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             case MessageType.Sticker:
                 Type = InnerMessageType.Sticker;
-                var stickerFileId = message.Sticker!.FileId;
-                var stickerUniqueId = message.Sticker!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Sticker, stickerFileId, stickerUniqueId) };
+                Media = new Media[] { new(message) };
                 break;
             case MessageType.Contact:
                 Type = InnerMessageType.Contact;
@@ -105,15 +92,11 @@ public class InnerMessage : ITitled, IMetaMark
                 break;
             case MessageType.VideoNote:
                 Type = InnerMessageType.VideoNote;
-                var videoNoteFileId = message.VideoNote!.FileId;
-                var videoNoteUniqueId = message.VideoNote!.FileUniqueId;
-                Media = new Media[] { new(MediaType.VideoNote, videoNoteFileId, videoNoteUniqueId) };
+                Media = new Media[] { new(message) };
                 break;
             case MessageType.Animation:
                 Type = InnerMessageType.Animation;
-                var aniFileId = message.Animation!.FileId;
-                var aniUniqueId = message.Animation!.FileUniqueId;
-                Media = new Media[] { new(MediaType.Animation, aniFileId, aniUniqueId) };
+                Media = new Media[] { new(message) };
                 Text = message.Caption != null ? new(message.Caption!, message.Entities) : null;
                 break;
             default:
@@ -143,11 +126,11 @@ public class InnerMessage : ITitled, IMetaMark
             {
                 var singleMedia = msg.Type switch
                 {
-                    MessageType.Photo => new Media(MediaType.Photo, msg.Photo!.Last().FileId, msg.Photo!.Last().FileUniqueId),
-                    MessageType.Video => new Media(MediaType.Video, msg.Video!.FileId, msg.Video.FileUniqueId),
-                    MessageType.Audio => new Media(MediaType.Audio, msg.Audio!.FileId, msg.Audio.FileUniqueId),
-                    MessageType.Document => new Media(MediaType.Document, msg.Document!.FileId, msg.Document.FileUniqueId),
-                    _ => throw new Exception()
+                    MessageType.Photo => new Media(msg),
+                    MessageType.Video => new Media(msg),
+                    MessageType.Audio => new Media(msg),
+                    MessageType.Document => new Media(msg),
+                    _ => throw new ArgumentException($"One of MediaGroups messagies doesn't fit: {msg.Type}")
                 };
                 Media.Add(singleMedia);
                 ids.Add(msg.MessageId);

@@ -2,12 +2,15 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.InputSystem;
 
-public class SendReportEffect : EffectBase
+public sealed class SendReportEffect : EffectBase
 {
     public int ReportId { get; set; }
     public Report Report { get; set; } = null!;
 
-    public SendReportEffect() => Type = EffectType.SendReport;
+    public SendReportEffect(Report report, byte order = 0) : base(EffectType.SendReport, order)
+        => Report = report;
+
+    private SendReportEffect() { }
 
     public override void SetArguments(string[] args) { }
 }

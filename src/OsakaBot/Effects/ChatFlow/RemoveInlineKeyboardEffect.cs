@@ -2,14 +2,17 @@ using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.ChatFlow;
 
-public class RemoveInlineKeyboardEffect : ChatChangingEffectBase
+public sealed class RemoveInlineKeyboardEffect : ChatChangingEffectBase
 {
-    public RemoveInlineKeyboardEffect() => Type = EffectType.RemoveInlineKeyboard;
+    public RemoveInlineKeyboardEffect(Target target, byte order = 0) : base(EffectType.RemoveInlineKeyboard, order)
+        => Target = target;
+
+    private RemoveInlineKeyboardEffect() { }
 
     public override void SetArguments(string[] args) { }
 }
 
-public class RemoveInlineKeyboardEffectApplier : IEffectApplier<SendPostEffect>
+public class RemoveInlineKeyboardEffectApplier : IEffectApplier<RemoveInlineKeyboardEffect>
 {
     private readonly ITelegramBotClient _botClient;
 

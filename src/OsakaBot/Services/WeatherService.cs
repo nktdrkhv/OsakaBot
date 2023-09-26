@@ -23,7 +23,8 @@ public class WeatherService : BackgroundService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                CachedWeather = await GetInstantWeatherAsync(56.478517, 85.047436);
+                //CachedWeather = await GetInstantWeatherAsync(56.478517, 85.047436);
+                CachedWeather = "Hello";
                 _logger.LogInformation(message: "Current is {0}", CachedWeather ?? "unknown");
                 await Task.Delay(TimeSpan.FromMinutes(20), stoppingToken);
             }
