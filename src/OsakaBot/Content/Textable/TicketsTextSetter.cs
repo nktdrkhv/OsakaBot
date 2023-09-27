@@ -4,14 +4,21 @@ public class TicketsTextSetter : TextSetterBase
 {
     public SentReportStatus TicketStatus { get; private set; }
     public byte Limit { get; private set; }
-    protected TicketsTextSetter() => Type = TextSetterType.Tickets;
-    public TicketsTextSetter(SentReportStatus status, byte limit = 0) : this() => (TicketStatus, Limit) = (status, limit);
+
+    public TicketsTextSetter(SentReportStatus status, byte limit = 0)
+    {
+        Type = TextSetterType.Tickets;
+        (TicketStatus, Limit) = (status, limit);
+    }
+
+    protected TicketsTextSetter() { }
 }
 
-public class TicketsSetterApplier : ITextSetterApplier<TicketsTextSetter>
+public class TicketsTextSetterApplier : ITextSetterApplier<TicketsTextSetter>
 {
-    public ValueTask<string> Apply(TextSetterBase effect)
+    public ValueTask<string> Apply(TextSetterBase setter)
     {
+        var concrete = (TicketsTextSetter)setter;
         throw new NotImplementedException();
     }
 }

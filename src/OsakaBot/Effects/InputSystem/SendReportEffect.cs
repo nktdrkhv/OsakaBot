@@ -1,11 +1,12 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Telegram.Bot;
 
 namespace Osaka.Bot.Effects.InputSystem;
 
 public sealed class SendReportEffect : EffectBase
 {
-    public int ReportId { get; set; }
-    public Report Report { get; set; } = null!;
+    [Column(nameof(ReportId))] public int ReportId { get; set; }
+    [Column(nameof(Report))] public Report Report { get; set; } = null!;
 
     public SendReportEffect(Report report, byte order = 0) : base(EffectType.SendReport, order)
         => Report = report;

@@ -35,7 +35,7 @@ public class BotDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=oez.db");
+        optionsBuilder.UseSqlite("Data Source=oeztomsk.db");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

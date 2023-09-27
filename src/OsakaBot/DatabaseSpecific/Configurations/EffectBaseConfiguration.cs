@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Osaka.Bot.DatabaseSpecific.Configurations;
 
@@ -10,18 +9,20 @@ public class EffectBaseConfiguration : IEntityTypeConfiguration<EffectBase>
     {
         builder
             .HasDiscriminator(et => et.Type)
-                .HasValue<CarouselSpinEffect>(EffectType.CarouselSpin)
-                .HasValue<EditShowedMessageEffect>(EffectType.EditShowedMessage)
-                .HasValue<RemoveInlineKeyboardEffect>(EffectType.RemoveInlineKeyboard)
+                .HasValue<MakeInnerContactEffect>(EffectType.MakeInnerContact)
+                .HasValue<SetPhraseEffect>(EffectType.SetPhrase)
+                .HasValue<CleanScopeEffect>(EffectType.CleanScope)
                 .HasValue<RemoveShowedMessageEffect>(EffectType.RemoveShowedMessage)
                 .HasValue<RemoveUserInputEffect>(EffectType.RemoveUserInput)
+                .HasValue<RemoveInlineKeyboardEffect>(EffectType.RemoveInlineKeyboard)
+                .HasValue<EditShowedMessageEffect>(EffectType.EditShowedMessage)
+                .HasValue<CarouselSpinEffect>(EffectType.CarouselSpin)
                 .HasValue<SendPostEffect>(EffectType.SendPost)
-                .HasValue<CleanScopeEffect>(EffectType.CleanScope)
-                .HasValue<StartDialogueEffect>(EffectType.StartDialogue)
-                .HasValue<FinishDialogueEffect>(EffectType.FinishDialogue)
                 .HasValue<SendReportEffect>(EffectType.SendReport)
-                .HasValue<MakeInnerContactEffect>(EffectType.MakeInnerContact)
-                .HasValue<SetPhraseEffect>(EffectType.SetPhrase);
+                .HasValue<SendMediaEffect>(EffectType.SendMedia)
+                .HasValue<SendReportAssistantsContactsEffect>(EffectType.SendReportAssistantsContacts)
+                .HasValue<StartDialogueEffect>(EffectType.StartDialogue)
+                .HasValue<FinishDialogueEffect>(EffectType.FinishDialogue);
     }
 }
 

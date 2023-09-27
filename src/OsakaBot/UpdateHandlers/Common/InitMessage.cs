@@ -7,7 +7,7 @@ using TelegramUpdater.Helpers;
 using TelegramUpdater.UpdateContainer;
 using TelegramUpdater.UpdateHandlers.Scoped.ReadyToUse;
 
-namespace Osaka.Bot.UpdateHandlers.Common.Messagies;
+namespace Osaka.Bot.UpdateHandlers.Common.Messages;
 
 [ChatType(ChatTypeFlags.Private)]
 public sealed class InitMassage : MessageHandler

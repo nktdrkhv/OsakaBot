@@ -6,19 +6,20 @@ using Telegram.Bot.Types.Enums;
 
 namespace Osaka.Bot.Content;
 
-public class Media
+public class Media : ITitled
 {
     public int MediaId { get; private set; }
     public MediaType MediaType { get; private set; } = MediaType.None;
     public string? FileId { get; private set; }
     public string? FileUniqueId { get; private set; }
     public string? Path { get; private set; }
+    public string? Title { get; private set; }
     public string? BotName { get; private set; }
 
     public ICollection<InnerMessage>? InnerMessages { get; set; }
     public ICollection<ShowedMessage>? ShowedMessages { get; set; }
 
-    public Media(MediaType mediaType, string? fileId = null, string? fileUniqueId = null, string? path = null)
+    public Media(MediaType mediaType, string? fileId = null, string? fileUniqueId = null, string? path = null, string? title = null)
     {
         if (string.IsNullOrWhiteSpace(fileId) && string.IsNullOrWhiteSpace(path))
             throw new ArgumentNullException(nameof(path), "Path of the local media file can not be null, if fileId is not submitted");
@@ -26,13 +27,15 @@ public class Media
         FileId = fileId;
         FileUniqueId = fileUniqueId;
         Path = path;
+        Title = title;
     }
 
-    public Media(Message message)
+    public Media(Message message, string? title = null)
     {
         Set(message);
         if (string.IsNullOrWhiteSpace(FileId) || MediaType == MediaType.None)
             throw new ArgumentException("There is no suitable media in the submitted message", nameof(message));
+        Title = title;
     }
 
     private Media() { }

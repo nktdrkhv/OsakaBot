@@ -47,5 +47,11 @@ public class Source : ILabeled
         Label = label;
     }
 
+    public Source(string label)
+    {
+        Type = SourceType.Label;
+        Label = label;
+    }
+
     protected Source() { }
 }

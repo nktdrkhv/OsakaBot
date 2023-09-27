@@ -8,7 +8,6 @@ using TelegramUpdater.UpdateHandlers.Scoped.ReadyToUse;
 
 namespace Osaka.Bot.UpdateHandlers.Common.CallbackQueries;
 
-
 public sealed class InitCallbackQuery : CallbackQueryHandler
 {
     protected override Task HandleAsync(IContainer<CallbackQuery> cntr)

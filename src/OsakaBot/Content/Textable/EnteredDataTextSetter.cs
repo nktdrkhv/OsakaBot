@@ -7,8 +7,6 @@ public class EnteredDataTextSetter : TextSetterBase
     public string VariableName { get; set; } = null!;
     public Variable Variable { get; set; } = null!;
 
-    protected EnteredDataTextSetter() { }
-
     public EnteredDataTextSetter(string variableName)
     {
         Type = TextSetterType.EnteredData;
@@ -20,6 +18,8 @@ public class EnteredDataTextSetter : TextSetterBase
         Type = TextSetterType.EnteredData;
         Variable = variable;
     }
+
+    protected EnteredDataTextSetter() { }
 }
 
 public class EnteredDataTextSetterApplier : ITextSetterApplier<EnteredDataTextSetter>

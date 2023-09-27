@@ -1,6 +1,6 @@
 namespace Osaka.Bot.UserSpecific;
 
-public class UserService
+public class UserService : IUserService
 {
 
 }

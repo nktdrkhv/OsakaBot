@@ -4,14 +4,21 @@ public class WeatherTextSetter : TextSetterBase
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-    protected WeatherTextSetter() => Type = TextSetterType.Weather;
-    public WeatherTextSetter(double latitude, double longitude) : this() => (Latitude, Longitude) = (latitude, longitude);
+
+    public WeatherTextSetter(double latitude, double longitude)
+    {
+        Type = TextSetterType.Weather;
+        (Latitude, Longitude) = (latitude, longitude);
+    }
+
+    protected WeatherTextSetter() { }
 }
 
 public class WeatherTextSetterApplier : ITextSetterApplier<WeatherTextSetter>
 {
-    public ValueTask<string> Apply(TextSetterBase effect)
+    public ValueTask<string> Apply(TextSetterBase setter)
     {
+        var concrete = (WeatherTextSetter)setter;
         throw new NotImplementedException();
     }
 }

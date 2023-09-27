@@ -22,10 +22,10 @@ public static class RepositoryExtensions
             .Include(cs => cs.PlainTriggers!)
             .Include(cs => cs.EncodedTriggers!)
             .Include(cs => cs.UserInput!).ThenInclude(ui => ui.Validators)
-            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnValidInput).ThenInclude(t => t.Effects)
-            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnInvalidInput).ThenInclude(t => t!.Effects)
+            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnValidInput)
+            .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnInvalidInput)
             .Include(cs => cs.ActiveInput!)
-            .Include(cs => cs.OnScopeClean!).ThenInclude(t => t.Effects),
+            .Include(cs => cs.OnScopeClean!),
             asNoTracking: ant, cancellationToken: ct);
     }
 
@@ -130,7 +130,6 @@ public static class RepositoryExtensions
         await repo.GetQueryable<ButtonBase>()
             .AsNoTracking()
             .Include(b => b.Text)
-                .ThenInclude(t => t.Surrogates!)
             .Where(b => b.TriggerId == triggerId)
             .Select(b => b.Text)
             .FirstAsync(ct);
@@ -144,7 +143,6 @@ public static class RepositoryExtensions
                     .ThenInclude(im => im.Media)
                 .Include(p => p.Content)
                     .ThenInclude(im => im.Text)
-                        .ThenInclude(t => t!.Surrogates!)
                 .Include(p => p.RoleVisibility)
                 .Include(p => p.Keyboard)
                     .ThenInclude(k => k!.Buttons)!

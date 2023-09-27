@@ -20,9 +20,9 @@ public class SendPostEffectApplier : IEffectApplier<SendPostEffect>
     private readonly ITelegramBotClient _botClient;
     private readonly IRepository _repository;
     private readonly SqidsEncoder _encoder;
-    private readonly TextSetterDispatcher _dispatcher;
+    private readonly ITextSetterDispatcher _dispatcher;
 
-    public SendPostEffectApplier(ITelegramBotClient botClient, IRepository repository, SqidsEncoder encoder, TextSetterDispatcher dispatcher)
+    public SendPostEffectApplier(ITelegramBotClient botClient, IRepository repository, SqidsEncoder encoder, ITextSetterDispatcher dispatcher)
     {
         _botClient = botClient;
         _repository = repository;

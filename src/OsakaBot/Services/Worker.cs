@@ -23,8 +23,13 @@ public class Worker : UpdateWriterServiceAbs
                 await foreach (var update in reciever.WithCancellation(stoppingToken))
                     await EnqueueUpdateAsync(update, stoppingToken);
             }
-            catch
-            { }
+            catch (TaskCanceledException) { }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "There was an error, during enqueueing updates");
+                await Task.Delay(TimeSpan.FromSeconds(1), CancellationToken.None);
+            }
         }
     }
 }

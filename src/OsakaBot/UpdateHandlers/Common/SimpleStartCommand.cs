@@ -4,7 +4,7 @@ using TelegramUpdater.Filters;
 using TelegramUpdater.UpdateContainer;
 using TelegramUpdater.UpdateHandlers.Scoped.ReadyToUse;
 
-namespace Osaka.Bot.UpdateHandlers.Common.Messagies;
+namespace Osaka.Bot.UpdateHandlers.Common.Messages;
 
 [Command(prefix: '/', argumentsMode: ArgumentsMode.NoArgs, "start")]
 public sealed class SimpleStartCommand : MessageHandler

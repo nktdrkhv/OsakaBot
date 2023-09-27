@@ -12,10 +12,13 @@
             // Если вы изменили требуемые версии .NET Framework, обязательно обновите путь к программе.
             "program": "${workspaceFolder}/src/OsakaBot/bin/Debug/net6.0/Osaka.Bot.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/src/OsakaBot",
             // Дополнительные сведения о поле \"console\" см. в https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
-            "stopAtEntry": false
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
         },
         {
             "name": ".NET Core Attach",

@@ -21,5 +21,7 @@ public class TextConfiguration : IEntityTypeConfiguration<Text>
         builder
             .Property(t => t.OriginalEntities)
                 .HasConversion(converter);
+        builder
+            .Navigation(t => t.Surrogates).AutoInclude();
     }
 }

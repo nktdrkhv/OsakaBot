@@ -7,8 +7,9 @@ public class UserRoleTextSetter : TextSetterBase
 
 public class UserRoleTextSetterApplier : ITextSetterApplier<UserRoleTextSetter>
 {
-    public ValueTask<string> Apply(TextSetterBase effect)
+    public ValueTask<string> Apply(TextSetterBase setter)
     {
+        var concrete = (UserRoleTextSetter)setter;
         throw new NotImplementedException();
     }
 }

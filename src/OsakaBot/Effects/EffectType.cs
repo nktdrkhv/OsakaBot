@@ -14,5 +14,7 @@ public enum EffectType
     SendReport,
     CleanScope,
     MakeInnerContact,
-    SetPhrase
+    SetPhrase,
+    SendMedia,
+    SendReportAssistantsContacts
 }

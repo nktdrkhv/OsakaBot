@@ -13,8 +13,9 @@ public class ContactListTextSetter : TextSetterBase
 
 public class ContactListTextSetterApplier : ITextSetterApplier<ContactListTextSetter>
 {
-    public ValueTask<string> Apply(TextSetterBase effect)
+    public ValueTask<string> Apply(TextSetterBase setter)
     {
+        var concrete = (ContactListTextSetter)setter;
         throw new NotImplementedException();
     }
 }

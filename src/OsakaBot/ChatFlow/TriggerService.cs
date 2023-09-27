@@ -55,8 +55,7 @@ public class TriggerService : ITriggerService
         var scope = await _repository.GetAsync<ChatScope.ChatScope>(
             cs => cs.InnerUserId == user.InnerUserId,
             cs => cs.Include(cs => cs.PlainTriggers!.Where(akt => akt.Text == prepared))
-                        .ThenInclude(akt => akt.Trigger)
-                            .ThenInclude(t => t.Effects),
+                        .ThenInclude(akt => akt.Trigger),
             asNoTracking: true);
         return scope.PlainTriggers?.LastOrDefault()?.Trigger;
     }
@@ -66,8 +65,7 @@ public class TriggerService : ITriggerService
         var scope = await _repository.GetAsync<ChatScope.ChatScope>(
             cs => cs.InnerUserId == user.InnerUserId,
             cs => cs.Include(cs => cs.EncodedTriggers!.Where(akt => akt.Text == encodedId))
-                        .ThenInclude(akt => akt.Trigger)
-                            .ThenInclude(t => t.Effects),
+                        .ThenInclude(akt => akt.Trigger),
             asNoTracking: true);
         return scope.PlainTriggers?.LastOrDefault()?.Trigger;
     }
@@ -78,7 +76,6 @@ public class TriggerService : ITriggerService
         return ids.Length == 2 && ids[0] == user.InnerUserId ?
             await _repository.GetAsync<Trigger>(
                 t => t.TriggerId == ids[1] && t.AllowOutOfScope,
-                t => t.Include(t => t.Effects),
                 asNoTracking: true) :
             null;
     }
