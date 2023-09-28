@@ -9,7 +9,7 @@ public sealed class SendMediaEffect : ChatChangingEffectBase
 
     private SendMediaEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class SendMediaEffectApplier : IEffectApplier<SendMediaEffect>

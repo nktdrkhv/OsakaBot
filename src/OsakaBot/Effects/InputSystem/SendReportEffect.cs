@@ -13,7 +13,7 @@ public sealed class SendReportEffect : EffectBase
 
     private SendReportEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class SendReportEffectApplier : IEffectApplier<SendReportEffect>

@@ -10,5 +10,5 @@ public abstract class DialogueEffectBase : EffectBase
 
     protected DialogueEffectBase() { }
 
-    public abstract override void SetArguments(string[] args);
+    public abstract override void SetArguments(object[] args);
 }

@@ -26,7 +26,7 @@ IHost host = Host.CreateDefaultBuilder(args)
                 flushUpdatesQueue: false,
                 allowedUpdates: Array.Empty<UpdateType>()),
             (builder) => builder
-                //.AutoCollectScopedHandlers("UpdateHandlers.User")
+                .AutoCollectScopedHandlers("UpdateHandlers.User")
                 //.AutoCollectScopedHandlers("UpdateHandlers.Support")
                 //.AutoCollectScopedHandlers("UpdateHandlers.Admin")
                 .AutoCollectScopedHandlers("UpdateHandlers.Common")
@@ -38,9 +38,11 @@ IHost host = Host.CreateDefaultBuilder(args)
             Alphabet = "abcdefghijklmnopqrstuvwxyz1234567890",
             MinLength = 4,
         }));
+        services.AddSingleton<WeatherService>();
+        services.AddSingleton<UserStateKeeperAccessor>();
+        services.AddHostedService(sp => sp.GetRequiredService<WeatherService>());
+        services.AddHostedService(sp => sp.GetRequiredService<UserStateKeeperAccessor>());
         services.AddHostedService<Worker>();
-        services.AddHostedService<WeatherService>();
-        services.AddHostedService<UserStateKeeperAccessor>();
         services.AddOsaka();
     })
     .Build();
@@ -49,8 +51,6 @@ using (var scope = host.Services.CreateScope())
 {
     try
     {
-        var botcpf = scope.ServiceProvider.GetService<IOptions<BotConfiguration>>();
-        Console.WriteLine(botcpf!.Value.BotToken);
         var db = scope.ServiceProvider.GetService<BotDbContext>();
         if (!db!.Posts.Any())
         {

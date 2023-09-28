@@ -10,7 +10,7 @@ public class TestEffect : EffectBase
 {
     public int Foo { get; set; }
 
-    public override void SetArguments(string[] args)
+    public override void SetArguments(object[] args)
     {
         throw new NotImplementedException();
     }

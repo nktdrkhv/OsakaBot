@@ -8,7 +8,7 @@ public sealed class StartDialogueEffect : DialogueEffectBase
 
     private StartDialogueEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class StartDialogueEffectApplier : IEffectApplier<StartDialogueEffect>

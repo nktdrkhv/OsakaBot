@@ -14,5 +14,5 @@ public abstract class EffectBase
     protected EffectBase(EffectType type, byte order) => (Type, Order) = (type, order);
     protected EffectBase() { }
 
-    public abstract void SetArguments(string[] args);
+    public abstract void SetArguments(object[] args);
 }

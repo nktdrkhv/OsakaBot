@@ -11,5 +11,5 @@ public abstract class ChatChangingEffectBase : EffectBase
     protected ChatChangingEffectBase(EffectType type, byte order = 0) : base(type, order) { }
     protected ChatChangingEffectBase() { }
 
-    public abstract override void SetArguments(string[] args);
+    public abstract override void SetArguments(object[] args);
 }

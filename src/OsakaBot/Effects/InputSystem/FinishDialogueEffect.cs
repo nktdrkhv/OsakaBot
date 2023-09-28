@@ -6,7 +6,7 @@ public sealed class FinishDialogueEffect : DialogueEffectBase
 {
     public FinishDialogueEffect(Dialogue? dialogue, byte order = 0) : base(dialogue, EffectType.FinishDialogue, order) { }
     private FinishDialogueEffect() { }
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class FinishDialogueEffectApplier : IEffectApplier<FinishDialogueEffect>

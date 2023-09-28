@@ -5,11 +5,12 @@ using Telegram.Bot.Types.Enums;
 using TelegramUpdater.FilterAttributes.Attributes;
 using TelegramUpdater.Helpers;
 using TelegramUpdater.UpdateContainer;
+using TelegramUpdater.UpdateHandlers.Scoped;
 using TelegramUpdater.UpdateHandlers.Scoped.ReadyToUse;
 
 namespace Osaka.Bot.UpdateHandlers.Common.Messages;
 
-[ChatType(ChatTypeFlags.Private)]
+[Order(3), ChatType(ChatTypeFlags.Private)]
 public sealed class InitMassage : MessageHandler
 {
     private readonly ITextCommandService _textCommandService;
@@ -58,15 +59,15 @@ public sealed class InitMassage : MessageHandler
         }
         else
         {
-            var key = $"startreq_{cntr.SenderId!}";
+            var key = $"startreq_{cntr.SenderId()!}";
             if (cntr.Updater.ContainsKey(key))
             {
                 await cntr.Delete();
             }
             else
             {
-                var msg = await cntr.ResponseAsync("Неизвестная команда, пожалуйста, отправьте /start");
-                cntr.Updater[$"startreq_{cntr.SenderId!}"] = msg.Update.MessageId;
+                var msg = await cntr.ResponseAsync("Неизвестная команда, пожалуйста, <b>отправьте /start</b>", parseMode: ParseMode.Html);
+                cntr.Updater[key] = new Tuple<DateTime, int, int>(DateTime.UtcNow, cntr.Update.MessageId, msg.Update.MessageId);
             }
         }
         StopPropagation();

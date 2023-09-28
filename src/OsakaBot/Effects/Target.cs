@@ -11,6 +11,7 @@ public class Target : ILabeled
     public TargetType Type { get; protected set; } = TargetType.None;
 
     public string? Label { get; private set; }
+
     public int? MessageId { get; private set; }
 
     public int? ContentId { get; private set; }

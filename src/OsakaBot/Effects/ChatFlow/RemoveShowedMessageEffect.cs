@@ -16,21 +16,32 @@ public sealed class RemoveShowedMessageEffect : ChatChangingEffectBase
 
     private RemoveShowedMessageEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class RemoveShowedMessageEffectApplier : IEffectApplier<RemoveShowedMessageEffect>
 {
     private readonly ITelegramBotClient _botClient;
+    private readonly IRepository _repository;
 
-    public RemoveShowedMessageEffectApplier(ITelegramBotClient botClient)
+    public RemoveShowedMessageEffectApplier(ITelegramBotClient botClient, IRepository repository)
     {
         _botClient = botClient;
+        _repository = repository;
     }
 
     public async ValueTask Apply(EffectBase effect)
     {
         var concrete = (RemoveShowedMessageEffect)effect;
-        await Task.CompletedTask;
+        var target = await _repository.GetByIdAsync<Target>(concrete.TargetId);
+        if (await _repository.GetShowedMessageByTarget(concrete.User, target, true) is ShowedMessage showedMessage)
+        {
+            foreach (var id in showedMessage.ExtractMessageIds(
+                    concrete.WithUserInput ? ExtractMessageIdsMode.Combine : ExtractMessageIdsMode.OnlyShowedMessage,
+                    TimeSpan.FromDays(2)).OrderByDescending(x => x))
+                await _botClient.DeleteMessageAsync(concrete.User.TelegramUserId, id);
+        }
+        else if (target.Type == TargetType.TelegramMessage)
+            await _botClient.DeleteMessageAsync(concrete.User.TelegramUserId, target.MessageId!.Value);
     }
 }

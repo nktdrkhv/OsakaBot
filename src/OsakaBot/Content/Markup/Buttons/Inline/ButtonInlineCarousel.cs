@@ -9,7 +9,7 @@ public class ButtonInlineCarousel : ButtonInline
     [NotMapped] public const string Rightward = "r";
     [NotMapped] public const string Leftward = "l";
 
-    public int CurrentPosition { get; private set; } = 0;
+    //public int CurrentPosition { get; private set; } = 0;
     public bool IsMovingRightward { get; private set; } = true;
 
     protected ButtonInlineCarousel() { }
@@ -20,14 +20,14 @@ public class ButtonInlineCarousel : ButtonInline
         Text text,
         byte rowPriority,
         byte columnPriority,
-        Trigger? trigger,
+        Trigger trigger,
         string? metaMark = null,
         ICollection<UserRole>? roleVisibility = null,
         string? phraseVisibility = null)
         : base(text, rowPriority, columnPriority, trigger, metaMark, roleVisibility, phraseVisibility)
     {
         Type = ButtonType.InlineCarousel;
-        CurrentPosition = currentPosition;
+        //CurrentPosition = currentPosition;
         IsMovingRightward = isMovingRightward;
     }
 
@@ -36,7 +36,7 @@ public class ButtonInlineCarousel : ButtonInline
         if (!CheckVisibility(arg)) return null;
         var code = arg.Hasher.Encode(arg.User.InnerUserId, TriggerId!.Value);
         var direction = IsMovingRightward ? Rightward : Leftward;
-        CallbackData = $"{DynamicPrefix}:{code}:{Identifier}:{CurrentPosition}:{direction}";
+        CallbackData = $"{DynamicPrefix}:{code}:{Identifier}:{direction}"; //$"{DynamicPrefix}:{code}:{Identifier}:{CurrentPosition}:{direction}"
         var text = await Text.ToStringAsync(arg.User, arg.TextDispatcher, true);
         if (string.IsNullOrWhiteSpace(text))
             return null;

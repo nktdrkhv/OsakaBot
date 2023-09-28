@@ -12,7 +12,7 @@ public sealed class SendPostEffect : ChatChangingEffectBase
 
     private SendPostEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class SendPostEffectApplier : IEffectApplier<SendPostEffect>

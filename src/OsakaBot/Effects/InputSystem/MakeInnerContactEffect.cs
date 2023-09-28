@@ -8,7 +8,7 @@ public sealed class MakeInnerContactEffect : EffectBase
 
     private MakeInnerContactEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class MakeInnerContactEffectApplier : IEffectApplier<MakeInnerContactEffect>

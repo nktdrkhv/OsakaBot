@@ -15,6 +15,7 @@ public class ChatScope
     public ICollection<ShowedMessage> ShowedMessages { get; set; } = null!;
     public ICollection<ActiveKeyboardTrigger>? PlainTriggers { get; set; }
     public ICollection<ActiveKeyboardTrigger>? EncodedTriggers { get; set; }
+    public ICollection<ActiveGroup>? ActiveGroups { get; set; }
 
     public int? ActiveInputId { get; set; }
     public ShowedMessage? ActiveInput { get; set; }

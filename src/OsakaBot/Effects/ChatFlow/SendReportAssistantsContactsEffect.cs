@@ -16,7 +16,7 @@ public sealed class SendReportAssistantsContactsEffect : ChatChangingEffectBase
 
     private SendReportAssistantsContactsEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class SendReportAssistantsContactsEffectApplier : IEffectApplier<SendReportAssistantsContactsEffect>

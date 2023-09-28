@@ -1,10 +1,12 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramUpdater.UpdateContainer;
+using TelegramUpdater.UpdateHandlers.Scoped;
 using TelegramUpdater.UpdateHandlers.Scoped.ReadyToUse;
 
 namespace Osaka.Bot.UpdateHandlers.Common.MyChatMembers;
 
+[Order(0)]
 public sealed class MyChatMember : MyChatMemberHandler
 {
     private readonly IRepository _repository;

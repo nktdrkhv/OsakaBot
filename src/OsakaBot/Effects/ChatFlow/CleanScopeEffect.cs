@@ -16,21 +16,24 @@ public sealed class CleanScopeEffect : EffectBase
     }
 
     private CleanScopeEffect() { }
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class CleanScopeEffectApplier : IEffectApplier<CleanScopeEffect>
 {
     private readonly ITelegramBotClient _botClient;
+    private readonly IRepository _repository;
 
-    public CleanScopeEffectApplier(ITelegramBotClient botClient)
+    public CleanScopeEffectApplier(ITelegramBotClient botClient, IRepository repository)
     {
         _botClient = botClient;
+        _repository = repository;
     }
 
     public async ValueTask Apply(EffectBase effect)
     {
         var concrete = (CleanScopeEffect)effect;
-        await Task.CompletedTask;
+        //ShowedMessage[] exepts = concrete.Except
+        throw new NotImplementedException();
     }
 }

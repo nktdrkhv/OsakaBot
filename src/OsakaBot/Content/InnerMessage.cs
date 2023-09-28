@@ -5,12 +5,12 @@ using Telegram.Bot.Types.Enums;
 namespace Osaka.Bot.Content;
 
 [Table("InnerMessage")]
-public class InnerMessage : ITitled, IMetaMark
+public class InnerMessage : ITitled, IMetaMark, IIdsKeeper
 {
     public int InnerMessageId { get; set; }
     public InnerMessageType Type { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public int CauseMessageId { get; set; }
     public int[]? CauseMessagesIds { get; set; }
     public string? MediaGroupId { get; set; }

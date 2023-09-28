@@ -10,17 +10,17 @@ public class ChatFlowService : IChatFlowService
     private readonly ITriggerService _triggerService;
     private readonly IValidationService _validationService;
     private readonly IInputService _inputService;
-    private readonly ITextCommandService _botCommandService;
+    private readonly ITextCommandService _textCommandService;
     private readonly IChatScopeService _chatScopeService;
     private readonly IRepository _repository;
 
-    public ChatFlowService(IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService, ITextCommandService botCommandService, IRepository repository)
+    public ChatFlowService(IChatScopeService chatScopeService, ITriggerService triggerService, IValidationService validationService, IInputService inputService, ITextCommandService textCommandService, IRepository repository)
     {
         _chatScopeService = chatScopeService;
         _triggerService = triggerService;
         _validationService = validationService;
         _inputService = inputService;
-        _botCommandService = botCommandService;
+        _textCommandService = textCommandService;
         _repository = repository;
     }
 
@@ -28,7 +28,7 @@ public class ChatFlowService : IChatFlowService
     {
         var innerUser = await _repository.GetInnerUser(command.From!, true)
             ?? throw new NullReferenceException("InnerUser has to exist on the Chat Flow");
-        await _botCommandService.ExecuteCommand(innerUser, command.Text!);
+        await _textCommandService.ExecuteCommand(innerUser, command.Text!);
         await _chatScopeService.SetInputToCustomAsync(innerUser, new(command), new(OrphanType.AtTheBegginnigOfTheScope));
     }
 
@@ -74,10 +74,10 @@ public class ChatFlowService : IChatFlowService
                     else if (callbackQuery.Message?.MessageId is int iMsgId)
                         await RemoveInlineKeyBoard(innerUser, iMsgId);
                     break;
-                case ButtonInline.DynamicPrefix: // d:sa2qa:cc:4:r
+                case ButtonInline.DynamicPrefix: // d:sa2qa:cc:r ... todo: should be d:sa2qa:cc:4:r, which means dynamic inlinekeyboard update
                     // todo: execute outside of the scope
                     if (await _triggerService.FromEncodedPreparedAsync(innerUser, args[1]) is Trigger dTrigger && args.Length >= 3)
-                        await _triggerService.ExecuteAsync(innerUser, dTrigger, args[2..]);
+                        await _triggerService.ExecuteAsync(innerUser, dTrigger, args[1..]);
                     else if (callbackQuery.Message?.MessageId is int dMsgId)
                         await RemoveInlineKeyBoard(innerUser, dMsgId);
                     break;

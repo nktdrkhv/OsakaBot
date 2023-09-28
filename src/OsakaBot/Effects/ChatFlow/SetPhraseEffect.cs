@@ -11,7 +11,7 @@ public sealed class SetPhraseEffect : EffectBase
 
     private SetPhraseEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class SetPhraseEffectApplier : IEffectApplier<SetPhraseEffect>

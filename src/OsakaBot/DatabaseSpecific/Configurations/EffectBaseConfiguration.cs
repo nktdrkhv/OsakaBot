@@ -42,6 +42,8 @@ public class CleanScopeEffectConfiguration : IEntityTypeConfiguration<CleanScope
     public void Configure(EntityTypeBuilder<CleanScopeEffect> builder)
     {
         builder
+            .Navigation(cse => cse.Except).AutoInclude();
+        builder
             .HasMany(cse => cse.Except)
             .WithMany();
     }

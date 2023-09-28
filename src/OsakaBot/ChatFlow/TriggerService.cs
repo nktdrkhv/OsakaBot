@@ -16,13 +16,13 @@ public class TriggerService : ITriggerService
         _repository = repository;
     }
 
-    public async ValueTask ExecuteAsync(InnerUser user, Trigger trigger, params string[] args)
+    public async ValueTask ExecuteAsync(InnerUser user, Trigger trigger, params object[] args)
     {
         foreach (var effect in trigger.Effects.OrderBy(e => e.Order))
             await ExecuteAsync(user, effect, args);
     }
 
-    public async ValueTask ExecuteAsync(InnerUser user, EffectBase effect, params string[] args)
+    public async ValueTask ExecuteAsync(InnerUser user, EffectBase effect, params object[] args)
     {
         effect.User = user;
         if (args.Length == 0)

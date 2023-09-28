@@ -12,7 +12,7 @@ public sealed class EditShowedMessageEffect : ChatChangingEffectBase
 
     private EditShowedMessageEffect() { }
 
-    public override void SetArguments(string[] args) { }
+    public override void SetArguments(object[] args) { }
 }
 
 public class EditShowedMessageEffectApplier : IEffectApplier<EditShowedMessageEffect>

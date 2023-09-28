@@ -7,10 +7,17 @@ namespace Osaka.Bot.Extensions;
 
 public static class RepositoryExtensions
 {
-    // public static IQueryable<ChatScope> GetUserScopeQuery(this IRepository repo, InnerUser user) => repo.GetQueryable<ChatScope>().Where(cs => cs.InnerUserId == user.InnerUserId);
-
     public static async ValueTask<InnerUser?> GetInnerUser(this IRepository repo, User user, bool ant = false, CancellationToken ct = default) =>
         await repo.GetAsync<InnerUser>(iu => iu.TelegramUserId == user.Id, ant, cancellationToken: ct);
+
+    public static async ValueTask<ICollection<TextCommand>> GetRelevantTextCommands(this IRepository repo, InnerUser innerUser, bool ant = false, CancellationToken ct = default)
+    {
+        var userRole = await repo.GetByIdAsync<UserRole>(innerUser.RoleId, ant, ct);
+        return await repo.GetListAsync<TextCommand>(
+                    bc => bc.RoleVisibility!.Contains(userRole) && bc.PhraseVisibility == null,
+                    bc => bc.Include(bc => bc.RoleVisibility),
+                    asNoTracking: ant, ct);
+    }
 
     public static async ValueTask<ChatScope> GetUserScope(this IRepository repo, InnerUser innerUser, bool ant = false, CancellationToken ct = default)
     {
@@ -56,17 +63,17 @@ public static class RepositoryExtensions
 
     public static async ValueTask SetUserInput(this IRepository repo, InnerUser innerUser, InnerMessage innerUserInput, Target target, CancellationToken ct = default)
     {
-        var showedMessage = await repo.GetShowedMessageByTarget(innerUser, target, false, ct);
+        var showedMessage = await repo.GetShowedMessageByTarget(innerUser, target, true, false, ct);
         showedMessage.RecievedFromUser!.Add(innerUserInput);
         await repo.SaveChangesAsync(ct);
     }
 
-    public static async ValueTask<ShowedMessage> GetShowedMessageByTarget(this IRepository repo, InnerUser innerUser, Target target, bool ant = false, CancellationToken ct = default)
+    public static async ValueTask<ShowedMessage> GetShowedMessageByTarget(this IRepository repo, InnerUser innerUser, Target target, bool includeRecieved = false, bool ant = false, CancellationToken ct = default)
     {
-        var spec = new Specification<ShowedMessage>
-        {
-            Includes = sm => sm.Include(sm => sm.RecievedFromUser)
-        };
+        var spec = new Specification<ShowedMessage>();
+
+        if (includeRecieved)
+            spec.Includes = sm => sm.Include(sm => sm.RecievedFromUser);
 
         if (target.Type == TargetType.Orphan)
         {
@@ -91,6 +98,11 @@ public static class RepositoryExtensions
 
         return await repo.GetAsync(spec, ant, ct);
     }
+
+    // public static async ValueTask<ICollection<int>> GetRecievedMessagesIdsByShowed(this IRepository repo, InnerUser innerUser, ShowedMessage showedMessage, CancellationToken ct = default)
+    // {
+
+    // }
 
     public static async ValueTask<ICollection<ValidatorBase>?> GetValidators(this IRepository repo, InnerUser innerUser, bool ant = false, CancellationToken ct = default)
     {
