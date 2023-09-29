@@ -33,7 +33,13 @@ public class CleanScopeEffectApplier : IEffectApplier<CleanScopeEffect>
     public async ValueTask Apply(EffectBase effect)
     {
         var concrete = (CleanScopeEffect)effect;
-        //ShowedMessage[] exepts = concrete.Except
+        var scope = _repository.GetUserScope(concrete.User);
+
+        List<ShowedMessage> exepts = new();
+        foreach (var target in concrete.Except!)
+            exepts.Add(await _repository.GetShowedMessageByTarget(concrete.User, target));
+
+
         throw new NotImplementedException();
     }
 }

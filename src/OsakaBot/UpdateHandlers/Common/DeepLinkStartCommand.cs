@@ -14,7 +14,7 @@ public sealed class DeepLinkStartCommand : MessageHandler
     private readonly IRepository _repository;
     private readonly ICrewService _crewService;
 
-    public DeepLinkStartCommand(IRepository repository, ICrewService crewService)
+    public DeepLinkStartCommand(IRepository repository, ICrewService crewService) : base()
     {
         _repository = repository;
         _crewService = crewService;

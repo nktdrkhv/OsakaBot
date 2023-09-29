@@ -137,7 +137,7 @@ public class ChatFlowService : IChatFlowService
             }
             else
             {
-                var removeShowedMessage = new RemoveShowedMessageEffect(new(innerMessage.CauseMessageId));
+                var removeShowedMessage = new RemoveShowedMessageEffect(new Target(innerMessage.CauseMessageId));
                 await _triggerService.ExecuteAsync(innerUser, removeShowedMessage);
             }
         };

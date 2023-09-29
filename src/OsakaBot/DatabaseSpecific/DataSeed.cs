@@ -1141,7 +1141,7 @@ public class DataSeed
 
         // ------------------   1   ------------------
         var kb01_a = new KeyboardReply("Назад в первое меню", "Об ОЭЗ", true, true, true,
-                            new ButtonReply(new Text() { OriginalText = "Назад" }, trigger: new(false, new RemoveShowedMessageEffect(new(post02_11_t2_i2))))
+                            new ButtonReply(new Text() { OriginalText = "Назад" }, trigger: new(false, new RemoveShowedMessageEffect(new Target(post02_11_t2_i2))))
                         );
         var kb01 = new KeyboardReply("Первое меню", null, true, true, false,
             new ButtonReply(new Text() { OriginalText = "📕 Узнать об ОЭЗ" }, 1, 1,

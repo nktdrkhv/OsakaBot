@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
 namespace Osaka.Bot.ChatFlow.ChatScope;
 
+[Table("ActiveGroup")]
 public class ActiveGroup
 {
     public int ActiveGroupId { get; private set; }
@@ -24,4 +26,9 @@ public class ActiveGroup
 
     public ActiveGroup(string text, Group group) => (Text, Group) = (text, group);
     protected ActiveGroup() { }
+
+
+    public override bool Equals(object? obj) => obj is ActiveGroup ag && ActiveGroupId == ag.ActiveGroupId;
+
+    public override int GetHashCode() => ActiveGroupId.GetHashCode();
 }

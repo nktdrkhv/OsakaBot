@@ -49,4 +49,8 @@ public class ShowedMessage : ILabeled, IIdsKeeper
         }
         return ids;
     }
+
+    public override bool Equals(object? obj) => obj is ShowedMessage sm && ShowedMessageId == sm.ShowedMessageId;
+
+    public override int GetHashCode() => ShowedMessageId.GetHashCode();
 }

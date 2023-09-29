@@ -18,6 +18,7 @@ public class BotDbContext : DbContext
     public DbSet<Variable> Variables { get; set; } = null!;
     public DbSet<ActualDialogue> ActualDialogues { get; set; } = null!;
     public DbSet<ActiveKeyboardTrigger> ActiveKeyboardTriggers { get; set; } = null!;
+    public DbSet<ActiveGroup> ActiveGroups { get; set; } = null!;
     public DbSet<IncludedPost> IncludedPosts { get; set; } = null!;
     public DbSet<Dialogue> Dialogues { get; set; } = null!;
     public DbSet<EnteredData> EnteredData { get; set; } = null!;

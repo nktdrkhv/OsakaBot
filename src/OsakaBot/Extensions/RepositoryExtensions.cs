@@ -28,6 +28,7 @@ public static class RepositoryExtensions
             .Include(cs => cs.ShowedMessages!)
             .Include(cs => cs.PlainTriggers!)
             .Include(cs => cs.EncodedTriggers!)
+            .Include(cs => cs.ActiveGroups)
             .Include(cs => cs.UserInput!).ThenInclude(ui => ui.Validators)
             .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnValidInput)
             .Include(cs => cs.UserInput!).ThenInclude(ui => ui.OnInvalidInput)
@@ -78,7 +79,10 @@ public static class RepositoryExtensions
         if (target.Type == TargetType.Orphan)
         {
             if (target.Orphan == OrphanType.AtTheBegginnigOfTheScope)
+            {
                 spec.OrderBy = sm => sm.OrderBy(sm => sm.CreatedAt);
+                spec.Take = 1;
+            }
         }
         else
         {

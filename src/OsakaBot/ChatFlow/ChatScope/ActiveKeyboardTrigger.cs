@@ -21,4 +21,8 @@ public class ActiveKeyboardTrigger
     protected ActiveKeyboardTrigger() { }
 
     public void SetScope(ChatScope chatScope, ShowedMessage showedMessage) => (ChatScope, ShowedMessage) = (chatScope, showedMessage);
+
+    public override bool Equals(object? obj) => obj is ActiveKeyboardTrigger akt && ActiveKeyboardTriggerId == akt.ActiveKeyboardTriggerId;
+
+    public override int GetHashCode() => ActiveKeyboardTriggerId.GetHashCode();
 }
